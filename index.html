@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFP M1 — Knowledge Base</title>
+<style>
+  :root {
+    --bg: #F5F4EF;
+    --sidebar-bg: #ECEAE2;
+    --card: #FFFFFF;
+    --card2: #F0EDE6;
+    --border: #D8D2C6;
+    --text: #2C2820;
+    --muted: #7A7265;
+    --accent: #3A7D6E;
+    --t1: #1A8A6A; --t1b: rgba(26,138,106,.10);
+    --t2: #B84070; --t2b: rgba(184,64,112,.10);
+    --t3: #8A6018; --t3b: rgba(138,96,24,.10);
+    --t4: #1E6EA0; --t4b: rgba(30,110,160,.10);
+    --t5: #5E3EB0; --t5b: rgba(94,62,176,.10);
+    --t6: #B03828; --t6b: rgba(176,56,40,.10);
+    --cf: #1A7860; --cfb: rgba(26,120,96,.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 20px; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Sarabun, sans-serif; display: flex; min-height: 100vh; line-height: 1.65; }
+
+  /* ─── SIDEBAR ─── */
+  #sidebar {
+    width: 260px; min-height: 100vh; background: var(--sidebar-bg);
+    border-right: 1px solid var(--border); position: fixed; top: 0; left: 0;
+    display: flex; flex-direction: column; z-index: 100; overflow-y: auto;
+  }
+  .logo { padding: 20px 18px 14px; border-bottom: 1px solid var(--border); }
+  .logo h1 { font-size: 1.15rem; font-weight: 700; color: var(--accent); letter-spacing: .5px; }
+  .logo p { font-size: .72rem; color: var(--muted); margin-top: 3px; }
+
+  #search-box {
+    margin: 12px 12px 6px; padding: 8px 12px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--card);
+    color: var(--text); font-size: .82rem; width: calc(100% - 24px); outline: none;
+  }
+  #search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(58,125,110,.15); }
+
+  .nav-section { padding: 8px 0; }
+  .nav-section-label { padding: 6px 18px 3px; font-size: .68rem; font-weight: 700;
+    letter-spacing: 1px; color: var(--muted); text-transform: uppercase; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 18px; cursor: pointer; border-left: 3px solid transparent;
+    transition: all .15s; font-size: .84rem; color: var(--muted);
+  }
+  .nav-item:hover { background: rgba(0,0,0,.05); color: var(--text); }
+  .nav-item.active { color: var(--text); background: rgba(0,0,0,.07); }
+  .nav-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .nav-count { margin-left: auto; font-size: .68rem; background: rgba(0,0,0,.08);
+    border-radius: 10px; padding: 1px 7px; color: var(--muted); }
+
+  /* colors per topic */
+  .nav-item[data-topic="t1"] .nav-dot { background: var(--t1); }
+  .nav-item[data-topic="t1"].active { border-color: var(--t1); color: var(--t1); }
+  .nav-item[data-topic="t2"] .nav-dot { background: var(--t2); }
+  .nav-item[data-topic="t2"].active { border-color: var(--t2); color: var(--t2); }
+  .nav-item[data-topic="t3"] .nav-dot { background: var(--t3); }
+  .nav-item[data-topic="t3"].active { border-color: var(--t3); color: var(--t3); }
+  .nav-item[data-topic="t4"] .nav-dot { background: var(--t4); }
+  .nav-item[data-topic="t4"].active { border-color: var(--t4); color: var(--t4); }
+  .nav-item[data-topic="t5"] .nav-dot { background: var(--t5); }
+  .nav-item[data-topic="t5"].active { border-color: var(--t5); color: var(--t5); }
+  .nav-item[data-topic="t6"] .nav-dot { background: var(--t6); }
+  .nav-item[data-topic="t6"].active { border-color: var(--t6); color: var(--t6); }
+  .nav-item[data-topic="cf"] .nav-dot { background: var(--cf); }
+  .nav-item[data-topic="cf"].active { border-color: var(--cf); color: var(--cf); }
+
+  /* ─── MAIN ─── */
+  #main { margin-left: 260px; flex: 1; padding: 32px 36px; max-width: calc(100vw - 260px); }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .page-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+    padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+  .page-header .topic-badge {
+    padding: 4px 14px; border-radius: 20px; font-size: .75rem; font-weight: 700; letter-spacing: .5px;
+  }
+  .page-header h2 { font-size: 1.55rem; font-weight: 700; }
+  .page-header .subtitle { color: var(--muted); font-size: .88rem; margin-top: 3px; }
+
+  /* tab bar */
+  .tab-bar { display: flex; gap: 6px; margin-bottom: 22px; border-bottom: 2px solid var(--border); padding-bottom: 0; }
+  .tab-btn {
+    padding: 8px 18px; border-radius: 8px 8px 0 0; cursor: pointer;
+    font-size: .84rem; background: none; color: var(--muted); border: none;
+    border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all .15s;
+  }
+  .tab-btn:hover { color: var(--text); background: rgba(0,0,0,.04); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 700; background: var(--card); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* cards */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 22px 26px; margin-bottom: 18px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 14px; display: flex;
+    align-items: center; gap: 8px; color: var(--text); }
+  .card h4 { font-size: .88rem; font-weight: 700; color: #5A5248; margin: 16px 0 8px; letter-spacing: .3px; border-left: 3px solid var(--border); padding-left: 8px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: .83rem; margin: 8px 0; }
+  th { background: #EDE9E0; color: #4A4238; font-weight: 700; padding: 8px 12px;
+    text-align: left; border-bottom: 2px solid var(--border); }
+  td { padding: 8px 12px; border-bottom: 1px solid #E8E4DC; vertical-align: top; line-height: 1.65; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #FAF8F4; }
+  tr:hover td { background: #EEF7F4; }
+
+  code, .code-block {
+    background: #F0EDE6; border: 1px solid var(--border); border-radius: 6px;
+    padding: 10px 14px; font-family: 'Consolas', monospace; font-size: .8rem;
+    display: block; white-space: pre-wrap; line-height: 1.7; margin: 8px 0; color: #2C4838;
+  }
+  code.inline { display: inline; padding: 1px 6px; font-size: .82em; }
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 12px; font-size: .72rem;
+    font-weight: 700; margin-right: 4px; }
+  .tag-red { background: rgba(176,56,40,.12); color: var(--t6); }
+  .tag-purple { background: rgba(94,62,176,.12); color: var(--t5); }
+  .tag-green { background: rgba(26,138,106,.12); color: var(--t1); }
+  .tag-blue { background: rgba(30,110,160,.12); color: var(--t4); }
+  .tag-yellow { background: rgba(138,96,24,.12); color: var(--t3); }
+  .tag-pink { background: rgba(184,64,112,.12); color: var(--t2); }
+
+  ul.note-list { list-style: none; padding: 0; }
+  ul.note-list li { padding: 5px 0 5px 18px; position: relative; font-size: .85rem;
+    line-height: 1.7; border-bottom: 1px solid #EAE6DE; }
+  ul.note-list li:last-child { border-bottom: none; }
+  ul.note-list li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-size: 1.1em; font-weight: 700; }
+
+  .formula-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .formula-card { background: #F0EDE6; border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; }
+  .formula-card .label { font-size: .72rem; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+  .formula-card .formula { font-family: 'Consolas', monospace; font-size: .82rem; color: #2C4838; line-height: 1.7; }
+
+  .star { color: #B07820; }
+
+  /* image gallery */
+  .img-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; margin-top: 8px; }
+  .img-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    overflow: hidden; cursor: pointer; transition: transform .15s, box-shadow .15s; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+  .img-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+  .img-card img { width: 100%; height: 180px; object-fit: cover; display: block; }
+  .img-card .img-label { padding: 8px 12px; font-size: .78rem; color: var(--muted); }
+
+  /* lightbox */
+  #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.85);
+    z-index: 999; align-items: center; justify-content: center; padding: 20px; }
+  #lightbox.open { display: flex; }
+  #lightbox img { max-width: 92vw; max-height: 90vh; border-radius: 10px; object-fit: contain; }
+  #lb-close { position: absolute; top: 16px; right: 20px; font-size: 2rem; cursor: pointer;
+    color: white; background: none; border: none; line-height: 1; }
+  #lb-caption { position: absolute; bottom: 16px; color: rgba(255,255,255,.8); font-size: .83rem; }
+
+  /* highlight search */
+  mark { background: rgba(58,125,110,.20); color: var(--text); border-radius: 2px; padding: 0 2px; }
+
+  /* ratio cards */
+  .ratio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin: 10px 0; }
+  .ratio-card { background: #F0EDE6; border-radius: 10px; padding: 14px 16px; border: 1px solid var(--border); }
+  .ratio-card .r-name { font-weight: 700; font-size: .85rem; margin-bottom: 6px; }
+  .ratio-card .r-formula { font-family: monospace; font-size: .78rem; color: #2C5040; margin-bottom: 6px; }
+  .ratio-card .r-bench { font-size: .78rem; }
+
+  /* tax table */
+  .tax-row-exempt td { color: var(--t1); font-weight: 600; }
+
+  /* home / overview */
+  .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 20px; }
+  .topic-card {
+    border-radius: 14px; padding: 20px; cursor: pointer; border: 1px solid var(--border);
+    transition: transform .15s, box-shadow .15s; background: var(--card);
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+  .topic-card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,.10); }
+  .topic-card .tc-label { font-size: .72rem; font-weight: 700; letter-spacing: .5px; margin-bottom: 8px; }
+  .topic-card .tc-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+  .topic-card .tc-count { font-size: .78rem; color: var(--muted); }
+
+  .t1c { border-color: var(--t1); border-top: 3px solid var(--t1); } .t1c .tc-label { color: var(--t1); }
+  .t2c { border-color: var(--t2); border-top: 3px solid var(--t2); } .t2c .tc-label { color: var(--t2); }
+  .t3c { border-color: var(--t3); border-top: 3px solid var(--t3); } .t3c .tc-label { color: var(--t3); }
+  .t4c { border-color: var(--t4); border-top: 3px solid var(--t4); } .t4c .tc-label { color: var(--t4); }
+  .t5c { border-color: var(--t5); border-top: 3px solid var(--t5); } .t5c .tc-label { color: var(--t5); }
+  .t6c { border-color: var(--t6); border-top: 3px solid var(--t6); } .t6c .tc-label { color: var(--t6); }
+  .cfc { border-color: var(--cf); border-top: 3px solid var(--cf); } .cfc .tc-label { color: var(--cf); }
+
+  .stats-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; }
+  .stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 20px; min-width: 130px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .stat-box .s-num { font-size: 1.6rem; font-weight: 800; color: var(--accent); }
+  .stat-box .s-label { font-size: .75rem; color: var(--muted); margin-top: 2px; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  @media (max-width: 760px) {
+    #sidebar { width: 220px; }
+    #main { margin-left: 220px; padding: 20px 16px; max-width: calc(100vw - 220px); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════ SIDEBAR ══════ -->
+<nav id="sidebar">
+  <div class="logo">
+    <h1>📚 CFP M1</h1>
+    <p>Knowledge Base — สอบ 30 พ.ค. 69</p>
+  </div>
+  <input id="search-box" type="search" placeholder="🔍  ค้นหา…" oninput="doSearch(this.value)">
+
+  <div class="nav-section">
+    <div class="nav-section-label">Overview</div>
+    <div class="nav-item active" data-topic="home" onclick="showPage('home',this)">
+      <span class="nav-dot" style="background:#6c8ef7"></span> หน้าหลัก
+    </div>
+    <div class="nav-item" data-topic="formulas" onclick="showPage('formulas',this)">
+      <span class="nav-dot" style="background:#fbbf24"></span> Quick Formula Sheet
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Topics</div>
+    <div class="nav-item" data-topic="t1" onclick="showPage('t1',this)">
+      <span class="nav-dot"></span> T1 — ความรู้เบื้องต้น <span class="nav-count">11</span>
+    </div>
+    <div class="nav-item" data-topic="t2" onclick="showPage('t2',this)">
+      <span class="nav-dot"></span> T2 — จรรยาบรรณ <span class="nav-count">4</span>
+    </div>
+    <div class="nav-item" data-topic="t3" onclick="showPage('t3',this)">
+      <span class="nav-dot"></span> T3 — รวบรวมข้อมูล <span class="nav-count">4</span>
+    </div>
+    <div class="nav-item" data-topic="t4" onclick="showPage('t4',this)">
+      <span class="nav-dot"></span> T4 — วิเคราะห์ &amp; สภาพคล่อง <span class="nav-count">2</span>
+    </div>
+    <div class="nav-item" data-topic="t5" onclick="showPage('t5',this)">
+      <span class="nav-dot"></span> T5 — ภาษีเงินได้ <span class="nav-count">9</span>
+    </div>
+    <div class="nav-item" data-topic="t6" onclick="showPage('t6',this)">
+      <span class="nav-dot"></span> T6 — TVM <span class="nav-count">11</span>
+    </div>
+    <div class="nav-item" data-topic="cf" onclick="showPage('cf',this)">
+      <span class="nav-dot"></span> CF — บริหารสภาพคล่อง <span class="nav-count">3</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════ LIGHTBOX ══════ -->
+<div id="lightbox" onclick="closeLB()">
+  <button id="lb-close" onclick="closeLB()">✕</button>
+  <img id="lb-img" src="" alt="">
+  <div id="lb-caption"></div>
+</div>
+
+<!-- ══════ MAIN ══════ -->
+<main id="main">
+
+<!-- ─── HOME ─── -->
+<div id="page-home" class="page active">
+  <div class="page-header">
+    <div>
+      <h2>CFP Module 1 — Knowledge Base</h2>
+      <div class="subtitle">ฐานข้อมูลสรุปเนื้อหาครบทุก Topic พร้อมรูปสรุปจากผู้สอน</div>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="s-num">7</div><div class="s-label">Topics</div></div>
+    <div class="stat-box"><div class="s-num">35</div><div class="s-label">รูปสรุป</div></div>
+    <div class="stat-box"><div class="s-num">6</div><div class="s-label">MD Notes</div></div>
+    <div class="stat-box"><div class="s-num">4</div><div class="s-label">วันก่อนสอบ</div></div>
+  </div>
+
+  <div class="topic-grid">
+    <div class="topic-card t1c" onclick="showPage('t1',null)">
+      <div class="tc-label">TOPIC 1</div>
+      <div class="tc-title">ความรู้เบื้องต้น</div>
+      <div class="tc-count">กระบวนการ ECADIR, Wealth Mgmt, SMART Goals · 8 รูปสรุป</div>
+    </div>
+    <div class="topic-card t2c" onclick="showPage('t2',null)">
+      <div class="tc-label">TOPIC 2</div>
+      <div class="tc-title">จรรยาบรรณ</div>
+      <div class="tc-count">7 ข้อ, มาตรฐาน 100–600 · 1 รูปสรุป</div>
+    </div>
+    <div class="topic-card t3c" onclick="showPage('t3',null)">
+      <div class="tc-label">TOPIC 3</div>
+      <div class="tc-title">รวบรวมข้อมูล</div>
+      <div class="tc-count">งบดุล, งบกระแสเงินสด, สินทรัพย์ 4 ประเภท · 4 รูปสรุป</div>
+    </div>
+    <div class="topic-card t4c" onclick="showPage('t4',null)">
+      <div class="tc-label">TOPIC 4</div>
+      <div class="tc-title">วิเคราะห์ &amp; สภาพคล่อง</div>
+      <div class="tc-count">อัตราส่วน 8 ตัว, สินเชื่อ, ดอกเบี้ย 3 วิธี · 2 รูปสรุป</div>
+    </div>
+    <div class="topic-card t5c" onclick="showPage('t5',null)">
+      <div class="tc-label">TOPIC 5</div>
+      <div class="tc-title">ภาษีเงินได้</div>
+      <div class="tc-count">ม.40(1)–(8), ค่าลดหย่อน 22 รายการ, อัตราขั้นบันได · 9 รูปสรุป</div>
+    </div>
+    <div class="topic-card t6c" onclick="showPage('t6',null)">
+      <div class="tc-label">TOPIC 6</div>
+      <div class="tc-title">มูลค่าเงินตามเวลา</div>
+      <div class="tc-count">TVM, Annuity, EIR, Rule of 72, Financial Calculator · 8 รูปสรุป · 11 การ์ด</div>
+    </div>
+    <div class="topic-card cfc" onclick="showPage('cf',null)">
+      <div class="tc-label">CF</div>
+      <div class="tc-title">บริหารสภาพคล่อง</div>
+      <div class="tc-count">Cash Mgmt, Credit Mgmt, Liquid Assets · 3 รูปสรุป</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── QUICK FORMULA SHEET ─── -->
+<div id="page-formulas" class="page">
+  <div class="page-header">
+    <div>
+      <h2>⚡ Quick Formula Sheet</h2>
+      <div class="subtitle">สูตรสำคัญทุกหัวข้อ ดูได้ในหน้าเดียว</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📐 TVM — มูลค่าเงินตามเวลา</h3>
+    <div class="formula-grid">
+      <div class="formula-card"><div class="label">FV (Lump Sum)</div><div class="formula">FV = PV × (1 + i)ⁿ</div></div>
+      <div class="formula-card"><div class="label">PV (Lump Sum)</div><div class="formula">PV = FV / (1 + i)ⁿ</div></div>
+      <div class="formula-card"><div class="label">FVA (Ordinary Annuity)</div><div class="formula">FVA = PMT × [(1+i)ⁿ − 1] / i</div></div>
+      <div class="formula-card"><div class="label">PVA (Ordinary Annuity)</div><div class="formula">PVA = PMT × [1 − 1/(1+i)ⁿ] / i</div></div>
+      <div class="formula-card"><div class="label">FVAD / PVAD (Annuity Due)</div><div class="formula">FVAD = FVA × (1 + i)
+PVAD = PVA × (1 + i)</div></div>
+      <div class="formula-card"><div class="label">Perpetuity</div><div class="formula">PV = PMT / i</div></div>
+      <div class="formula-card"><div class="label">EIR (Effective Interest Rate)</div><div class="formula">EIR = (1 + i/m)ᵐ − 1</div></div>
+      <div class="formula-card"><div class="label">Rule of 72</div><div class="formula">T = 72 / r  (ปีที่เงินเป็น 2 เท่า)</div></div>
+      <div class="formula-card"><div class="label">Add-on Rate → True Rate</div><div class="formula">True Rate ≈ Add-on Rate × 2</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📊 อัตราส่วนทางการเงิน</h3>
+    <div class="formula-grid">
+      <div class="formula-card"><div class="label">สภาพคล่อง (กองทุนฉุกเฉิน)</div><div class="formula">สินทรัพย์สภาพคล่อง / ค่าใช้จ่ายรายเดือน
+เกณฑ์: 3–6 เดือน</div></div>
+      <div class="formula-card"><div class="label">หนี้ต่อสินทรัพย์</div><div class="formula">หนี้สินรวม / สินทรัพย์รวม
+เกณฑ์: &lt; 50%</div></div>
+      <div class="formula-card"><div class="label">Debt Service Ratio</div><div class="formula">ค่างวดหนี้รวม / รายได้สุทธิ
+เกณฑ์: &lt; 35%</div></div>
+      <div class="formula-card"><div class="label">Non-mortgage Debt</div><div class="formula">ค่างวดหนี้ไม่ใช่บ้าน / รายได้สุทธิ
+เกณฑ์: &lt; 15%</div></div>
+      <div class="formula-card"><div class="label">อัตราส่วนการออม</div><div class="formula">เงินออม / รายได้รวม (Gross)
+เกณฑ์: &gt; 10%</div></div>
+      <div class="formula-card"><div class="label">Liquid Asset / Net Worth</div><div class="formula">สินทรัพย์สภาพคล่อง / Net Worth
+เกณฑ์: ≥ 15%</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🧾 ภาษีเงินได้</h3>
+    <div class="formula-grid">
+      <div class="formula-card"><div class="label">เงินได้สุทธิ</div><div class="formula">เงินได้พึงประเมิน − ค่าใช้จ่าย − ค่าลดหย่อน</div></div>
+      <div class="formula-card"><div class="label">ภาษี 0.5% (เงินได้ &gt; 1 ล้าน)</div><div class="formula">เงินได้พึงประเมินรวม × 0.5%
+→ เลือกวิธีสูงกว่า</div></div>
+      <div class="formula-card"><div class="label">เครดิตภาษีเงินปันผล</div><div class="formula">เครดิต = ปันผล × อัตราบริษัท / (1 − อัตราบริษัท)</div></div>
+      <div class="formula-card"><div class="label">ETR (Effective Tax Rate)</div><div class="formula">ภาษีที่ชำระจริง / เงินได้ทั้งหมด</div></div>
+      <div class="formula-card"><div class="label">Limit รวม Retirement Fund</div><div class="formula">RMF + PVD + ประกันบำนาญ + กบข. ≤ 500,000</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>💳 ต้นทุนสินเชื่อ</h3>
+    <div class="formula-grid">
+      <div class="formula-card"><div class="label">Simple Interest</div><div class="formula">ดอกเบี้ย = เงินต้น × อัตรา × ระยะเวลา</div></div>
+      <div class="formula-card"><div class="label">Discount Interest</div><div class="formula">รับเงินจริง = วงเงิน − ดอกเบี้ย (หักล่วงหน้า)
+True Rate &gt; อัตราที่ระบุ</div></div>
+      <div class="formula-card"><div class="label">Add-on / Flat Rate</div><div class="formula">ดอกเบี้ยรวม = เงินต้น × อัตรา × ปี
+ค่างวด = (เงินต้น + ดอกเบี้ย) / งวด</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── T1 ─── -->
+<div id="page-t1" class="page">
+  <div class="page-header">
+    <div class="topic-badge" style="background:var(--t1b);color:var(--t1)">TOPIC 1</div>
+    <div>
+      <h2 style="color:var(--t1)">ความรู้เบื้องต้นเกี่ยวกับการวางแผนการเงิน</h2>
+      <div class="subtitle">กระบวนการวางแผน ECADIR · Wealth Management · SMART Goals</div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(this,'t1','notes')">📝 Notes</button>
+    <button class="tab-btn" onclick="switchTab(this,'t1','images')">🖼️ รูปสรุป (8)</button>
+  </div>
+
+  <div id="t1-notes" class="tab-panel active">
+    <div class="card">
+      <h3>📌 T1-00: ความหมายและความสำคัญของการวางแผนทางการเงิน</h3>
+      <h4>ความหมาย</h4>
+      <ul class="note-list">
+        <li>กระบวนการประเมินและปรับปรุงสถานะทางการเงิน และการบริหารทรัพยากรเงินทั้งการจัดหาและใช้ไปตามเป้าหมายของบุคคล เพื่อยกระดับคุณภาพชีวิตที่สูงขึ้นและความมั่นคงในชีวิต</li>
+        <li>เป็นกิจกรรมที่เกิดขึ้น <b>ตลอดช่วงชีวิต</b> (life-long activity)</li>
+        <li>วัตถุประสงค์ทางการเงินที่ตั้งไว้ไม่จำเป็นต้องคงที่ มีการเปลี่ยนแปลงได้ทั้งลักษณะและความสำคัญ</li>
+        <li>สะท้อนความสัมพันธ์: <b>"เราอยู่ ณ ที่ใดในปัจจุบัน"</b> กับ <b>"เราต้องการไป ณ ที่ใดในอนาคต"</b> ภายใต้เงื่อนไขข้อจำกัดเฉพาะของแต่ละบุคคล</li>
+      </ul>
+      <h4>ประเภทการวางแผน</h4>
+      <table>
+        <tr><th>ประเภท</th><th>ความหมาย</th></tr>
+        <tr><td><b>Comprehensive Financial Planning</b></td><td>ครอบคลุมกิจกรรมทางการเงินทั้งหมด: ลงทุน ประกัน เกษียณ ภาษี ช่วยให้เกิดความมั่นคงทางการเงินในทุกช่วงวงจรชีวิต</td></tr>
+        <tr><td><b>Special Needs Planning</b></td><td>ตอบสนองความต้องการและเป้าหมายเฉพาะของบุคคล เลือกวางแผนเฉพาะด้านที่ต้องการ</td></tr>
+      </table>
+      <h4>สาเหตุที่บุคคลละเลยการวางแผนทางการเงิน</h4>
+      <table>
+        <tr><th>กลุ่มสาเหตุ</th><th>ตัวอย่าง</th><th>ผลกระทบ</th></tr>
+        <tr><td>ด้านฐานะ</td><td>คิดว่าตัวเองยังไม่มีเงินมากพอที่จะวางแผน</td><td rowspan="2">ไม่บรรลุเป้าหมายทางการเงิน · เป็นภาระตนเองและผู้อื่น · ประสบปัญหาในบั้นปลายชีวิต · สูญเสียทางการเงิน</td></tr>
+        <tr><td>ด้านทัศนคติ</td><td>คิดว่าการวางแผนเป็นเรื่องยุ่งยาก · ไม่รู้ว่าควรเริ่มต้นที่ไหน</td></tr>
+      </table>
+      <h4>ปัจจัยที่ทำให้การวางแผนทางการเงินทวีความสำคัญเพิ่มขึ้น</h4>
+      <ul class="note-list">
+        <li>ภาวะเศรษฐกิจมีการปรับตัวอย่างรุนแรง</li>
+        <li>การยกเลิกการคุ้มครองเงินฝากประชาชนเต็มจำนวนโดยภาครัฐ</li>
+        <li>ตราสารทางการเงินปัจจุบันมีความซับซ้อนยิ่งขึ้น ยากต่อการเข้าใจ</li>
+        <li>การขยายขอบเขตในการประกอบธุรกิจของสถาบันการเงิน</li>
+        <li>โครงสร้างประชากรที่เปลี่ยนแปลงไป → Aging Society</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🗺️ T1-01: ECADIR — ภาพรวมกระบวนการ 6 ขั้น</h3>
+      <table>
+        <tr><th>ขั้น</th><th>ชื่อ</th><th>สาระสำคัญ</th></tr>
+        <tr><td><b style="color:var(--t1)">E</b> — Establish</td><td>กำหนดความสัมพันธ์</td><td>ขอบเขต 3 แบบ / ค่าธรรมเนียม 3 รูปแบบ / หน้าที่นักวางแผน+ลูกค้า</td></tr>
+        <tr><td><b style="color:var(--t1)">C</b> — Collect</td><td>รวบรวมข้อมูล</td><td>ปริมาณ+คุณภาพ เป้าหมาย ความเสี่ยง 3 มิติ 6 หมวด</td></tr>
+        <tr><td><b style="color:var(--t1)">A</b> — Analyze</td><td>วิเคราะห์สถานะ</td><td>ประเมินอย่างละเอียด ระบุปัญหา/โอกาส สมมติฐาน 5 ประเภท</td></tr>
+        <tr><td><b style="color:var(--t1)">D</b> — Develop</td><td>จัดทำแผน</td><td>แผน 5 ด้าน · 7 ขั้นตอน · นำเสนอ อนุมัติ บันทึก</td></tr>
+        <tr><td><b style="color:var(--t1)">I</b> — Implement</td><td>ดำเนินการตามแผน</td><td>ลูกค้า/ผ่านผู้เชี่ยวชาญ · ข้อตกลงลายลักษณ์อักษร Action Plan</td></tr>
+        <tr><td><b style="color:var(--t1)">R</b> — Review</td><td>ทบทวนแผน</td><td>Periodic สม่ำเสมอ / เมื่อมี Trigger Events</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:.82rem">⭐ Trigger Events: เปลี่ยนงาน แต่งงาน หย่าร้าง มีบุตร เกษียณ ได้รับมรดก ป่วยหนัก สูญเสียรายได้</p>
+    </div>
+    <div class="card">
+      <h3>🔎 T1-02: E — Establish รายละเอียด</h3>
+      <h4>ขอบเขตบริการ 3 ประเภท</h4>
+      <table>
+        <tr><th>ประเภท</th><th>คำอธิบาย</th></tr>
+        <tr><td>Comprehensive</td><td>วางแผนครบทุก 5 ด้านพร้อมกัน</td></tr>
+        <tr><td>Modular / Special Need</td><td>เลือกเฉพาะด้านที่ต้องการ เช่น ภาษีอย่างเดียว</td></tr>
+        <tr><td>Product-based</td><td>แนะนำผลิตภัณฑ์เฉพาะ</td></tr>
+      </table>
+      <h4>ค่าธรรมเนียม 3 แบบ</h4>
+      <table>
+        <tr><th>แบบ</th><th>วิธีคิด</th><th>ข้อดี</th></tr>
+        <tr><td>Fee-only</td><td>คิดค่าบริการตรง ไม่มีคอมมิชชัน</td><td>ปราศจาก Conflict</td></tr>
+        <tr><td>Commission-based</td><td>รายได้จากค่านายหน้าผลิตภัณฑ์</td><td>ลูกค้าไม่ต้องจ่ายตรง</td></tr>
+        <tr><td>Fee + Commission</td><td>ผสมทั้งสองแบบ</td><td>ยืดหยุ่น</td></tr>
+      </table>
+      <h4>เป้าหมาย SMART</h4>
+      <table>
+        <tr><th>ตัวอักษร</th><th>ความหมาย</th></tr>
+        <tr><td>S — Specific</td><td>ชัดเจน เจาะจง ระบุได้</td></tr>
+        <tr><td>M — Measurable</td><td>วัดได้ มีตัวเลข</td></tr>
+        <tr><td>A — Achievable</td><td>บรรลุได้จริง ไม่เกินฝัน</td></tr>
+        <tr><td>R — Relevant</td><td>สอดคล้องกับชีวิตจริง</td></tr>
+        <tr><td>T — Time-bound</td><td>มีกรอบเวลาชัดเจน</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>📋 T1-03: C — Collect รวบรวมข้อมูล</h3>
+      <h4>ข้อมูล 6 หมวด</h4>
+      <table>
+        <tr><th>หมวด</th><th>ตัวอย่าง</th></tr>
+        <tr><td>1. ข้อมูลส่วนตัว</td><td>อายุ สุขภาพ ครอบครัว อาชีพ</td></tr>
+        <tr><td>2. ข้อมูลการเงิน</td><td>รายได้ รายจ่าย สินทรัพย์ หนี้สิน</td></tr>
+        <tr><td>3. เป้าหมาย</td><td>ระยะสั้น กลาง ยาว SMART</td></tr>
+        <tr><td>4. ความเสี่ยง</td><td>Tolerance / Capacity / Required</td></tr>
+        <tr><td>5. ภาษี</td><td>ฐานภาษี ค่าลดหย่อนที่ใช้อยู่</td></tr>
+        <tr><td>6. กฎหมาย/มรดก</td><td>พินัยกรรม ทรัสต์ ผู้รับผลประโยชน์</td></tr>
+      </table>
+      <h4>ความเสี่ยง 3 มิติ (สำคัญมาก)</h4>
+      <table>
+        <tr><th>ประเภท</th><th>ความหมาย</th></tr>
+        <tr><td><b>Risk Tolerance</b></td><td>ยอมรับความเสี่ยงได้มากน้อยแค่ไหน → ด้านจิตใจ</td></tr>
+        <tr><td><b>Risk Capacity</b></td><td>รับความเสี่ยงได้จริงแค่ไหน → ด้านฐานะการเงิน</td></tr>
+        <tr><td><b>Risk Required</b></td><td>ต้องรับความเสี่ยงเท่าไรเพื่อบรรลุเป้าหมาย</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:.82rem">⭐ ต้องรวบรวม "ครบ" ก่อนวิเคราะห์ ไม่ใช่แค่ข้อมูลที่ลูกค้ายื่นให้</p>
+    </div>
+    <div class="card">
+      <h3>🔬 T1-04: A — Analyze วิเคราะห์สถานะ</h3>
+      <h4>1. การวิเคราะห์สถานภาพโดยรวม</h4>
+      <ul class="note-list">
+        <li>วิเคราะห์: งบดุล / งบกระแสเงินสด / อัตราส่วนทางการเงิน</li>
+        <li>ค่าตอบแทน: ทำประกันชีวิต ประกันสุขภาพ TPD</li>
+        <li>ค่าตอบแทนการวางแผนเกษียณ</li>
+        <li>ทดสอบฝัน + กับแผนปัจจุบัน (เบื้องต้น)</li>
+      </ul>
+      <h4>2. แนวทางประเมินข้อมูลลูกค้าที่งดงาม</h4>
+      <ul class="note-list">
+        <li>ขอข้อมูลที่ครบ / จัดลำดับเป้าหมาย</li>
+        <li>ช่วยลูกค้า กำหนด + จัดลำดับเป้าหมาย</li>
+        <li>ถ้าเปลี่ยนเล็กน้อย → แก้เฉพาะส่วนได้</li>
+        <li>ถ้ามีการเปลี่ยนแปลงสำคัญ → คุยเรื่องทั้งหมดใหม่ (CF)</li>
+        <li>ถ้าปลี่ยนแปลงระบบขิ้ตัวสำคัญ → พบลูกค้า + กำหนดเงื่อนไขที่เก็บ</li>
+      </ul>
+      <h4>สมมติฐานในการวางแผนการเงิน</h4>
+      <table>
+        <tr><th>ประเภท</th><th>ตัวอย่าง</th></tr>
+        <tr><td>อัตราเงินเฟ้อ</td><td>ตามข้อมูล ธปท. / ที่สมเหตุสมผล</td></tr>
+        <tr><td>อัตราผลตอบแทนการลงทุน</td><td>ตาม Asset Allocation ปัจจุบัน</td></tr>
+        <tr><td>อัตราผลตอบแทน</td><td>ตามสมมติฐาน จากการจัดสรรทุนปัจจุบัน</td></tr>
+        <tr><td>เงินเฟ้อทางการแพทย์</td><td>ข้อมูลจากแหล่งน่าเชื่อถือ (สูงกว่า CPI)</td></tr>
+        <tr><td>ผลปบ / PVD / กบข.</td><td>ใช้ตามจริง</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>📐 T1-05: D — Develop จัดทำแผน</h3>
+      <h4>กระบวนการ D — 7 ขั้นตอน</h4>
+      <table>
+        <tr><th>#</th><th>ขั้นตอน</th></tr>
+        <tr><td>1</td><td>รวบรวมผลจาก Analyze</td></tr>
+        <tr><td>2</td><td>สร้างทางเลือก (Strategy/Option)</td></tr>
+        <tr><td>3</td><td>ประเมินและเปรียบเทียบทางเลือก</td></tr>
+        <tr><td>4</td><td>เลือกแผนที่เหมาะสมที่สุด</td></tr>
+        <tr><td>5</td><td>นำเสนอลูกค้า รับฟัง</td></tr>
+        <tr><td>6</td><td>ปรับแผนตามความต้องการ</td></tr>
+        <tr><td>7</td><td>อนุมัติ + บันทึก</td></tr>
+      </table>
+      <h4>แผน 5 ด้าน (Comprehensive Financial Planning)</h4>
+      <table>
+        <tr><th>ด้าน</th><th>เนื้อหา</th></tr>
+        <tr><td>🛡️ ปกป้อง (ประกัน)</td><td>ประกันชีวิต สุขภาพ ทุพพลภาพ ทรัพย์สิน</td></tr>
+        <tr><td>💹 ลงทุน</td><td>Asset Allocation, Portfolio, Risk-Return</td></tr>
+        <tr><td>🏖️ เกษียณ</td><td>PVD, RMF, กบข., กำหนดอายุเกษียณ</td></tr>
+        <tr><td>🧾 ภาษี</td><td>วางแผนลดหย่อน ภาษีเงินได้บุคคลธรรมดา</td></tr>
+        <tr><td>🏛️ มรดก</td><td>พินัยกรรม ทรัสต์ การโอนมรดก</td></tr>
+      </table>
+      <h4>การเสนอทางเลือก (D ทำ)</h4>
+      <ul class="note-list">
+        <li>เป้าหมาย + วัตถุประสงค์การลงทุน</li>
+        <li>วิเคราะห์ Asset Allocation</li>
+        <li>จัดพอร์ต เลือกผลิตภัณฑ์ ประเมินผล</li>
+        <li>จัดทำรายงานให้ลูกค้า + ประเมินผล</li>
+      </ul>
+      <p style="color:var(--muted);font-size:.82rem">⭐ ห้ามดำเนินการก่อนลูกค้าอนุมัติ · แจ้งลูกค้าทุกครั้งก่อนเปลี่ยนแปลงแผน</p>
+    </div>
+    <div class="card">
+      <h3>⚙️ T1-06: I — Implement &amp; R — Review</h3>
+      <h4>I — Implement ทำตามแผน (3 ส่วน)</h4>
+      <table>
+        <tr><th>ส่วน</th><th>รายละเอียด</th></tr>
+        <tr><td>1. จัดทำข้อตกลงกับลูกค้า</td><td>วางแผนแล้ว → ทำข้อตกลงเป็นลายลักษณ์อักษร ✏️ · ให้ลูกค้าดูก่อนเริ่ม · วิธีที่ดีที่สุด → กำหนดค.ผูกพันทางกฎหมาย</td></tr>
+        <tr><td>2. แผนปฏิบัติการ (Action Plan)</td><td>วิธีดำเนินการ · วันสิ้นสุดดำเนินงาน · ผู้รับผิดชอบ · ผลลัพธ์ที่ต้องการ</td></tr>
+        <tr><td>3. กระบวนการรับข้อร้องเรียน</td><td>ฝ่ายรับเรื่อง + คนรับเรื่อง · ฝึกกระบวนการมาตรฐาน · ผู้ควบคุมดูแล + ตรวจสอบข้อร้องทุกวัน · สร้างระบบ feedback loop</td></tr>
+      </table>
+      <h4>องค์ประกอบของข้อตกลง</h4>
+      <ul class="note-list">
+        <li>ชื่อ CFP และลูกค้า · ขอบเขตบริการ · บทบาทและความรับผิดชอบ</li>
+        <li>กำหนดเวลาของกิจกรรม · วิธีสนับสนุนการลงทุน</li>
+        <li>ประเภทสินทรัพย์ที่แนะนำ · กรรมวิธีรับมอบสิ่งของ</li>
+        <li>วิธีเก็บรักษา/สำรองข้อมูล · ข้อกำหนดต่ออายุ / ความลับ</li>
+      </ul>
+      <h4>R — Review ทบทวน 4 ด้าน</h4>
+      <table>
+        <tr><th>ด้าน</th><th>สาระ</th></tr>
+        <tr><td>1. ทบทวนแผนการเงิน</td><td>Periodic + เมื่อมี Trigger Events · ให้ลูกค้าตั้งใจให้ใกล้สุด<br>ประโยชน์: ลูกค้าเชื่อมั่น + ปรับปรุงให้เหมาะสถานการณ์</td></tr>
+        <tr><td>2. คงให้บริการต่อเนื่อง</td><td>ติดตามสม่ำเสมอ</td></tr>
+        <tr><td>3. รักษาลูกค้า</td><td>สร้างความสัมพันธ์ระยะยาว</td></tr>
+        <tr><td>4. จัดพบพยานต่อสำนวงลูกค้า</td><td>Update ข้อมูลลูกค้าสม่ำเสมอ</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:.82rem">⭐ Trigger Events: เปลี่ยนงาน แต่งงาน มีบุตร เกษียณ ได้รับมรดก ป่วยหนัก ได้รับสินทรัพย์ใหม่</p>
+    </div>
+    <div class="card">
+      <h3>🚧 T1-07: อุปสรรค &amp; Wealth Management Pyramid</h3>
+      <h4>อุปสรรค 3 กลุ่ม</h4>
+      <table>
+        <tr><th>กลุ่ม</th><th>ตัวอย่าง</th></tr>
+        <tr><td>ความรู้ (Knowledge)</td><td>ไม่เข้าใจผลิตภัณฑ์ ขาดทักษะการเงิน ไม่รู้ขั้นตอน</td></tr>
+        <tr><td>พฤติกรรม (Behavioral)</td><td>ผัดวันประกันพรุ่ง ใช้จ่ายเกินตัว Bias ทางจิตวิทยา</td></tr>
+        <tr><td>สภาพแวดล้อม (Environment)</td><td>รายได้น้อย ภาระหนี้สูง ภาวะเศรษฐกิจ</td></tr>
+      </table>
+      <h4>อุปสรรคเฉพาะ Behavioral (ข้อผิดพลาดที่มักเกิดขึ้น)</h4>
+      <ul class="note-list">
+        <li>รับรายจ่าย ไม่ค้าเป็นประจำเพื่อให้มีการเงินที่ดี</li>
+        <li>ค่อยเร็ว 2-3 ปีก่อนเกษียณ · ประกันสิ้ค, PVD กำจัดเกินมาตรฐาน</li>
+        <li>คัดว่า ลูกค้าต้องมารวางแผนเองตาม · ทักษะที่ควรทำ</li>
+        <li>ร้บรายจ่าย อื่นๆ ต่อเนื่องเพื่อใช้จ่ายในเบี้ยหน้า → คำเนินชีวิต + สุขภาพ · คอราง แผนการแน่นแท้ ๆ · เส้นที่ไม่กิ้งถึงตัวสำเมือน PVD ไม่ได้ทุกปีก็พัก · คัดว่า ลูกค้าต้อยม (เงิน 1) เป็น ประกอบ-ทาการเงิน ?</li>
+      </ul>
+      <h4>Wealth Management 4 ชั้น (Pyramid)</h4>
+      <table>
+        <tr><th>ชั้น</th><th>วัตถุประสงค์</th><th>ตัวอย่าง</th></tr>
+        <tr><td>🔺 Wealth Distribution (สูงสุด)</td><td>ส่งต่อ</td><td>จัดทำพินัยกรรม พันธกรรม มรดก</td></tr>
+        <tr><td>💹 Wealth Accumulation</td><td>สะสม/เพิ่มพูน</td><td>วางแผนลงทุน Allocate ทัดตามผลประสิทธิผล</td></tr>
+        <tr><td>🛡️ Wealth Protection</td><td>รักษา/ปกป้อง</td><td>วางแผนใช้ชีวิต เงินสำรอง ประกันชีวิต อื่นๆ</td></tr>
+        <tr><td>🌱 Wealth Creation (ฐานราก)</td><td>สร้าง</td><td>บริษัท ตลาดหลักทรัพย์ เงินเดือน หนี้สิน</td></tr>
+      </table>
+      <h4>บุคคลที่เกี่ยวข้องในกระบวนการวางแผน</h4>
+      <table>
+        <tr><th>บทบาท</th><th>หน้าที่</th></tr>
+        <tr><td>ธนาคาร (Debut ท่าเล่น)</td><td>เจ้าหน้าที่เขต ดูแล Wealth Management</td></tr>
+        <tr><td>ประกันชีวิต</td><td>ตัวแทนประกันชีวิต</td></tr>
+        <tr><td>CFP (อาจิน)</td><td>เจ้าหน้าที่ที่กำหนด</td></tr>
+        <tr><td>บลจ. กองทุน</td><td>ผู้จัดการนำลงทุน</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>🛠️ T1-08: เครื่องมือและประเภทการวางแผน</h3>
+      <h4>มุมมอง Micro (Client Perspective)</h4>
+      <table>
+        <tr><th>ประเภท</th><th>คำอธิบาย</th></tr>
+        <tr><td>Special Need Planning</td><td>วางแผนเฉพาะด้านที่ลูกค้าต้องการ เช่น ภาษีอย่างเดียว ประกันอย่างเดียว</td></tr>
+        <tr><td>Comprehensive Financial Planning</td><td>วางแผนการเงินครบทุก 5 ด้านพร้อมกัน</td></tr>
+        <tr><td>Total Life Planning</td><td>วางแผนทุกมิติของชีวิต ทั้งการเงิน สุขภาพ ความสัมพันธ์ ชีวิตทุกด้าน (Life-long approach)</td></tr>
+      </table>
+      <h4>มุมมอง Macro (Industry Perspective)</h4>
+      <table>
+        <tr><th>ประเภท</th><th>คำอธิบาย</th></tr>
+        <tr><td>Universal Banking</td><td>ธนาคารให้บริการครบทุกประเภท: ลงทุน ประกัน สินเชื่อ<br>· Product-Centric → Customer-Centric<br>· Open Architecture: ไม่จำกัดกองทุน ให้ทุก บลจ.<br>· Multi Products: หลายผลิตภัณฑ์ · Advising</td></tr>
+      </table>
+      <h4>⭐ Aging Society ในไทย (ต้องจำ)</h4>
+      <table>
+        <tr><th>ปี</th><th>ระดับ</th><th>ผู้สูงอายุ ≥60 ปี</th></tr>
+        <tr><td>2543 (2000)</td><td>Aging Society (สังคมผู้สูงอายุ)</td><td>≥ 10%</td></tr>
+        <tr><td>2565 (2022)</td><td>Aged Society (สังคมผู้สูงอายุอย่างสมบูรณ์)</td><td>≥ 14%</td></tr>
+        <tr><td>2567 (2024)</td><td>Super-Aged Society (สังคมผู้สูงอายุระดับสุดยอด)</td><td>≥ 20%</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:.82rem">เกณฑ์ = จำนวนผู้สูงอายุ / ประชากรทั้งหมด × 100 · ประเทศไทยก้าวเข้าสู่ Super-Aged แล้วในปี 2567</p>
+    </div>
+    <div class="card">
+      <h3>🎓 T1-09: คุณวุฒิวิชาชีพ CFP และ 4 E's Steps</h3>
+      <p style="font-size:.85rem;margin-bottom:12px"><b>CFP (Certified Financial Planner)</b> คือคุณวุฒิของผู้ประกอบวิชาชีพให้บริการวางแผนการเงิน ครอบคลุม: แผนการลงทุน · แผนประกัน · แผนภาษีและมรดก · แผนเพื่อวัยเกษียณ<br>นักวางแผนการเงิน CFP จะทำแผนในทุกๆ ด้านที่ได้รับอนุมัติ โดยมุ่งให้ลูกค้าบรรลุเป้าหมายทางการเงินและมีคุณภาพชีวิตตามเป้าหมายในอนาคต</p>
+      <h4>4 E's Steps สู่การเป็น CFP</h4>
+      <table>
+        <tr><th>ขั้น</th><th>E</th><th>รายละเอียด</th></tr>
+        <tr><td>01</td><td><b style="color:var(--t1)">Education</b> — การอบรม</td><td>อบรม <b>6 ชุดวิชา</b>: 1) พื้นฐานการวางแผนการเงิน · 2) การลงทุน · 3) ประกัน · 4) ภาษีและมรดก · 5) วัยเกษียณ · 6) จัดทำแผนการเงิน</td></tr>
+        <tr><td>02</td><td><b style="color:var(--t1)">Examination</b> — การสอบ</td><td>สอบ <b>4 ฉบับ</b> ตามลำดับชุดวิชา</td></tr>
+        <tr><td>03</td><td><b style="color:var(--t1)">Experience</b> — ประสบการณ์</td><td>ประสบการณ์ทำงานที่เกี่ยวข้อง <b>3 ปี</b></td></tr>
+        <tr><td>04</td><td><b style="color:var(--t1)">Ethics</b> — จรรยาบรรณ</td><td>ยึดถือและปฏิบัติตามจรรยาบรรณวิชาชีพ <b>7 ข้อ</b> ปฏิบัติ 6 ขั้นตอน</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>📄 T1-10: ลำดับการนำเสนอรายงานแผนการเงิน</h3>
+      <p style="color:var(--muted);font-size:.82rem;margin-bottom:8px">ลำดับการนำเสนอในรายงานแผนการเงิน (ตามมาตรฐาน CFP)</p>
+      <div class="code-block">1.  ข้อตกลงขอบเขตความรับผิดชอบ
+2.  จดหมายนำส่ง
+3.  ใบปะหน้า
+4.  บทนำ
+5.  Disclosures
+6.  บทสรุป
+7.  เป้าหมายและวัตถุประสงค์
+8.  สถานะปัจจุบัน
+9.  คำแนะนำ
+10. แผนปฏิบัติงาน (Action Plan)
+11. เกณฑ์การประเมิน
+12. กระบวนการประเมิน
+13. Disclaimer
+14. ใบมอบอำนาจ</div>
+      <p style="color:var(--muted);font-size:.82rem">⭐ จำลำดับ: <b>"ข้อตกลง → จดหมาย → ปะหน้า → บทนำ → Disclosures → สรุป → เป้าหมาย → สถานะ → แนะนำ → Action → ประเมิน → Disclaimer → มอบอำนาจ"</b></p>
+    </div>
+  </div>
+
+  <div id="t1-images" class="tab-panel">
+    <div class="img-gallery">
+      <div class="img-card" onclick="openLB('สรุปCFP/T1_01_กระบวนการวางแผน_ECADIR_Overview.jpg','T1-01: กระบวนการวางแผน ECADIR Overview')">
+        <img src="สรุปCFP/T1_01_กระบวนการวางแผน_ECADIR_Overview.jpg" alt="T1-01" loading="lazy">
+        <div class="img-label">T1-01: กระบวนการวางแผน ECADIR Overview</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T1_02_E_Establish_กำหนดเป้าหมาย.jpg','T1-02: E — Establish กำหนดเป้าหมาย')">
+        <img src="สรุปCFP/T1_02_E_Establish_กำหนดเป้าหมาย.jpg" alt="T1-02" loading="lazy">
+        <div class="img-label">T1-02: E — Establish กำหนดเป้าหมาย</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T1_03_C_Collect_รวบรวมข้อมูล.jpg','T1-03: C — Collect รวบรวมข้อมูล')">
+        <img src="สรุปCFP/T1_03_C_Collect_รวบรวมข้อมูล.jpg" alt="T1-03" loading="lazy">
+        <div class="img-label">T1-03: C — Collect รวบรวมข้อมูล</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T1_04_A_Analyze_วิเคราะห์.jpg','T1-04: A — Analyze วิเคราะห์')">
+        <img src="สรุปCFP/T1_04_A_Analyze_วิเคราะห์.jpg" alt="T1-04" loading="lazy">
+        <div class="img-label">T1-04: A — Analyze วิเคราะห์</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T1_05_D_Develop_จัดทำแผน.jpg','T1-05: D — Develop จัดทำแผน')">
+        <img src="สรุปCFP/T1_05_D_Develop_จัดทำแผน.jpg" alt="T1-05" loading="lazy">
+        <div class="img-label">T1-05: D — Develop จัดทำแผน</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T1_06_I_Implement_R_Review.jpg','T1-06: I — Implement & R — Review')">
+        <img src="สรุปCFP/T1_06_I_Implement_R_Review.jpg" alt="T1-06" loading="lazy">
+        <div class="img-label">T1-06: I — Implement &amp; R — Review</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T1_07_WealthManagement_อุปสรรค.jpg','T1-07: Wealth Management & อุปสรรค')">
+        <img src="สรุปCFP/T1_07_WealthManagement_อุปสรรค.jpg" alt="T1-07" loading="lazy">
+        <div class="img-label">T1-07: Wealth Management &amp; อุปสรรค</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T1_08_เครื่องมือการวางแผนการเงิน.jpg','T1-08: เครื่องมือการวางแผนการเงิน')">
+        <img src="สรุปCFP/T1_08_เครื่องมือการวางแผนการเงิน.jpg" alt="T1-08" loading="lazy">
+        <div class="img-label">T1-08: เครื่องมือการวางแผนการเงิน</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── T2 ─── -->
+<div id="page-t2" class="page">
+  <div class="page-header">
+    <div class="topic-badge" style="background:var(--t2b);color:var(--t2)">TOPIC 2</div>
+    <div>
+      <h2 style="color:var(--t2)">จรรยาบรรณและคู่มือปฏิบัติงาน</h2>
+      <div class="subtitle">7 ข้อจรรยาบรรณ · มาตรฐานการปฏิบัติ 100–600</div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(this,'t2','notes')">📝 Notes</button>
+    <button class="tab-btn" onclick="switchTab(this,'t2','images')">🖼️ รูปสรุป (1)</button>
+  </div>
+
+  <div id="t2-notes" class="tab-panel active">
+    <div class="card">
+      <h3>⚖️ T2-01: จรรยาบรรณ 7 ข้อ (ครบทุกรายละเอียด)</h3>
+      <p style="color:var(--muted);font-size:.82rem;margin-bottom:12px">เทคนิคจำ: <b>"ซื่อ กลาง รู้ ธรรม ลับ อาชีพ ใส่ใจ"</b></p>
+      <table>
+        <tr><th>#</th><th>ข้อ</th><th>ความหมายหลัก</th><th>รายละเอียด</th></tr>
+        <tr><td>1</td><td><b style="color:var(--t2)">Integrity</b><br>ความซื่อสัตย์</td><td>ไม่หลอกลวง ไม่ฉ้อโกง</td><td>✅ พูด/เขียนซื่อสัตย์ complete disclosure<br>✅ ไม่ให้ข้อมูลที่ทำให้เข้าใจผิด<br>✅ เปิดเผย Conflict of Interest ทุกครั้ง<br>✅ ไม่รับสิ่งตอบแทนที่ขัดผลประโยชน์ลูกค้า</td></tr>
+        <tr><td>2</td><td><b style="color:var(--t2)">Objectivity</b><br>ความเที่ยงธรรม</td><td>ปราศจากอคติ ให้คำแนะนำโดยอิสระ</td><td>✅ ให้คำแนะนำปราศจากอคติ ความลำเอียง<br>✅ ไม่ให้ความสัมพันธ์ส่วนตัวมีผล<br>✅ คำแนะนำต้องตรงกับประโยชน์ลูกค้า<br>★ ต้อง Objective กับลูกค้า/นายจ้าง</td></tr>
+        <tr><td>3</td><td><b style="color:var(--t2)">Competence</b><br>ความรู้ความสามารถ</td><td>มีความรู้ทักษะเพียงพอ</td><td>✅ มีความรู้ ทักษะ ประสบการณ์เพียงพอ<br>✅ พัฒนาต่อเนื่อง CPD<br>✅ รู้ขอบเขตตัวเอง ถ้าเกิน → ส่งต่อผู้เชี่ยวชาญ<br>★ ต้องรู้จริง ไม่ใช่แค่มีใบอนุญาต</td></tr>
+        <tr><td>4</td><td><b style="color:var(--t2)">Fairness</b><br>ความเป็นธรรม</td><td>ปฏิบัติต่อทุกคนอย่างเท่าเทียม</td><td>✅ ปฏิบัติต่อลูกค้า คู่ค้า ทุกฝ่ายอย่างเป็นธรรม<br>✅ เปิดเผย Conflict of Interest ทั้งหมด<br>✅ ทุกลูกค้าได้มาตรฐานเดียวกัน<br>★ ลูกค้า &gt; ตนเอง &gt; บุคคลที่สาม</td></tr>
+        <tr><td>5</td><td><b style="color:var(--t2)">Confidentiality</b><br>รักษาความลับ</td><td>รักษาข้อมูลลูกค้าทั้งขณะและหลังสิ้นสุดสัมพันธ์</td><td>✅ ไม่เปิดเผยข้อมูลลูกค้าโดยไม่ได้รับอนุญาต<br>✅ ใช้ข้อมูลเฉพาะเพื่อประโยชน์ลูกค้า<br>✅ ดูแลทั้งในและหลังสิ้นสุดความสัมพันธ์<br>★ ยกเว้น: กฎหมายบังคับ / ลูกค้าอนุญาต</td></tr>
+        <tr><td>6</td><td><b style="color:var(--t2)">Professionalism</b><br>ความเป็นมืออาชีพ</td><td>รักษาภาพลักษณ์วิชาชีพ</td><td>✅ ประพฤติปฏิบัติตนให้เหมาะสม<br>✅ ไม่กระทำใดๆ เสื่อมเสียชื่อวิชาชีพ CFP<br>✅ ปฏิบัติตามกฎระเบียบ กฎหมาย จรรยาบรรณ<br>⚠️ ห้ามเรียกตัวเอง "CFP" หากไม่มีใบอนุญาต</td></tr>
+        <tr><td>7</td><td><b style="color:var(--t2)">Diligence</b><br>ขยันหมั่นเพียร</td><td>ดูแลลูกค้าด้วยมาตรฐานสูงสุด</td><td>✅ ระมัดระวัง ขยัน มีความรับผิดชอบ<br>✅ ทำงานรอบคอบ ครบถ้วน ทันกำหนด<br>✅ ติดตาม ทบทวน อัปเดตแผนสม่ำเสมอ<br>★ มาตรฐาน "Prudent Adviser"</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>📜 มาตรฐานการปฏิบัติ (Code of Ethics รหัส 100–600)</h3>
+      <table>
+        <tr><th>รหัส</th><th>หัวข้อ</th><th>สาระสำคัญ</th></tr>
+        <tr><td>100</td><td>Defining the Relationship</td><td>กำหนดความสัมพันธ์ ขอบเขต ค่าธรรมเนียม หน้าที่ (= E)</td></tr>
+        <tr><td>200</td><td>Gathering Client Data</td><td>รวบรวมข้อมูลครบถ้วน ปริมาณ+คุณภาพ (= C)</td></tr>
+        <tr><td>300</td><td>Analyzing and Evaluating</td><td>วิเคราะห์รอบด้าน ประเมินฐานะการเงิน (= A)</td></tr>
+        <tr><td>400</td><td>Developing the Plan</td><td>สร้างแผนที่เหมาะสมกับลูกค้า (= D)</td></tr>
+        <tr><td>500</td><td>Implementing the Plan</td><td>ดำเนินการ ประสานงาน ติดตาม (= I)</td></tr>
+        <tr><td>600</td><td>Monitoring the Plan</td><td>ทบทวนและปรับแผน (= R)</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:.82rem">⭐ Fiduciary Duty: CFP ต้องทำหน้าที่เพื่อ "ประโยชน์สูงสุดของลูกค้า" ก่อนเสมอ</p>
+    </div>
+    <div class="card">
+      <h3>🔗 T2-03: ความสัมพันธ์จรรยาบรรณ ↔ หลักปฏิบัติ</h3>
+      <div class="code-block">จรรยาบรรณ 7 ข้อ (Code of Ethics)
+          ↓
+กำหนด "ทัศนคติและค่านิยม" ที่ควรมี
+          ↓
+หลักปฏิบัติ (Practice Standards) 100–600
+          ↓
+กำหนด "วิธีการปฏิบัติงาน" ที่ถูกต้อง</div>
+      <table>
+        <tr><th>มาตรฐาน</th><th>หัวข้อย่อย (Sub-standard)</th><th>สาระสำคัญ</th></tr>
+        <tr><td><b>100-1</b></td><td>ชี้แจงบริการและขอบเขต</td><td>ต้องชี้แจงประเภทบริการ กำหนดว่าเป็นการวางแผนการเงินหรือไม่ ระบุขอบเขตความรับผิดชอบทั้งสองฝ่าย</td></tr>
+        <tr><td><b>200-1</b></td><td>รวบรวมข้อมูลที่จำเป็น</td><td>รวบรวมข้อมูลเพียงพอตามขอบเขต: ข้อมูลส่วนบุคคล · งบดุล · งบกระแสเงินสด · งบประมาณ</td></tr>
+        <tr><td><b>300-1</b></td><td>วิเคราะห์และประเมินสถานะ</td><td>ผลวิเคราะห์ 4 ด้าน: ข้อมูลส่วนบุคคล · โครงสร้างการเงิน · อัตราส่วนการเงิน · เป้าหมายทางการเงิน</td></tr>
+        <tr><td><b>400-1</b></td><td>จัดทำและนำเสนอแผน</td><td>สังเคราะห์ผลวิเคราะห์ → สรุป+ข้อเสนอแนะ → จัดทำ Action Plan</td></tr>
+        <tr><td><b>500-1</b></td><td>ดำเนินการตามแผน</td><td>เริ่มดำเนินการ · ออมและลงทุนตามสมมติฐาน · ควบคุมค่าใช้จ่ายตามงบประมาณ</td></tr>
+        <tr><td><b>600-1</b></td><td>ทบทวนและตรวจสอบ</td><td>ทบทวนสม่ำเสมอ · ปรับเมื่อสถานการณ์เปลี่ยน · ถ้าไม่ต้องปรับ = แผนยังใช้ได้ดี</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>⭐ T2-04: จุดสำคัญที่มักออกสอบ</h3>
+      <ul class="note-list">
+        <li><b>จำนวน:</b> จรรยาบรรณ <b>7 ข้อ</b> · มาตรฐานการปฏิบัติ <b>6 มาตรฐาน</b> (100–600)</li>
+        <li><b>ลำดับ:</b> 100→200→300→400→500→600 สอดคล้องกับ ECADIR ทุกขั้น</li>
+        <li><b>ความแตกต่างสำคัญ:</b> จรรยาบรรณ = "ควรเป็นอะไร" (ค่านิยม) / หลักปฏิบัติ = "ควรทำอะไร" (การกระทำ)</li>
+        <li><b>ข้อที่มักสับสน:</b> Objectivity ≠ Fairness
+          <br>→ Objectivity = ปราศจากอคติในการวิเคราะห์และให้คำแนะนำ
+          <br>→ Fairness = ปฏิบัติต่อทุกคนอย่างเท่าเทียมกัน</li>
+        <li><b>Confidentiality:</b> ห้ามเปิดเผยข้อมูลลูกค้าแก่บุคคลที่สาม <b>ยกเว้น</b> กฎหมายบังคับ หรือลูกค้าอนุญาต</li>
+        <li><b>Fiduciary Duty:</b> ลำดับความสำคัญ = ลูกค้า &gt; ตนเอง &gt; บุคคลที่สาม</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="t2-images" class="tab-panel">
+    <div class="img-gallery">
+      <div class="img-card" onclick="openLB('สรุปCFP/T2_01_จรรยาบรรณ_7ข้อ.jpg','T2-01: จรรยาบรรณ 7 ข้อ')">
+        <img src="สรุปCFP/T2_01_จรรยาบรรณ_7ข้อ.jpg" alt="T2-01" loading="lazy">
+        <div class="img-label">T2-01: จรรยาบรรณ 7 ข้อ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── T3 ─── -->
+<div id="page-t3" class="page">
+  <div class="page-header">
+    <div class="topic-badge" style="background:var(--t3b);color:var(--t3)">TOPIC 3</div>
+    <div>
+      <h2 style="color:var(--t3)">การรวบรวมข้อมูลทางการเงินส่วนบุคคล</h2>
+      <div class="subtitle">งบดุล · งบกระแสเงินสด · สินทรัพย์ 4 ประเภท</div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(this,'t3','notes')">📝 Notes</button>
+    <button class="tab-btn" onclick="switchTab(this,'t3','images')">🖼️ รูปสรุป (4)</button>
+  </div>
+
+  <div id="t3-notes" class="tab-panel active">
+    <div class="card">
+      <h3>💰 T3-01: งบกระแสเงินสด (Cash Flow Statement)</h3>
+      <table>
+        <tr><th colspan="2" style="background:rgba(96,201,164,.15)">Cash Inflow (รายรับ)</th><th colspan="2" style="background:rgba(251,113,97,.15)">Cash Outflow (รายจ่าย)</th></tr>
+        <tr><th>Fixed</th><th>Variable</th><th>Fixed</th><th>Variable</th></tr>
+        <tr><td>เงินเดือน ค่าจ้างประจำ</td><td>โบนัส ค่าคอมมิชชัน</td><td>ผ่อนบ้าน/รถ</td><td>ค่าอาหาร ของใช้</td></tr>
+        <tr><td>รายได้จากธุรกิจประจำ</td><td>เงินปันผล ดอกเบี้ย</td><td>ประกันชีวิตเบี้ยคงที่</td><td>บันเทิง ท่องเที่ยว</td></tr>
+        <tr><td>ค่าเช่าที่แน่นอน</td><td>กำไรจากการขายทรัพย์สิน</td><td>ค่าเช่าบ้าน</td><td>ค่าซ่อมแซม</td></tr>
+      </table>
+      <h4>Net Cash Flow และการออม</h4>
+      <table>
+        <tr><th>สูตร</th><th>เกณฑ์</th></tr>
+        <tr><td>Net Cash Flow = Total Inflow − Total Outflow</td><td>&gt; 0 (เหลือเงินออม)</td></tr>
+        <tr><td>Savings Rate = NCF / Total Inflow × 100</td><td>≥ 10–20%</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>📊 T3-02: งบดุล (Balance Sheet) &amp; Investment</h3>
+      <h4>สมการพื้นฐาน</h4>
+      <div class="code-block">สินทรัพย์รวม = หนี้สินรวม + ความมั่งคั่งสุทธิ
+Net Worth (ความมั่งคั่งสุทธิ) = สินทรัพย์รวม − หนี้สินรวม</div>
+      <h4>ประเภทสินทรัพย์ 4 หมวด ⭐</h4>
+      <table>
+        <tr><th>หมวด</th><th>ตัวอย่าง</th><th>ลักษณะ</th></tr>
+        <tr><td>1. สินทรัพย์สภาพคล่อง (Liquid)</td><td>เงินสด · ออมทรัพย์ · ฝากประจำ · <b>NCD</b> · กองทุนตลาดเงิน</td><td>แปลงเป็นเงินสดได้เร็ว ผลตอบแทนต่ำ</td></tr>
+        <tr><td>2. สินทรัพย์เพื่อการลงทุน (Investment)</td><td>หุ้น · กองทุน · พันธบัตร/หุ้นกู้ · อสังหาฯ · PVD · <b>มูลค่าเงินสดประกันชีวิต</b></td><td>มุ่งเพิ่มมูลค่า มีความเสี่ยง</td></tr>
+        <tr><td>3. สินทรัพย์ใช้ส่วนตัว (Personal Possessions)</td><td>บ้านอยู่อาศัย · รถ · เครื่องประดับ · ของสะสม</td><td>ใช้ในชีวิตประจำวัน ราคาลดลง ไม่ผลิตรายได้</td></tr>
+        <tr><td>4. สินทรัพย์อื่นๆ (Other Assets)</td><td>สิทธิบัตร · ลิขสิทธิ์ · หุ้นในบริษัทปิด (Private Ownership)</td><td>สินทรัพย์ที่ไม่จัดในหมวดอื่น</td></tr>
+      </table>
+      <h4>หนี้สิน (Liabilities)</h4>
+      <table>
+        <tr><th>ประเภท</th><th>ตัวอย่าง</th></tr>
+        <tr><td>ระยะสั้น (Current)</td><td>ยอดค้างบัตรเครดิต · หนี้สินระยะสั้นอื่นๆ</td></tr>
+        <tr><td>ระยะยาว (Long-term)</td><td>ยอดค้างกู้ซื้อรถ · ยอดค้างกู้ซื้อบ้าน · หนี้สินระยะยาวอื่นๆ</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:.82rem">⭐ NCD (Negotiable Certificate of Deposit) = จัด <b>สภาพคล่อง</b> เพราะเปลี่ยนมือได้ · มูลค่าเงินสดประกันชีวิต = จัด <b>ลงทุน</b> ไม่ใช่ค่าใช้จ่าย</p>
+      <h4>Investment Constraints (CRLUT)</h4>
+      <table>
+        <tr><th>ตัวย่อ</th><th>ความหมาย</th><th>ตัวอย่าง</th></tr>
+        <tr><td>C — Capital</td><td>ต้องการเงินต้นคืน</td><td>ต้องมีเงินต้น 1 ล้านเมื่ออายุ 60</td></tr>
+        <tr><td>R — Risk</td><td>ระดับความเสี่ยงที่รับได้</td><td>รับขาดทุนได้ไม่เกิน 15% ต่อปี</td></tr>
+        <tr><td>L — Liquidity</td><td>ต้องการสภาพคล่อง</td><td>ต้องมีเงินฉุกเฉิน 6 เดือน</td></tr>
+        <tr><td>U — Unique</td><td>ข้อจำกัดพิเศษ</td><td>ไม่ลงทุนหุ้นแอลกอฮอล์ศาสนา</td></tr>
+        <tr><td>T — Time</td><td>ระยะเวลาลงทุน</td><td>ลงทุน 20 ปีก่อนเกษียณ</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:.82rem">⭐ IPS (Investment Policy Statement): เอกสารระบุวัตถุประสงค์+ข้อจำกัดการลงทุนทั้งหมด</p>
+    </div>
+    <div class="card">
+      <h3>🔄 T3-03: Life Cycle &amp; วิเคราะห์ข้อมูล</h3>
+      <h4>วงจรชีวิตทางการเงิน 3 ช่วง</h4>
+      <table>
+        <tr><th>ช่วง</th><th>อายุ</th><th>ลักษณะ</th><th>ความเสี่ยง</th></tr>
+        <tr><td>สะสม (Accumulation)</td><td>20–45 ปี</td><td>รายได้เพิ่ม หนี้สูง ออมน้อย ลงทุนสูง</td><td>รับความเสี่ยงสูงได้</td></tr>
+        <tr><td>สะสมรวดเร็ว (Conservation)</td><td>45–60 ปี</td><td>รายได้สูงสุด หนี้ลด สะสมทรัพย์</td><td>ความเสี่ยงปานกลาง</td></tr>
+        <tr><td>แจกจ่าย (Distribution)</td><td>60+ ปี</td><td>ใช้เงินออม ต้องการรายได้สม่ำเสมอ</td><td>ความเสี่ยงต่ำ</td></tr>
+      </table>
+      <h4>อัตราส่วนสำคัญ</h4>
+      <table>
+        <tr><th>อัตราส่วน</th><th>สูตร</th><th>เกณฑ์</th></tr>
+        <tr><td>Emergency Fund Ratio</td><td>Liquid Assets / Monthly Non-Discretionary Expense</td><td>3–6 เดือน</td></tr>
+        <tr><td>Current Ratio</td><td>Liquid Assets / Current Liabilities</td><td>&gt; 1</td></tr>
+        <tr><td>Savings Ratio</td><td>Annual Savings / <b>Gross Annual Income</b></td><td>≥ 10–25%</td></tr>
+        <tr><td>Debt Service Ratio</td><td>Monthly Debt Payment / <b>Monthly Net Income</b></td><td>≤ 35–40%</td></tr>
+        <tr><td>Solvency Ratio</td><td>Net Worth / Total Assets</td><td>&gt; 0 (ควร &gt; 50%)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>📏 T3-04: ตารางอัตราส่วนแยกตามช่วงอายุ</h3>
+      <table>
+        <tr><th>อัตราส่วน</th><th>วิธีคำนวณ</th><th>ช่วงอายุ</th><th>เกณฑ์</th></tr>
+        <tr><td>Emergency Fund Ratio</td><td>Liquid Assets / Monthly Non-Discretionary Expense</td><td>ทุกช่วง</td><td>3–6 เดือน</td></tr>
+        <tr><td>Net Worth</td><td>Total Assets − Total Liabilities</td><td>ทุกช่วง</td><td>&gt; 0 เพิ่มขึ้นทุกปี</td></tr>
+        <tr><td>Savings Ratio</td><td>Annual Savings / <b>Gross Annual Income</b></td><td>20–60</td><td>≥ 10–25%</td></tr>
+        <tr><td>Debt Service Ratio</td><td>Monthly Debt / <b>Monthly Net Income</b></td><td>ทุกช่วง</td><td>≤ 35–40%</td></tr>
+        <tr><td>Investment Assets to NW</td><td>Investment Assets / Net Worth</td><td>วัยกลาง+</td><td>≥ 50%</td></tr>
+      </table>
+      <h4>แนวทางตามช่วงอายุ</h4>
+      <table>
+        <tr><th>ช่วงอายุ</th><th>Savings Rate</th><th>Debt Ratio</th><th>Emergency Fund</th></tr>
+        <tr><td>20–35 ปี</td><td>≥ 15%</td><td>≤ 40%</td><td>3–6 เดือน</td></tr>
+        <tr><td>35–50 ปี</td><td>≥ 20%</td><td>≤ 30%</td><td>6 เดือน</td></tr>
+        <tr><td>50–65 ปี</td><td>≥ 25%</td><td>≤ 20%</td><td>6–12 เดือน</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:.82rem">⭐ อัตราส่วนเป็นแนวทาง ต้องพิจารณาบริบทลูกค้าด้วยเสมอ</p>
+    </div>
+    <div class="card">
+      <h3>🔎 T3-05: ประเภทข้อมูล + ความสัมพันธ์งบการเงิน + จุดออกสอบ</h3>
+      <h4>ประเภทข้อมูลที่รวบรวม</h4>
+      <table>
+        <tr><th>ประเภท</th><th>ความหมาย</th><th>ตัวอย่าง</th></tr>
+        <tr><td><b>Quantitative</b> (เชิงปริมาณ)</td><td>วัดได้เป็นตัวเลข</td><td>รายได้ รายจ่าย สินทรัพย์ หนี้สิน ภาษี อัตราดอกเบี้ย มูลค่าประกัน</td></tr>
+        <tr><td><b>Qualitative</b> (เชิงคุณภาพ)</td><td>ไม่สามารถวัดเป็นตัวเลขได้</td><td>เป้าหมายชีวิต ค่านิยม Risk Tolerance สถานภาพครอบครัว สุขภาพ ทัศนคติ</td></tr>
+      </table>
+      <h4>ความสัมพันธ์ระหว่างงบดุล ↔ งบกระแสเงินสด</h4>
+      <div class="code-block">กระแสเงินสดสุทธิ (+) → เพิ่มสินทรัพย์สภาพคล่อง → ความมั่งคั่งสุทธิ ↑
+กระแสเงินสดสุทธิ (−) → ลดสินทรัพย์สภาพคล่อง → ความมั่งคั่งสุทธิ ↓
+
+งบดุล = "ณ วันที่" หนึ่งๆ  (Stock concept)
+งบกระแสเงินสด = "ช่วงเวลา"  (Flow concept)</div>
+      <h4>⭐ จุดสำคัญที่มักออกสอบ</h4>
+      <ul class="note-list">
+        <li><b>NCD</b> = สินทรัพย์สภาพคล่อง (ไม่ใช่ฝากประจำทั่วไป เพราะเปลี่ยนมือได้)</li>
+        <li><b>มูลค่าเงินสดกรมธรรม์ประกันชีวิต</b> = สินทรัพย์เพื่อการลงทุน (ไม่ใช่ค่าใช้จ่าย)</li>
+        <li><b>เบี้ยประกัน</b> = กระแสเงินสดจ่ายคงที่ (Fixed Cash Outflow)</li>
+        <li><b>กองทุนสำรองเลี้ยงชีพ (PVD)</b> = อยู่ทั้ง สินทรัพย์ลงทุน (งบดุล) และ กระแสเงินสดจ่ายคงที่ (งบกระแสเงินสด)</li>
+        <li><b>สินทรัพย์ 4 ประเภท:</b> สภาพคล่อง / ลงทุน / ใช้ส่วนตัว / อื่นๆ (Patent, Private Co.)</li>
+        <li><b>งบดุล</b> = ณ วันที่ใดวันหนึ่ง (Stock) ≠ งบกระแสเงินสด = ช่วงเวลา (Flow)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="t3-images" class="tab-panel">
+    <div class="img-gallery">
+      <div class="img-card" onclick="openLB('สรุปCFP/T3_01_รวบรวมข้อมูล_งบกระแสเงินสด.jpg','T3-01: รวบรวมข้อมูล งบกระแสเงินสด')">
+        <img src="สรุปCFP/T3_01_รวบรวมข้อมูล_งบกระแสเงินสด.jpg" alt="T3-01" loading="lazy">
+        <div class="img-label">T3-01: รวบรวมข้อมูล — งบกระแสเงินสด</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T3_02_รวบรวมข้อมูล_งบดุลและการลงทุน.jpg','T3-02: รวบรวมข้อมูล งบดุล & การลงทุน')">
+        <img src="สรุปCFP/T3_02_รวบรวมข้อมูล_งบดุลและการลงทุน.jpg" alt="T3-02" loading="lazy">
+        <div class="img-label">T3-02: รวบรวมข้อมูล — งบดุล &amp; การลงทุน</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T3_03_วิเคราะห์ข้อมูล_วงจรชีวิตงบการเงิน.jpg','T3-03: วิเคราะห์ข้อมูล วงจรชีวิต')">
+        <img src="สรุปCFP/T3_03_วิเคราะห์ข้อมูล_วงจรชีวิตงบการเงิน.jpg" alt="T3-03" loading="lazy">
+        <div class="img-label">T3-03: วิเคราะห์ข้อมูล — วงจรชีวิต &amp; งบการเงิน</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T3_04_วิเคราะห์ข้อมูล_ตารางช่วงอายุ.jpg','T3-04: วิเคราะห์ข้อมูล ตารางช่วงอายุ')">
+        <img src="สรุปCFP/T3_04_วิเคราะห์ข้อมูล_ตารางช่วงอายุ.jpg" alt="T3-04" loading="lazy">
+        <div class="img-label">T3-04: วิเคราะห์ข้อมูล — ตารางช่วงอายุ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── T4 ─── -->
+<div id="page-t4" class="page">
+  <div class="page-header">
+    <div class="topic-badge" style="background:var(--t4b);color:var(--t4)">TOPIC 4</div>
+    <div>
+      <h2 style="color:var(--t4)">การวิเคราะห์ข้อมูลและการบริหารสภาพคล่อง</h2>
+      <div class="subtitle">อัตราส่วนทางการเงิน · สินเชื่อ · วิธีคิดดอกเบี้ย 3 แบบ</div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(this,'t4','notes')">📝 Notes</button>
+    <button class="tab-btn" onclick="switchTab(this,'t4','images')">🖼️ รูปสรุป (2)</button>
+  </div>
+
+  <div id="t4-notes" class="tab-panel active">
+    <div class="card">
+      <h3>📊 T4-00: Common-Size Analysis + อัตราส่วนทางการเงิน</h3>
+      <h4>Common-Size Analysis (แปลงเป็น %)</h4>
+      <table>
+        <tr><th>งบ</th><th>ฐาน (100%)</th><th>วิธีใช้</th></tr>
+        <tr><td>งบดุล</td><td><b>สินทรัพย์รวม</b></td><td>แต่ละรายการคิดเป็น % ของสินทรัพย์รวม → เปรียบเทียบโครงสร้าง</td></tr>
+        <tr><td>งบกระแสเงินสด</td><td><b>รายรับรวม</b></td><td>แต่ละรายการคิดเป็น % ของรายรับรวม → เปรียบเทียบสัดส่วน</td></tr>
+      </table>
+      <h4>อัตราส่วนทางการเงินส่วนบุคคล 8 ตัว</h4>
+      <table>
+        <tr><th>#</th><th>อัตราส่วน</th><th>สูตร</th><th>เกณฑ์</th></tr>
+        <tr><td>1</td><td>กองทุนฉุกเฉิน (Emergency Fund)</td><td>สินทรัพย์สภาพคล่อง / ค่าใช้จ่ายรายเดือน</td><td>3–6 เดือน</td></tr>
+        <tr><td>2</td><td>สภาพคล่องพื้นฐาน (Basic Liquidity)</td><td>สินทรัพย์สภาพคล่อง / ค่าใช้จ่ายรายเดือน</td><td>&gt; 1</td></tr>
+        <tr><td>3</td><td>สภาพคล่องต่อ Net Worth</td><td>สินทรัพย์สภาพคล่อง / Net Worth</td><td>≥ 15%</td></tr>
+        <tr><td>4</td><td>หนี้ต่อสินทรัพย์ (Debt-to-Asset)</td><td>หนี้สินรวม / สินทรัพย์รวม</td><td>&lt; 50%</td></tr>
+        <tr><td>5</td><td>Debt Service Ratio</td><td>ค่างวดหนี้รวม / รายได้สุทธิรายเดือน</td><td>≤ 35–40%</td></tr>
+        <tr><td>6</td><td>Non-mortgage Debt Service</td><td>ค่างวดหนี้ไม่ใช่บ้าน / รายได้สุทธิรายเดือน</td><td>&lt; 15%</td></tr>
+        <tr><td>7</td><td>Savings Ratio</td><td>เงินออมรายเดือน / รายได้รวมรายเดือน (Gross)</td><td>&gt; 10%</td></tr>
+        <tr><td>8</td><td>Investment Ratio</td><td>สินทรัพย์เพื่อการลงทุน / Net Worth</td><td>&gt; 50% (ใกล้เกษียณ)</td></tr>
+      </table>
+      <h4>งบประมาณส่วนบุคคล (Personal Budget)</h4>
+      <div class="code-block">โอกาสบรรลุเป้าหมายทางการเงิน?
+  → ได้  : จัดทำงบประมาณรายเดือน
+  → ไม่ได้: เพิ่มรายได้ / ลดรายจ่าย / ชะลอเป้าหมาย → เพิ่มกระแสเงินสดสุทธิ</div>
+    </div>
+    <div class="card">
+      <h3>⚖️ T4-00B: ความเสี่ยง 3 ประเภท + Asset Allocation เบื้องต้น</h3>
+      <h4>ความเสี่ยง 3 ประเภทที่ต้องวิเคราะห์</h4>
+      <table>
+        <tr><th>ประเภท</th><th>ตัวอย่าง</th></tr>
+        <tr><td>ความเสี่ยงส่วนบุคคล (Personal Risk)</td><td>เสียชีวิต · ทุพพลภาพ · ตกงาน · โรคร้ายแรง</td></tr>
+        <tr><td>ความเสี่ยงทรัพย์สิน (Property Risk)</td><td>ทรัพย์สินถูกทำลาย · สูญหาย · ถูกขโมย</td></tr>
+        <tr><td>ความเสี่ยงหนี้สิน (Liability Risk)</td><td>ถูกฟ้องร้อง · ต้องชดใช้ค่าเสียหายแก่ผู้อื่น</td></tr>
+      </table>
+      <h4>Asset Allocation เบื้องต้นตามระดับความเสี่ยง</h4>
+      <table>
+        <tr><th>ระดับ</th><th>หุ้น</th><th>ตราสารหนี้</th></tr>
+        <tr><td>Conservative (ต่ำ)</td><td>0–30%</td><td>70–100%</td></tr>
+        <tr><td>Moderate (ปานกลาง)</td><td>40–60%</td><td>40–60%</td></tr>
+        <tr><td>Aggressive (สูง)</td><td>70–100%</td><td>0–30%</td></tr>
+      </table>
+      <h4>⭐ เครื่องมือ Cash Management</h4>
+      <table>
+        <tr><th>เครื่องมือ</th><th>ลักษณะ</th><th>ข้อดี</th></tr>
+        <tr><td>บัญชีออมทรัพย์</td><td>ถอนได้ตลอด</td><td>สภาพคล่องสูงสุด</td></tr>
+        <tr><td>บัญชีกระแสรายวัน (OD)</td><td>เบิกได้ทันที</td><td>ใช้สำหรับธุรกรรม</td></tr>
+        <tr><td>NCD</td><td>เปลี่ยนมือได้</td><td>ดอกเบี้ยสูงกว่าออมทรัพย์</td></tr>
+        <tr><td>ตั๋วเงินคลัง (T-Bill)</td><td>รัฐบาลออก</td><td>ความเสี่ยงต่ำมาก</td></tr>
+        <tr><td>กองทุนตลาดเงิน (MMF)</td><td>ลงทุนตราสารระยะสั้น</td><td>สภาพคล่องสูง ดอกเบี้ยดี</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>💳 T4-01: สินเชื่อระยะสั้น (Short-term Credit)</h3>
+      <table>
+        <tr><th>ประเภท</th><th>รายละเอียด</th><th>หมายเหตุ</th></tr>
+        <tr><td>Credit Card (Revolving)</td><td>วงเงินหมุนเวียน · ดอกเบี้ยสูงสุด 20% ต่อปี · จ่ายขั้นต่ำ 5–10% · Grace Period 45–55 วัน</td><td>ชำระเต็มก่อน due ไม่เสียดอกเบี้ย</td></tr>
+        <tr><td>Overdraft (OD)</td><td>เบิกเกินบัญชี ดอกเบี้ยคิดรายวัน · MLR + ส่วนเพิ่ม</td><td>คิดดอกเบี้ยเฉพาะยอดที่ใช้</td></tr>
+        <tr><td>Personal Loan (Unsecured)</td><td>ไม่มีหลักประกัน ดอกเบี้ย 25–28%/ปี</td><td>ใช้เงินเดือนค้ำ</td></tr>
+      </table>
+      <h3 style="margin-top:16px">🏠 T4-01: สินเชื่อระยะยาว (Long-term Credit)</h3>
+      <table>
+        <tr><th>ประเภท</th><th>Fixed Rate</th><th>Variable Rate</th><th>Mixed Rate</th></tr>
+        <tr><td>ลักษณะ</td><td>อัตราคงที่ตลอด</td><td>ปรับตาม MRR/MLR</td><td>ช่วงแรกคงที่ แล้วลอยตัว</td></tr>
+        <tr><td>ความแน่นอน</td><td>สูง วางแผนง่าย</td><td>ต่ำ ขึ้นลงตามตลาด</td><td>ปานกลาง</td></tr>
+        <tr><td>เหมาะกับ</td><td>ล็อกดอกเบี้ยต่ำนาน</td><td>คาดว่าดอกเบี้ยจะลง</td><td>มั่นคงช่วงแรก</td></tr>
+      </table>
+      <h4>Amortization ประเภท</h4>
+      <table>
+        <tr><th>ประเภท</th><th>วิธีตัดชำระ</th></tr>
+        <tr><td>Simple (Straight-line)</td><td>ตัดเงินต้นเท่ากันทุกงวด ดอกเบี้ยลดเรื่อยๆ</td></tr>
+        <tr><td>Constant Payment (Annuity)</td><td>ค่างวดเท่ากัน ดอกเบี้ยลด เงินต้นเพิ่ม (กู้บ้านทั่วไป)</td></tr>
+        <tr><td>Balloon</td><td>ค่างวดต่ำ จ่ายก้อนใหญ่ตอนท้าย</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>🧮 T4-02: ฝึกคำนวณ Cost of Credit (ทุกโจทย์)</h3>
+      <h4>โจทย์ 1 — Simple Interest: กู้ 500,000 @ 10%/ปี ผ่อน 1 งวด ดาวน์ 120,000</h4>
+      <div class="formula-card">
+        A: ดอกเบี้ย = 500,000 × 10% = <b>50,000 บาท</b><br>
+        B: เงินที่นำไปลงทุน (กู้สุทธิ หักดาวน์+ดอก) = 120,000 − 50,000 = <b>70,000 บาท</b><br>
+        C: แนะนำเหลือ = 500,000 − 70,000 = <b>430,000 บาท</b>
+      </div>
+      <h4>โจทย์ 2 — Simple (ส่วนบุคคล): กู้ 100,000 @ 20%/ปี ผ่อนเดือนละ 3,000</h4>
+      <div class="formula-card">
+        A: ดอกเบี้ย = 100,000 × 20%/12 = <b>1,666.67 บาท/เดือน</b><br>
+        B: ตัดเงินต้น = 3,000 − 1,666.67 = <b>1,333.33 บาท/เดือน</b><br>
+        C: เหลือเงินต้น = 100,000 − 1,333.33 = <b>98,666.67 บาท</b>
+      </div>
+      <h4>โจทย์ 3 — Simple: กู้ 50,000 @ 20%/ปี ค่างวด 1,500/เดือน</h4>
+      <div class="formula-card">
+        A: ดอกเบี้ย (เดือนแรก) = 50,000 × 20%/12 = <b>833.33 บาท</b><br>
+        B: ตัดเงินต้น = 1,500 − 833.33 = <b>666.67 บาท</b><br>
+        C: เหลือเงินต้น = 50,000 − 666.67 = <b>49,333.33 บาท</b>
+      </div>
+      <h4>โจทย์ 4 — Discount Method: กู้ 100,000 @ 15%/ปี ⭐</h4>
+      <div class="formula-card">
+        A: ดอกเบี้ย = 100,000 × 15% = <b>15,000 บาท</b><br>
+        B: เงินที่ได้รับจริง = 100,000 − 15,000 = <b>85,000 บาท</b><br>
+        C: True rate = 15,000 / 85,000 = <b>17.65% ต่อปี ★ (True > Stated)</b>
+      </div>
+      <h4>โจทย์ 5 — Discount (บัตรเครดิต): 30,000 @ 3%/เดือน + 15%/ปี คืนใน 29 วัน</h4>
+      <div class="formula-card">
+        A: ดอกเบี้ย = 30,000 × 15%/365 × 29 = 368.22 · ค่าธรรมเนียม = 30,000 × 3% = 900<br>
+        เงินที่ได้รับจริง = <b>30,000 บาท</b><br>
+        B: True rate = (368.22 + 900) / 30,000 × 365/29 = <b>53.94% ต่อปี</b>
+      </div>
+      <h4>โจทย์ 6 — Add-on (Flat Rate): ซื้อรถ 800,000 ดาวน์ 20% ผ่อน 5 ปี @ 2.5% ⭐</h4>
+      <div class="formula-card">
+        A: ยอดกู้ = 800,000 × 0.8 = <b>640,000 บาท</b><br>
+        B: ดอกเบี้ยทั้งหมด = 640,000 × 2.5% × 5 ปี = <b>80,000 บาท</b><br>
+        C: ค่างวด = (640,000 + 80,000) / 60 เดือน = <b>12,000 บาท/เดือน ✅</b>
+      </div>
+      <h4>⭐ สรุปเปรียบเทียบ</h4>
+      <table>
+        <tr><th>วิธี</th><th>True Rate vs Stated Rate</th></tr>
+        <tr><td>Simple Interest</td><td>True = Stated (เท่ากัน)</td></tr>
+        <tr><td>Discount Method</td><td>True &gt; Stated (รับเงินน้อยกว่า)</td></tr>
+        <tr><td>Add-on / Flat Rate</td><td>True ≈ 2× Stated (กฎประมาณ)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>⭐ T4-03: จุดสำคัญที่มักออกสอบ</h3>
+      <ul class="note-list">
+        <li><b>กองทุนฉุกเฉิน</b> = 3–6 เดือนของ <b>ค่าใช้จ่าย</b> (ไม่ใช่รายได้) · อาชีพมั่นคง = 3 เดือน · อาชีพอิสระ = 6 เดือน</li>
+        <li><b>Debt Service ≤ 35–40%</b> = รวมทุกหนี้ (บ้าน+รถ+อื่นๆ) / <b>รายได้สุทธิ (Net Income)</b> · Non-mortgage &lt; 15%</li>
+        <li><b>Add-on Rate 5% ≈ True Rate ~10%</b> (คูณ 2 โดยประมาณ) · หา True Rate แน่ๆ ต้องใช้ Calculator (IRR)</li>
+        <li><b>Discount Method:</b> รับเงินน้อยกว่า True Rate สูงกว่า Stated เสมอ</li>
+        <li><b>บัตรเครดิต:</b> จ่ายเต็มก่อน due date ไม่เสียดอกเบี้ยเลย (Grace Period) · ดอกเบี้ยสูงสุด 20%/ปี ตาม ธปท.</li>
+        <li><b>NCD ≠ เงินฝากประจำ:</b> NCD เปลี่ยนมือได้ → Liquid Asset · เงินฝากประจำ เปลี่ยนมือไม่ได้ แต่ก็ยังเป็น Liquid</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="t4-images" class="tab-panel">
+    <div class="img-gallery">
+      <div class="img-card" onclick="openLB('สรุปCFP/T4_01_สินเชื่อ_ShortTerm_LongTerm.jpg','T4-01: สินเชื่อ Short/Long Term')">
+        <img src="สรุปCFP/T4_01_สินเชื่อ_ShortTerm_LongTerm.jpg" alt="T4-01" loading="lazy">
+        <div class="img-label">T4-01: สินเชื่อ Short/Long Term</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T4_02_ฝึกคำนวณ_CostOfCredit.jpg','T4-02: ฝึกคำนวณ Cost of Credit')">
+        <img src="สรุปCFP/T4_02_ฝึกคำนวณ_CostOfCredit.jpg" alt="T4-02" loading="lazy">
+        <div class="img-label">T4-02: ฝึกคำนวณ Cost of Credit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── T5 ─── -->
+<div id="page-t5" class="page">
+  <div class="page-header">
+    <div class="topic-badge" style="background:var(--t5b);color:var(--t5)">TOPIC 5</div>
+    <div>
+      <h2 style="color:var(--t5)">ภาษีเงินได้บุคคลธรรมดา</h2>
+      <div class="subtitle">ม.40(1)–(8) · ค่าลดหย่อน 22 รายการ · อัตราขั้นบันได 8 ขั้น</div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(this,'t5','notes')">📝 Notes</button>
+    <button class="tab-btn" onclick="switchTab(this,'t5','images')">🖼️ รูปสรุป (9)</button>
+  </div>
+
+  <div id="t5-notes" class="tab-panel active">
+    <div class="card">
+      <h3>🧾 T5-01/02: ภาษีเงินได้บุคคลธรรมดา — ภาพรวม</h3>
+      <h4>ผู้มีหน้าที่เสียภาษี</h4>
+      <table>
+        <tr><th>ประเภท</th><th>หมายเหตุ</th></tr>
+        <tr><td>บุคคลธรรมดา</td><td>มีเงินได้ตามมาตรา 40 ทุกประเภท</td></tr>
+        <tr><td>ห้างหุ้นส่วนสามัญ / คณะบุคคล</td><td>ที่ไม่ใช่นิติบุคคล</td></tr>
+        <tr><td>กองมรดก</td><td>ที่ยังไม่ได้แบ่ง</td></tr>
+      </table>
+      <h4>โครงสร้างภาษี (ขั้นตอน)</h4>
+      <table>
+        <tr><th>#</th><th>รายการ</th></tr>
+        <tr><td>1</td><td>เงินได้พึงประเมิน (ทุก ม.40)</td></tr>
+        <tr><td>2</td><td>หัก: ค่าใช้จ่าย (ตามมาตรา)</td></tr>
+        <tr><td>3</td><td>หัก: ค่าลดหย่อน</td></tr>
+        <tr><td>4</td><td>= เงินได้สุทธิ</td></tr>
+        <tr><td>5</td><td>× อัตราภาษีขั้นบันได</td></tr>
+        <tr><td>6</td><td>เทียบกับ 0.5% Method (ถ้าเงินได้ &gt; 1 ล้าน)</td></tr>
+      </table>
+      <h4>กำหนดการยื่นแบบ</h4>
+      <table>
+        <tr><th>แบบ</th><th>กำหนด</th><th>ใครยื่น</th></tr>
+        <tr><td>ภ.ง.ด.90</td><td>31 มีนาคม (ออนไลน์ 8 เม.ย.)</td><td>มีเงินได้นอกจาก 40(1)</td></tr>
+        <tr><td>ภ.ง.ด.91</td><td>31 มีนาคม (ออนไลน์ 8 เม.ย.)</td><td>เฉพาะ 40(1) เงินเดือน</td></tr>
+        <tr><td>ภ.ง.ด.94</td><td>30 กันยายน</td><td>ม.40(5)–(8) ครึ่งปี</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>🌏 T5-03: หลักการจัดเก็บภาษีระหว่างประเทศ (3 หลัก)</h3>
+      <table>
+        <tr><th>หลัก</th><th>เงื่อนไข</th><th>ต้องเสียภาษีไทย?</th></tr>
+        <tr><td><b>1. หลักแหล่งเงินได้</b><br>(Source Rule)</td><td>มีเงินได้จากไทย ไม่ว่าจะอยู่ที่ไหน</td><td>✅ ต้องเสียภาษีไทย (เงินได้ในไทย)</td></tr>
+        <tr><td><b>2. หลักถิ่นที่อยู่</b><br>(Residence Rule)</td><td>อยู่ในไทย ≥ 180 วันในปีภาษีนั้น</td><td>✅ เสียภาษีทั้งเงินได้ในและนอกไทย</td></tr>
+        <tr><td><b>3. หลักสัญชาติ</b><br>(Nationality Rule)</td><td>มีสัญชาติไทย</td><td>⛔ ไทยไม่ใช้หลักนี้ (สหรัฐใช้)</td></tr>
+      </table>
+      <h4>กฎ 180 วัน — ตัวอย่างปี 67</h4>
+      <table>
+        <tr><th>กรณี</th><th>ผล</th></tr>
+        <tr><td>16 ก.ค. – 31 ธ.ค. 67 (× 180 วัน): บุกเบิกเข้ามา ไม่เสียภาษี</td><td>ไม่เสีย (น้อยกว่า 180 วัน)</td></tr>
+        <tr><td>1 ม.ค. – 31 ธ.ค. 68 (&gt; 180 วัน): ถิ่นประจำ + อยู่เกิน 180 วัน</td><td>เสียภาษีไทย</td></tr>
+        <tr><td>1 ม.ค. – 30 พ.ย. 69 (≥ 180 วัน): บ้านอยู่จากปาก (เกิดนอก) + อยู่ไทย ≥ 180 วัน</td><td>เสียภาษีไทย !!</td></tr>
+      </table>
+      <h4>⭐ กฎใหม่ 1 ม.ค. 2567</h4>
+      <div class="formula-card">
+        เงินได้<b>ก่อน 1 ม.ค. 67</b>: เก็บมาแล้ว ปี 62 → ไม่ต้องเสียภาษี<br>
+        เงินได้<b>หลัง 1 ม.ค. 67</b>: ถ้าอยู่ไทย ≥ 180 วัน → เสียภาษีไทย ไม่ว่านำเงินเข้าปีไหน
+      </div>
+      <h4>กฎหมายที่กำหนดอำนาจการเก็บภาษี</h4>
+      <table>
+        <tr><th>กฎหมาย</th><th>ขอบเขต</th></tr>
+        <tr><td>รัฐธรรมนูญ</td><td>กำหนดหลักการ</td></tr>
+        <tr><td>พ.ร.บ. ประกอบรัฐธรรมนูญ (พ.ร.บ.)</td><td>กฎหมายลูก</td></tr>
+        <tr><td>พระราชกฤษฎีกา</td><td>ฝ่ายบริหาร ลด/ยกเว้นภาษีหมวดบน</td></tr>
+        <tr><td>กฎกระทรวง</td><td>สรรพากรกำหนด</td></tr>
+        <tr><td>ข้อบังคับพิเศษอื่นๆ</td><td>หน่วยงาน ศาลสิ้น ระเบียบ ที่เก็บของ</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>📂 T5-04: เงินได้พึงประเมิน ม.40 และค่าใช้จ่าย</h3>
+      <table>
+        <tr><th>มาตรา</th><th>ประเภทเงินได้</th><th>ค่าใช้จ่ายหักได้</th></tr>
+        <tr><td>40(1)</td><td>เงินเดือน ค่าจ้าง โบนัส</td><td>50% ไม่เกิน 100,000 บาท</td></tr>
+        <tr><td>40(2)</td><td>ค่าจ้างทำของ ค่านายหน้า</td><td>50% ไม่เกิน 100,000 บาท</td></tr>
+        <tr><td>40(3)</td><td>ค่าแห่งกู๊ดวิลล์ ค่าลิขสิทธิ์ สิทธิต่างๆ</td><td>50% ไม่เกิน 100,000 บาท</td></tr>
+        <tr><td>40(4)(ก)</td><td>ดอกเบี้ย</td><td>ไม่มี (หักไม่ได้)</td></tr>
+        <tr><td>40(4)(ข)</td><td>เงินปันผล ส่วนแบ่งกำไร</td><td>ไม่มี</td></tr>
+        <tr><td>40(5)</td><td>ค่าเช่าทรัพย์สิน</td><td>ตามจริง หรือเหมา 10–30%</td></tr>
+        <tr><td>40(6)</td><td>วิชาชีพอิสระ</td><td>ทางแรง 60% / ทางนั่ง 30%</td></tr>
+        <tr><td>40(7)</td><td>รับเหมา (แรงงาน+อุปกรณ์)</td><td>ตามจริง หรือเหมา 70%</td></tr>
+        <tr><td>40(8)</td><td>เงินได้อื่นๆ (ธุรกิจทั่วไป)</td><td>ตามจริง หรือเหมา</td></tr>
+      </table>
+      <p style="color:var(--t5);font-size:.85rem">⭐ ม.40(1)+(2) รวมกัน หักได้สูงสุด 100,000 บาท (ไม่ใช่คนละ 100K)</p>
+      <h4>ม.40(5) ค่าเช่า — ค่าใช้จ่ายตามประเภทสินทรัพย์</h4>
+      <table>
+        <tr><th>ประเภทสินทรัพย์</th><th>ค่าใช้จ่ายหักได้</th></tr>
+        <tr><td>บ้าน โรงเรือน สิ่งปลูกสร้าง แพ</td><td>30%</td></tr>
+        <tr><td>เรือขนาด ≥ 6 ตันกรอส</td><td>30%</td></tr>
+        <tr><td>เรือขนาด &lt; 6 ตันกรอส</td><td>20%</td></tr>
+        <tr><td>ยานพาหนะ</td><td>30%</td></tr>
+        <tr><td>ทรัพย์สินอื่นๆ</td><td>10%</td></tr>
+      </table>
+      <h4>ม.40(6) วิชาชีพอิสระ — ทางแรง vs ทางนั่ง</h4>
+      <table>
+        <tr><th>ประเภท</th><th>วิชาชีพ</th><th>ค่าใช้จ่ายเหมา</th></tr>
+        <tr><td>ทางแรง</td><td>แพทย์ ทันตแพทย์ สัตวแพทย์ เภสัชกร ทนาย วิศวกร</td><td>60%</td></tr>
+        <tr><td>ทางนั่ง</td><td>นักบัญชี สถาปนิก วิจิตรศิลป์ ช่างภาพ</td><td>30%</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>🎁 T5-05: เงินได้ยกเว้นภาษี (สำคัญมาก)</h3>
+      <table>
+        <tr><th>รายการ</th><th>วงเงิน / เงื่อนไข</th></tr>
+        <tr><td>ดอกเบี้ยเงินฝากออมทรัพย์</td><td>≤ 20,000 บาท/ปี ยกเว้น</td></tr>
+        <tr><td>PVD — เงินสะสม+สมทบ</td><td>ยกเว้นขณะสะสม</td></tr>
+        <tr><td>PVD — รับเงิน</td><td>ยกเว้น ถ้าอายุ ≥ 55 + เป็นสมาชิก ≥ 5 ปี</td></tr>
+        <tr><td>RMF — กำไร</td><td>ยกเว้น ถ้าถือ ≥ 5 ปีปฏิทิน + อายุ ≥ 55</td></tr>
+        <tr><td>ค่าชดเชยเลิกจ้าง</td><td>ยกเว้นตามกฎหมายแรงงาน (บางส่วน)</td></tr>
+        <tr><td>เงินรับมรดก</td><td>ยกเว้นภาษีเงินได้บุคคลธรรมดา</td></tr>
+        <tr><td>รางวัลสลากกินแบ่งรัฐบาล</td><td>หัก ณ ที่จ่าย 1% (Final Tax)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>💰 T5-06: ค่าลดหย่อนทั่วไป (ครบทุกรายการ)</h3>
+      <h4>ส่วนตัวและครอบครัว</h4>
+      <table>
+        <tr><th>รายการ</th><th>จำนวน (บาท)</th><th>เงื่อนไข</th></tr>
+        <tr><td>ผู้มีเงินได้ (ส่วนตัว)</td><td>60,000</td><td>ทุกคน</td></tr>
+        <tr><td>คู่สมรส (ไม่มีเงินได้)</td><td>60,000</td><td>จดทะเบียน ไม่มีรายได้</td></tr>
+        <tr><td>บุตร (คนที่ 1–2)</td><td>30,000/คน</td><td>อายุ &lt; 20 หรือเรียนหนังสือ</td></tr>
+        <tr><td>บุตรคนที่ 2 (เกิดปี 61+)</td><td>60,000</td><td>นโยบายส่งเสริมการมีบุตร</td></tr>
+        <tr><td>บิดา/มารดา (ตัวเอง)</td><td>30,000/คน</td><td>อายุ ≥ 60 รายได้ &lt; 30,000/ปี</td></tr>
+        <tr><td>บิดา/มารดา (คู่สมรส)</td><td>30,000/คน</td><td>เงื่อนไขเดียวกัน</td></tr>
+        <tr><td>ทุพพลภาพ/พิการ</td><td>60,000</td><td>เพิ่มเติมจากปกติ</td></tr>
+      </table>
+      <h4>ประกันชีวิต &amp; สุขภาพ</h4>
+      <table>
+        <tr><th>รายการ</th><th>สูงสุด (บาท)</th><th>เงื่อนไข</th></tr>
+        <tr><td>ประกันชีวิตทั่วไป (ตัวเอง)</td><td>100,000</td><td>คุ้มครอง ≥ 10 ปี</td></tr>
+        <tr><td>ประกันสุขภาพ (ตัวเอง)</td><td>25,000</td><td>รวมกับชีวิตไม่เกิน 100,000</td></tr>
+        <tr><td>ประกันชีวิต (คู่สมรส)</td><td>10,000</td><td>คู่สมรสไม่มีรายได้</td></tr>
+        <tr><td>ประกันสุขภาพ (พ่อแม่)</td><td>15,000</td><td>รวมกับของตัวเอง</td></tr>
+        <tr><td>ประกันบำนาญ</td><td>200,000</td><td>คุ้มครอง ≥ 10 ปี · นับรวม Retirement limit 500K</td></tr>
+      </table>
+      <h4>อื่นๆ</h4>
+      <table>
+        <tr><th>รายการ</th><th>สูงสุด (บาท)</th></tr>
+        <tr><td>ดอกเบี้ยเงินกู้บ้าน</td><td>100,000/ปี</td></tr>
+        <tr><td>ซื้อบ้านหลังแรก (สัญญา ≤ 5 ล้าน)</td><td>10% × ราคาบ้าน แบ่ง 5 ปี</td></tr>
+        <tr><td>ประกันสังคม</td><td>ตามจริง (max ~9,000)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>📈 T5-07: ค่าลดหย่อนด้านออมและลงทุน</h3>
+      <table>
+        <tr><th>รายการ</th><th>เงื่อนไข</th><th>วงเงินสูงสุด</th></tr>
+        <tr><td>PVD</td><td>≤ 15% เงินได้</td><td>500,000</td></tr>
+        <tr><td>กบข.</td><td>≤ 30% เงินเดือน</td><td>500,000</td></tr>
+        <tr><td>กอช. (กองทุนออมแห่งชาติ)</td><td>ตามจริง</td><td>13,200</td></tr>
+        <tr><td>RMF</td><td>≤ 30% เงินได้</td><td>500,000</td></tr>
+        <tr><td>SSF</td><td>≤ 30% เงินได้</td><td>200,000</td></tr>
+        <tr><td>ประกันบำนาญ</td><td>≤ 15% เงินได้</td><td>200,000</td></tr>
+        <tr><td>Thai ESG</td><td>≤ 30% เงินได้</td><td>300,000</td></tr>
+      </table>
+      <p style="color:var(--t5);font-size:.9rem">⭐ PVD + กบข. + ประกันบำนาญ + RMF + กอช. รวมกัน <b>≤ 500,000 บาท</b></p>
+      <h4>เงื่อนไข RMF / SSF / Thai ESG</h4>
+      <table>
+        <tr><th>เงื่อนไข</th><th>RMF</th><th>SSF</th><th>Thai ESG</th></tr>
+        <tr><td>ซื้อต่อเนื่อง</td><td>ทุกปี (ห้ามเว้น)</td><td>ไม่บังคับ</td><td>ไม่บังคับ</td></tr>
+        <tr><td>อายุถือขั้นต่ำ</td><td>5 ปีปฏิทิน + อายุ ≥ 55</td><td>10 ปีปฏิทิน</td><td>5 ปีปฏิทิน (วันชนวัน)</td></tr>
+        <tr><td>Switch ได้ไหม</td><td>Switch ระหว่าง RMF ได้</td><td>ไม่ Switch ไป RMF</td><td>—</td></tr>
+      </table>
+      <p style="background:rgba(255,200,50,.15);border-left:3px solid #f5a623;padding:.5rem .75rem;border-radius:4px;font-size:.85rem;margin-top:.5rem">
+        📌 <b>Remark — RMF ปีเว้นปี:</b> บางแหล่งข้อมูล (เช่น สรรพากร) ระบุว่า RMF ซื้อ "ทุกปีหรือปีเว้นปี" ได้ หากปีใดไม่มีเงินได้ แต่ตาม <b>หลักสูตร CFP1</b> ถือว่าต้องซื้อทุกปีที่มีเงินได้ (ห้ามเว้น) — ควรศึกษาแนวข้อสอบของ ThaiPFA เพิ่มเติม
+      </p>
+    </div>
+    <div class="card">
+      <h3>🔢 T5-09: การคำนวณภาษี — สูตรและตารางขั้นบันได</h3>
+      <h4>สูตรหลัก</h4>
+      <div class="formula-card">
+        <b>เงินภาษีที่ต้องจ่าย</b> = อัตราภาษี × เงินได้สุทธิ<br>
+        <b>เงินได้สุทธิ</b> = (เงินได้พึงประเมิน − เงินได้ยกเว้น) − ค่าใช้จ่าย − ค่าลดหย่อน
+      </div>
+      <h4>ตารางขั้นบันได</h4>
+      <table>
+        <tr><th>เงินได้สุทธิ (บาท/ปี)</th><th>อัตรา</th><th>ภาษีสะสมตั้งแต่ต้น</th></tr>
+        <tr><td>0 – 150,000</td><td>0% (ยกเว้น)</td><td>0</td></tr>
+        <tr><td>150,001 – 300,000</td><td>5%</td><td>7,500</td></tr>
+        <tr><td>300,001 – 500,000</td><td>10%</td><td>27,500</td></tr>
+        <tr><td>500,001 – 750,000</td><td>15%</td><td>65,000</td></tr>
+        <tr><td>750,001 – 1,000,000</td><td>20%</td><td>115,000</td></tr>
+        <tr><td>1,000,001 – 2,000,000</td><td>25%</td><td>365,000</td></tr>
+        <tr><td>2,000,001 – 5,000,000</td><td>30%</td><td>1,265,000</td></tr>
+        <tr><td>&gt; 5,000,000</td><td>35%</td><td>—</td></tr>
+      </table>
+      <h4>วิธี 0.5% (ใช้เมื่อเงินได้พึงประเมิน &gt; 1 ล้าน นอกจาก ม.40(1))</h4>
+      <div class="formula-card">
+        ภาษี 0.5% = เงินได้พึงประเมินรวม × 0.5%<br>
+        → เลือกวิธีที่คำนวณได้<b>สูงกว่า</b>ระหว่าง ขั้นบันได กับ 0.5%
+      </div>
+      <h4>ETR และเครดิตภาษีเงินปันผล</h4>
+      <div class="formula-card">
+        <b>ETR</b> = ภาษีที่ชำระจริง / เงินได้ทั้งหมด<br>
+        <b>เครดิตภาษีเงินปันผล</b> = ปันผล × อัตราบริษัท / (1 − อัตราบริษัท)<br>
+        ตัวอย่าง: ปันผล 20 บาท บริษัทเสีย 20% → เครดิต = 20 × 20/80 = <b>5 บาท</b><br>
+        เงินได้รวม = 20 + 5 = 25 · ถ้าอัตราบุคคล &lt; 20% → ได้คืน
+      </div>
+    </div>
+    <div class="card">
+      <h3>🏠 T5-10: ภาษีขายอสังหาริมทรัพย์ + กรณีสามีภรรยา</h3>
+      <h4>ภาษีหัก ณ ที่จ่ายจากการขายอสังหาริมทรัพย์</h4>
+      <div class="code-block">ฐาน: ราคาประเมินจากกรมธนารักษ์ (ไม่ใช่ราคาซื้อขายจริง)
+
+ขั้นตอน:
+1. ดูจำนวนปีที่ถือครอง → ได้ % ค่าใช้จ่าย (ตามกฎหมาย)
+2. เงินได้สุทธิ = ราคาประเมิน − ค่าใช้จ่าย
+3. หาร ÷ จำนวนปีที่ถือ = เงินได้ต่อปี
+4. คำนวณภาษีตามขั้นบันได × จำนวนปี = ภาษีทั้งหมด</div>
+      <h4>กรณีสามีภรรยา (ม.57 ฉ) — 5 วิธียื่น</h4>
+      <table>
+        <tr><th>วิธี</th><th>รายละเอียด</th></tr>
+        <tr><td>1</td><td>รวมกัน — รวมเงินได้ทุกประเภทยื่นแบบเดียว</td></tr>
+        <tr><td>2</td><td>สามียื่นรวม ภรรยาแยกเฉพาะ ม.40(1)</td></tr>
+        <tr><td>3</td><td>ต่างคนต่างยื่น — แยกกันทั้งหมด</td></tr>
+        <tr><td>4</td><td>สามีแยก ม.40(1) ภรรยายื่นรวม</td></tr>
+        <tr><td>5</td><td>ต่างคนต่างยื่น ม.40(1) · รวมประเภทอื่น</td></tr>
+      </table>
+      <h4>ภาษีครึ่งปี (ม.56 ทวิ)</h4>
+      <ul class="note-list">
+        <li>เฉพาะผู้มีเงินได้ <b>ม.40(5)–(8)</b> ต้องยื่น ภ.ง.ด.94 ภายในเดือน <b>กันยายน</b></li>
+        <li>คำนวณจากเงินได้ครึ่งปีแรก (ม.ค.–มิ.ย.) × 2 → คำนวณภาษี → หารครึ่ง</li>
+        <li>ภาษีครึ่งปีที่ชำระแล้วนำไปหักออกจากภาษีทั้งปีในแบบ ภ.ง.ด.90</li>
+      </ul>
+      <h4>⭐ Quick Reference T5</h4>
+      <table>
+        <tr><th>หัวข้อ</th><th>ข้อมูลสำคัญ</th></tr>
+        <tr><td>เงินได้พึงประเมิน</td><td>8 ประเภท (ม.40(1)–(8))</td></tr>
+        <tr><td>ค่าลดหย่อน</td><td>22 รายการ</td></tr>
+        <tr><td>อัตราภาษีสูงสุด</td><td>35% (เงินได้สุทธิ > 5 ล้าน)</td></tr>
+        <tr><td>เงินได้สุทธิไม่เสียภาษี</td><td>≤ 150,000 บาท</td></tr>
+        <tr><td>วิธีคำนวณ</td><td>2 วิธี → เลือกวิธีที่สูงกว่า</td></tr>
+        <tr><td>Limit รวม Retirement Fund</td><td>PVD + กบข. + ประกันบำนาญ + RMF + กอช. ≤ 500,000 บาท</td></tr>
+        <tr><td>Final Tax ดอกเบี้ย</td><td>15%</td></tr>
+        <tr><td>Final Tax เงินปันผล</td><td>10% (หรือเลือกนำมารวมคำนวณ)</td></tr>
+        <tr><td>ม.56 ทวิ ครึ่งปี</td><td>ยื่น ก.ย. เฉพาะ ม.40(5)–(8)</td></tr>
+        <tr><td>กรณีสามีภรรยา</td><td>5 วิธียื่น (ม.57 ฉ)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="t5-images" class="tab-panel">
+    <div class="img-gallery">
+      <div class="img-card" onclick="openLB('สรุปCFP/T5_01_แหล่งเงินได้_ฐานะผู้เสียภาษี.jpg','T5-01: แหล่งเงินได้ & ฐานะผู้เสียภาษี')">
+        <img src="สรุปCFP/T5_01_แหล่งเงินได้_ฐานะผู้เสียภาษี.jpg" alt="T5-01" loading="lazy">
+        <div class="img-label">T5-01: แหล่งเงินได้ &amp; ฐานะผู้เสียภาษี</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T5_02_ผู้มีหน้าที่เสียภาษี_โครงสร้าง.jpg','T5-02: ผู้มีหน้าที่เสียภาษี & โครงสร้าง')">
+        <img src="สรุปCFP/T5_02_ผู้มีหน้าที่เสียภาษี_โครงสร้าง.jpg" alt="T5-02" loading="lazy">
+        <div class="img-label">T5-02: ผู้มีหน้าที่เสียภาษี &amp; โครงสร้าง</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T5_03_แหล่งเงินได้_ระหว่างประเทศ.jpg','T5-03: แหล่งเงินได้ระหว่างประเทศ')">
+        <img src="สรุปCFP/T5_03_แหล่งเงินได้_ระหว่างประเทศ.jpg" alt="T5-03" loading="lazy">
+        <div class="img-label">T5-03: แหล่งเงินได้ระหว่างประเทศ</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T5_04_เงินได้พึงประเมิน_ค่าใช้จ่าย.jpg','T5-04: เงินได้พึงประเมิน & ค่าใช้จ่าย')">
+        <img src="สรุปCFP/T5_04_เงินได้พึงประเมิน_ค่าใช้จ่าย.jpg" alt="T5-04" loading="lazy">
+        <div class="img-label">T5-04: เงินได้พึงประเมิน &amp; ค่าใช้จ่าย</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T5_05_เงินได้ยกเว้นภาษี.jpg','T5-05: เงินได้ยกเว้นภาษี')">
+        <img src="สรุปCFP/T5_05_เงินได้ยกเว้นภาษี.jpg" alt="T5-05" loading="lazy">
+        <div class="img-label">T5-05: เงินได้ยกเว้นภาษี</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T5_06_ค่าลดหย่อนทั่วไป.jpg','T5-06: ค่าลดหย่อนทั่วไป')">
+        <img src="สรุปCFP/T5_06_ค่าลดหย่อนทั่วไป.jpg" alt="T5-06" loading="lazy">
+        <div class="img-label">T5-06: ค่าลดหย่อนทั่วไป</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T5_07_ค่าลดหย่อนออมและลงทุน.jpg','T5-07: ค่าลดหย่อนออมและลงทุน')">
+        <img src="สรุปCFP/T5_07_ค่าลดหย่อนออมและลงทุน.jpg" alt="T5-07" loading="lazy">
+        <div class="img-label">T5-07: ค่าลดหย่อนออมและลงทุน</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T5_08_40(6)_ทางแรงทางนั่ง.jpg','T5-08: ม.40(6) ทางแรง vs ทางนั่ง')">
+        <img src="สรุปCFP/T5_08_40(6)_ทางแรงทางนั่ง.jpg" alt="T5-08" loading="lazy">
+        <div class="img-label">T5-08: ม.40(6) ทางแรง vs ทางนั่ง</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T5_09_การคำนวณภาษี_เงินได้สุทธิ.jpg','T5-09: การคำนวณภาษี เงินได้สุทธิ')">
+        <img src="สรุปCFP/T5_09_การคำนวณภาษี_เงินได้สุทธิ.jpg" alt="T5-09" loading="lazy">
+        <div class="img-label">T5-09: การคำนวณภาษี — เงินได้สุทธิ</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── T6 ─── -->
+<div id="page-t6" class="page">
+  <div class="page-header">
+    <div class="topic-badge" style="background:var(--t6b);color:var(--t6)">TOPIC 6</div>
+    <div>
+      <h2 style="color:var(--t6)">มูลค่าเงินตามเวลา (TVM)</h2>
+      <div class="subtitle">Lump Sum · Annuity · EIR · Rule of 72 · Financial Calculator</div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(this,'t6','notes')">📝 Notes</button>
+    <button class="tab-btn" onclick="switchTab(this,'t6','images')">🖼️ รูปสรุป (8)</button>
+  </div>
+
+  <div id="t6-notes" class="tab-panel active">
+    <div class="card">
+      <h3>💡 T6-00: แนวคิดพื้นฐาน TVM</h3>
+      <h4>ทำไมเงินในวันนี้มีค่ามากกว่าเงินในอนาคต?</h4>
+      <p style="font-size:.95rem;margin-bottom:.75rem"><b>เหตุผล 3 ประการที่ดอกเบี้ยมีอยู่:</b></p>
+      <table>
+        <tr><th>เหตุผล</th><th>คำอธิบาย</th></tr>
+        <tr><td>🔥 เงินเฟ้อ (Inflation)</td><td>ราคาสินค้าสูงขึ้นตามเวลา → เงินจำนวนเดิมซื้อของได้น้อยลง</td></tr>
+        <tr><td>💰 ต้นทุนโอกาส (Opportunity Cost)</td><td>สละการบริโภคปัจจุบัน → ต้องได้รับค่าตอบแทน</td></tr>
+        <tr><td>⚠️ ความเสี่ยง (Risk)</td><td>อนาคตไม่แน่นอน → ต้องการ Premium สำหรับความไม่แน่นอน</td></tr>
+      </table>
+      <h4>TVM เป็นเครื่องมือเชื่อมโยง 3 สิ่ง:</h4>
+      <ul class="note-list">
+        <li>เป้าหมายทางการเงินในอนาคต (FV)</li>
+        <li>เงินลงทุนเริ่มต้นจำนวนหนึ่งในปัจจุบัน (PV)</li>
+        <li>เงินลงทุนเพิ่มเติมทุกๆ งวดเวลา (PMT)</li>
+      </ul>
+      <h4>ดอกเบี้ยอย่างง่าย vs ดอกเบี้ยทบต้น</h4>
+      <table>
+        <tr><th></th><th>Simple Interest</th><th>Compound Interest</th></tr>
+        <tr><td>เงินต้น</td><td>คงที่ตลอด</td><td>เพิ่มขึ้นทุกงวด</td></tr>
+        <tr><td>ดอกเบี้ยคิดบน</td><td>เงินต้นเดิมเสมอ</td><td>เงินต้น + ดอกเบี้ยสะสม</td></tr>
+        <tr><td>10,000 บาท 5% ปีที่ 1</td><td>500 บาท</td><td>500 บาท</td></tr>
+        <tr><td>10,000 บาท 5% ปีที่ 2</td><td>500 บาท</td><td>525 บาท (คิดบน 10,500)</td></tr>
+        <tr><td>รวม 2 ปี</td><td>1,000 บาท</td><td>1,025 บาท ⭐</td></tr>
+      </table>
+      <h4>แกนเวลา (Time Line) — อ่านทิศทาง Cash Flow</h4>
+      <div class="formula-card" style="font-family:monospace;font-size:.9rem">
+        −10,000 &nbsp;&nbsp; 100 &nbsp;&nbsp; 100 &nbsp;&nbsp; 100 &nbsp;&nbsp; 10,100 บาท<br>
+        &nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; │<br>
+        &nbsp;&nbsp;&nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4 &nbsp; (ณ สิ้นงวด)
+      </div>
+      <ul class="note-list">
+        <li><b>ตัวเลขติดลบ</b> = จ่ายเงินออก (Cash Outflow)</li>
+        <li><b>ตัวเลขบวก</b> = รับเงินเข้า (Cash Inflow)</li>
+        <li><b>0</b> = ปัจจุบัน (Present)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📐 T6-00B: สูตรสมบูรณ์ FV/PV Lump Sum + Multiple Cash Flows</h3>
+      <h4>มูลค่าอนาคต — เงินจำนวนเดียว (FV of Lump Sum)</h4>
+      <table>
+        <tr><th>กรณี</th><th>สูตร</th></tr>
+        <tr><td>อัตราดอกเบี้ยเท่ากันทุกงวด</td><td><b>FVₙ = PV × (1 + i)ⁿ</b></td></tr>
+        <tr><td>อัตราดอกเบี้ยต่างกันแต่ละงวด</td><td><b>FVₙ = PV × (1+i₁)(1+i₂)...(1+iₙ)</b></td></tr>
+        <tr><td>ทบต้น m ครั้ง/ปี</td><td><b>FVₙ = PV × (1 + i/m)^(nm)</b></td></tr>
+      </table>
+      <p style="font-size:.85rem;color:var(--muted)">ตัวอย่าง: ฝาก 10,000 บาท 4%/ปี ทบต้นทุก 6 เดือน 2 ปี (m=2, n=4) → FV = 10,000 × (1.02)⁴ = 10,824.32 บาท</p>
+      <h4>มูลค่าปัจจุบัน — เงินจำนวนเดียว (PV of Lump Sum)</h4>
+      <table>
+        <tr><th>กรณี</th><th>สูตร</th></tr>
+        <tr><td>อัตราดอกเบี้ยเท่ากันทุกงวด</td><td><b>PV = FVₙ / (1 + i)ⁿ</b></td></tr>
+        <tr><td>อัตราดอกเบี้ยต่างกันแต่ละงวด</td><td><b>PV = FVₙ / [(1+i₁)(1+i₂)...(1+iₙ)]</b></td></tr>
+        <tr><td>ทบต้น m ครั้ง/ปี</td><td><b>PV = FVₙ / (1 + i/m)^(nm)</b></td></tr>
+      </table>
+      <p style="font-size:.85rem;color:var(--muted)">ตัวอย่าง: ต้องการเงิน 100,000 บาท ใน 3 ปี อัตรา 8% ต่อปี → PV = 100,000 / (1.08)³ = 79,383.22 บาท</p>
+      <h4>กระแสเงินสดหลายจำนวนไม่เท่ากัน (Multiple / Unequal Cash Flows)</h4>
+      <p style="font-size:.9rem">คำนวณแต่ละกระแสเงินสดแยกกัน แล้วนำมารวมกัน</p>
+      <table>
+        <tr><th>หา FV ณ ปีที่ 3 (ดอกเบี้ย 4%)</th><th>หา PV (ดอกเบี้ย 4%)</th></tr>
+        <tr><td>ฝาก 10,000 วันนี้: 10,000 × (1.04)³ = 11,248.64</td><td>รับ 20,000 ปีที่ 1: 20,000 / (1.04)¹ = 19,230.77</td></tr>
+        <tr><td>ฝาก 20,000 ปีที่ 1: 20,000 × (1.04)² = 21,632.00</td><td>รับ 30,000 ปีที่ 2: 30,000 / (1.04)² = 27,736.69</td></tr>
+        <tr><td>ฝาก 30,000 ปีที่ 2: 30,000 × (1.04)¹ = 31,200.00</td><td></td></tr>
+        <tr><td><b>รวม FV = 64,080.64 บาท</b></td><td><b>รวม PV = 46,967.46 บาท</b></td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>⭐ T6-00C: สูตรสรุปทั้งหมด + จุดสำคัญออกสอบ</h3>
+      <h4>สูตรสรุปทั้งหมด 11 สูตร ⭐⭐⭐</h4>
+      <table>
+        <tr><th>สถานการณ์</th><th>สูตร</th></tr>
+        <tr><td>FV (lump sum, i เท่ากัน)</td><td><b>PV × (1+i)ⁿ</b></td></tr>
+        <tr><td>FV (lump sum, i ต่างกัน)</td><td><b>PV × (1+i₁)(1+i₂)...(1+iₙ)</b></td></tr>
+        <tr><td>FV (ทบต้น m ครั้ง/ปี)</td><td><b>PV × (1+i/m)^(nm)</b></td></tr>
+        <tr><td>PV (lump sum)</td><td><b>FVₙ / (1+i)ⁿ</b></td></tr>
+        <tr><td>FVA (Ordinary Annuity)</td><td><b>PMT × [(1+i)ⁿ−1] / i</b></td></tr>
+        <tr><td>PVA (Ordinary Annuity)</td><td><b>PMT × [1 − 1/(1+i)ⁿ] / i</b></td></tr>
+        <tr><td>FVAD (Annuity Due)</td><td><b>FVA × (1+i)</b></td></tr>
+        <tr><td>PVAD (Annuity Due)</td><td><b>PVA × (1+i)</b></td></tr>
+        <tr><td>Perpetuity</td><td><b>PMT / i</b></td></tr>
+        <tr><td>EIR</td><td><b>(1 + i/m)^m − 1</b></td></tr>
+        <tr><td>Rule of 72</td><td><b>T = 72 / r</b></td></tr>
+      </table>
+      <h4>จุดสำคัญที่มักออกสอบ T6 ⭐</h4>
+      <ul class="note-list">
+        <li><b>Annuity Due &gt; Ordinary Annuity เสมอ</b> → คูณด้วย (1+i) เพิ่ม เพราะแต่ละงวดทบต้นได้นาน 1 งวดกว่า</li>
+        <li><b>EIR สูงกว่า Nominal Rate เสมอ</b> เมื่อทบต้นมากกว่าปีละครั้ง</li>
+        <li><b>Rule of 72</b> — ใช้ประมาณเท่านั้น ไม่แม่นยำ 100% (เช่น 6% → 72/6 = 12 ปี)</li>
+        <li><b>Perpetuity</b> — เมื่อ n → ∞, PV = PMT/i (ง่ายมาก เช่น หุ้นบุริมสิทธิ์)</li>
+        <li><b>Add-on Rate</b> — ดอกเบี้ยที่แท้จริง ≈ Add-on × 2 (ประมาณ)</li>
+        <li><b>ทบต้นถี่กว่า → FV สูงกว่า</b> (ทบต้นทุกวัน &gt; ทุกเดือน &gt; ทุกปี)</li>
+        <li><b>คำนวณทุนเพื่อเกษียณ:</b> PV = ค่าใช้จ่ายต่อปี × PVIFAᵢ,ₙ (ใช้ PVA formula)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📊 T6-01: TVM พื้นฐาน — Compound Interest &amp; เครื่องคิดเลข</h3>
+      <h4>หลักการดอกเบี้ยทบต้น</h4>
+      <ul class="note-list">
+        <li>ในการลงทุนส่วนใหญ่ → อัตราดอกเบี้ยคิดแบบทบต้น เสมอ</li>
+        <li>Stated/Nominal rate (i) = อัตราที่ระบุในสัญญา ยังไม่ได้พิจารณาความถี่</li>
+        <li><b>Effective Interest Rate (EIR / i<sub>EFF</sub>)</b> = อัตราดอกเบี้ยที่แท้จริง</li>
+      </ul>
+      <div class="formula-card">
+        i<sub>EFF</sub> = (1 + i/m)^m − 1<br>
+        <span style="color:var(--muted)">m = จำนวนครั้งที่คิดดอกเบี้ยต่อปี · Ex: ทบทุก 6 เดือน → m = 2 ครั้ง/ปี</span>
+      </div>
+      <h4>Set เครื่องคิดเลข BA II Plus (ต้องทำก่อนใช้)</h4>
+      <table>
+        <tr><th>ขั้นตอน</th><th>วิธีกด</th><th>หมายเหตุ</th></tr>
+        <tr><td>1. ตั้งทศนิยม 9 ตำแหน่ง</td><td>2nd → .(FORMAT) → กด ↑↓ จน DEC → ใส่ 9 → ENTER</td><td>เช็ค: 1+0.1 = 1.1</td></tr>
+        <tr><td>2. ตั้งโหมด AOS</td><td>2nd → .(FORMAT) → ↑↓ จน Chn → 2nd → ENTER(SET) → ได้ AOS</td><td>เช็ค: 1+2×3 = 7 (AOS)</td></tr>
+        <tr><td>3. ตั้ง BGN/END</td><td>2nd → PMT(BGN) → 2nd → ENTER(SET) → มี BGN แสดงบนหน้าจอ</td><td>★★ สำคัญมาก</td></tr>
+        <tr><td>4. EFF/NOM</td><td>2nd → 2(ICONV) → เลือก NOM/EFF → ENTER → C/Y = ความถี่ → CPT</td><td>หา EFF จาก NOM</td></tr>
+        <tr><td>5. Storage/Recall</td><td>พิมพ์เลข → STO → เลือกตำแหน่ง 1–9 · RCL → ดึงเลขที่เก็บ</td><td>เลขที่เก็บใน 1–9</td></tr>
+      </table>
+      <h4>Rule of 72</h4>
+      <div class="formula-card">
+        T = 72 / r (r คือ %, ไม่ใช่ทศนิยม) → ระยะเวลาเป็น ปี/เดือน/ไตรมาส
+      </div>
+    </div>
+    <div class="card">
+      <h3>📅 T6-02: Annuity &amp; 2-Phase &amp; Perpetuity</h3>
+      <h4>เงินรวด (Annuity) 2 ประเภท</h4>
+      <table>
+        <tr><th>ประเภท</th><th>ลักษณะ</th><th>ตัวอย่าง</th></tr>
+        <tr><td>Ordinary Annuity (END)</td><td>รับ/จ่ายเงิน ณ สิ้นงวด (END)</td><td>ผ่อนบ้าน ค่างวดรถ</td></tr>
+        <tr><td>Annuity Due (BGN)</td><td>รับ/จ่ายเงิน ณ ต้นงวด (BGN)</td><td>เบี้ยประกัน กองทุนการศึกษาบุตร</td></tr>
+      </table>
+      <h4>วิธีแก้โจทย์ 2-Phase (สำคัญมาก)</h4>
+      <table>
+        <tr><th>Phase</th><th>โหมด</th><th>หน้าที่</th></tr>
+        <tr><td>Phase 1 (สะสม/เก็บก่อนเกษียณ)</td><td>END</td><td>มีเงินฝากอยู่ก่อน PV · คิดเงิน → ใช้ PMT (ทุกสิ้นงวด) · เมื่อครบหา FV</td></tr>
+        <tr><td>Phase 2 (แจกจ่าย/ถอนใช้)</td><td>BGN</td><td>เงินนั้นทำให้ PMT (ทุกต้นงวด) · ถ้าไม่มีเงินจนไปสู่ 0 → ไปหลัง "มรดก"</td></tr>
+      </table>
+      <ul class="note-list">
+        <li>FV Phase1 = PV Phase2 (เงินต่อเนื่อง ข้ามจาก Phase 1 ไป Phase 2)</li>
+        <li>เงินนำตั้มทุนก่อน PV · คิดเงิน → ใช้ PMT</li>
+        <li>ถ้าไม่มีเงินจนไปสู่ 0 → ส่วนหลัง หมด → ไปหลัง "มรดก"</li>
+      </ul>
+      <h4>Perpetuity (เงินรวดไม่จำกัด)</h4>
+      <div class="formula-card">
+        PV = PMT / I (เมื่อ I = อัตราดอกเบี้ยต่อปี ต้องการหน่วยเดียวกัน)<br>
+        ตัวอย่าง: ถ้า PMT = 1,000, I = 5% → PV = 1,000 / 0.05 = 20,000
+      </div>
+      <h4>X-Ray ดู AMORT (ดูการตัดชำระหนี้)</h4>
+      <div class="formula-card">
+        เครื่องคิดเลข (5 ปุ่มหลัก: N, I/Y, PV, PMT, FV ต้องใส่ครบ)<br>
+        2nd → PV(AMORT) → กด P1 = งวดแรก, P2 = งวดสุดท้าย → ENTER, ENTER<br>
+        กด ↓ = BAL (ยอดคงเหลือ) · PRN (เงินต้นงวด P1 ถึง P2) · INT (ดอกเบี้ยงวด P1 ถึง P2)
+      </div>
+    </div>
+    <div class="card">
+      <h3>🧮 T6-03: โจทย์ Annuity/PMT ชุดที่ 3/4</h3>
+      <h4>โจทย์ (1): ลงทุนในหุ้นบริษัทหนึ่ง ซึ่งจ่ายเงินต้นทุกสิ้นปี 7,000 บาท ระยะ 5 ปี อัตรา 8% → PV = ?</h4>
+      <div class="formula-card">
+        N=5 · I/Y=8% · PV=? · PMT=−7,000 · FV=0 · [END]<br>
+        PV = <b>−27,982.37 บาท</b> (มูลค่าหุ้นที่ยุติธรรม = 27,982.37 บาท)
+      </div>
+      <h4>โจทย์ (2): เลือก 5M ก้อน หรือ บำนาญ 300,000 ทุกต้นปี 20 ปี อัตรา 5%</h4>
+      <div class="formula-card">
+        [BGN] N=20 · I/Y=5% · PV=? · PMT=−300,000 · FV=0<br>
+        PV = <b>−3,921,296 ≈ 3.9 ล้าน &lt; 5 ล้าน → เลือก 5 ล้าน</b><br>
+        เทียบ: ลดดอกเบี้ย 1%=5%→4%: 5M → 4.6M, 3%: 4.4M, 2%: 4.1M, 1%: 3.9M (✅)
+      </div>
+      <h4>โจทย์ (3): ฝากเงิน 10,000 ทุกสิ้นปี 5 ปี อัตรา 4% → FV = ?</h4>
+      <div class="formula-card">
+        [END] N=5 · I/Y=4% · PV=0 · PMT=−10,000 · FV=?<br>
+        ขั้นตอน 1: เช็คว่า FV &gt; 10,000×5=50,000 ✅<br>
+        FV = <b>54,163.22 บาท</b>
+      </div>
+      <h4>โจทย์ (4): ฝากเงิน 10,000 ทุกต้นปี 5 ปี อัตรา 4% → FV = ?</h4>
+      <div class="formula-card">
+        [BGN] N=5 · I/Y=4% · PV=0 · PMT=−10,000 · FV=?<br>
+        FV = <b>56,329.75 บาท</b> (BGN &gt; END เพราะเงินเข้าเร็วกว่า)
+      </div>
+    </div>
+    <div class="card">
+      <h3>🧮 T6-04: โจทย์ Q3.5, Q3.6, Q3.7</h3>
+      <h4>Q3.5: คุณต้องการเรียนต่อปริญญาโท อีก 5 ปีข้างหน้า ซึ่งค่าใช้จ่าย 250,000 บาท ระยะเวลาเรียน 2 ปี อัตราผลตอบแทน 4% ต่อปี → ต้องมีเงินต้นเท่าไร ณ วันนี้</h4>
+      <div class="formula-card">
+        Phase 2 (ถอนใช้): [BGN] N=2 · I/Y=4% · PV=? · PMT=−250,000 · FV=0<br>
+        PV Phase2 = <b>−490,384.6 บาท</b><br>
+        Phase 3 (ย้อนกลับ): FV = 490,384.6 · I/Y=4% · N=5<br>
+        PV₀ = 490,384.6 / (1.04)^5 = <b>−403,060.40 บาท ✅</b>
+      </div>
+      <h4>Q3.6: พันธบัตรมูลค่าที่ตราไว้ 1,000 บาท อัตราดอกเบี้ย (คูปอง) 8% ต่อปี จ่ายปีละสองครั้ง และมีอายุคงเหลือ 5 ปี หากนักลงทุนต้องการผลตอบแทน 10% ต่อปี → มูลค่าปัจจุบัน = ?</h4>
+      <div class="formula-card">
+        N = 5 ปี × 2 ครั้ง/ปี = 10 ครั้ง<br>
+        I/Y = 10%/2 = 5% ต่อ 6 เดือน<br>
+        PMT = 8%/2 × 1,000 = 40 บาท<br>
+        FV = 1,000<br>
+        [END] → PV = <b>−922.79 บาท</b>
+      </div>
+      <h4>Q3.7: คุณต้องการกู้บ้าน ค่างวด 40,000 บาท ≤ 40% ของเงินเดือน · เงินเดือน 100,000 · กู้ 20 ปี อัตรา 8% → ราคาบ้านสูงสุด = ?</h4>
+      <div class="formula-card">
+        Phase กู้เงิน → PMT = 40,000 × 0.4 = 16,000 บาท/เดือน<br>
+        ราคาบ้าน = เงินดาวน์ + เงินกู้<br>
+        เงินกู้สูงสุด: ผ่อน 20 ปี = 20 × 12 = 240 เดือน [END]<br>
+        N=240 · I/Y=8%/12 · PMT=−16,000 · FV=0<br>
+        PV = <b>−1,912,868.67 บาท</b><br>
+        ราคาบ้าน = 400,000 + 1,912,868.67 = <b>2,312,868.67 → ≤ 2.3 ล้านบาท</b>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🧮 T6-05: โจทย์ 2-Phase Q3.1 และ Q3.2</h3>
+      <h4>Q3.1: ERP 2-Phase (เกษียณ)</h4>
+      <div class="formula-card">
+        ตั้งเวลา: ปัจจุบัน → เกษียณ → สิ้นสุด<br>
+        Phase 1 (สะสม): [END] ฝาก PMT ทุกสิ้นปี → FV<br>
+        Phase 2 (ถอนใช้): [BGN] ถอน PMT ทุกต้นปี จาก FV → 0<br>
+        N Phase2 = 100,000 / 5 = 20, I/Y = 31.7% → ตามโจทย์<br>
+        FV₁ = PV₂ = 100,000<br>
+        คำนวณ: PV = 0 · PMT = ? → หา PMT Phase1<br>
+        ผล: PMT = <b>−71,133.33 บาท/ปี (END)</b>
+      </div>
+      <h4>Q3.2: Simple Method 2-Phase</h4>
+      <div class="formula-card">
+        Phase 1 (สะสม) = END<br>
+        Phase 2 (แจกจ่าย) = BGN<br>
+        ผล Phase 1: FV = PMT × [(1+i)^N −1] / i<br>
+        แบบ Simple: FV = 300,000 · N = ? · I/Y = 31.7% → PMT = ?<br>
+        Phase 2: (PMT+) × (300,000, 000 × 1.317)/300,000<br>
+        ผล = PMT Phase 2 = (PMT+) = −6,543.19 บาท/ปี
+      </div>
+    </div>
+    <div class="card">
+      <h3>🧮 T6-06: Q3.3 กู้รถ &amp; Q3.4 กองทุนการศึกษา</h3>
+      <h4>Q3.3: คุณณัฐชา และคุณณภัทร ชมู ต้องการซื้อรถยนต์ราคา 1,300,000 บาท ซึ่งคิดอัตราดอกเบี้ยแบบ Add-on Method 4% ต่อปี โดยผ่อนชำระเป็นเวลา 4 ปี จงหาค่างวดรายเดือน</h4>
+      <div class="formula-card">
+        Phase 1: กู้เงินปกติ [END] · N=3 ปี · I/Y=15% × 0.85 = 12.75% · FV=195,000<br>
+        1/Y = 4.971% ต่อปี · PMT = ? → PMT = <b>62,465.81 บาท/ปี</b><br>
+        Phase 2 (Add-on): เงินต้น = 1,105,000 · ดอกเบี้ย = 1,105,000 × 5% × 4 = 221,000<br>
+        ยอดผ่อน = 1,105,000 + 221,000 = 1,326,000<br>
+        ค่างวด = 1,326,000 / 48 = <b>27,625 บาท/เดือน ✅</b>
+      </div>
+      <h4>Q3.4: กองทุนการศึกษา 4-Phase</h4>
+      <div class="formula-card">
+        ตั้งเวลา: ปี 49 (ปัจจุบัน) → ปี 61 (เข้า ป.1) → ปี 66 (จบ ม.6) → ปี 71 (จบป.ตรี) → อายุ 61<br>
+        Phase 1 (ปี 49→61): BGN ออม 12,000 บาท/ปี ตั้งแต่ 49–61 (ทุกปี BGN)<br>
+        Phase 2 (ปี 61→66): คำนวณค่าเรียน M: 12,000 (BGN) → คำนวณ FV ไป 66<br>
+        Phase 3 (เข้าม.1 จนถึงเกษียณ): [BGN] FV = PMT อยู่ปี 61<br>
+        Phase 4: เข้าเกษียณ N=7 · I/Y=4.71% × 0.85 · PV=0<br>
+        PMT = <b>−7,194.91 บาท/ปี ✅</b>
+      </div>
+    </div>
+    <div class="card">
+      <h3>🧮 T6-07: Simple Interest Method &amp; X-Ray AMORT</h3>
+      <h4>Simple Interest กู้บ้าน</h4>
+      <div class="formula-card">
+        กู้บ้าน 1,000,000 · I/Y=6% · ผ่อน 30 ปี (END)<br>
+        PMT = [N=360 · I/Y=6%/12=0.5% · PV=1,000,000 · FV=0]<br>
+        PMT = <b>5,995.51 → ≈ 5,333.33 บาท/เดือน (Simple)</b>
+      </div>
+      <h4>X-Ray AMORT (ดูตัดชำระ)</h4>
+      <div class="formula-card">
+        หลังคำนวณ PMT แล้ว:<br>
+        2nd → PV(AMORT) → กด P1 = 1, P2 = 12 → ENTER, ENTER<br>
+        ↓ = BAL (ยอดคงค้าง) · PRN (ตัดเงินต้นงวด 1–12) · INT (ดอกเบี้ยงวด 1–12)<br>
+        ตัวอย่าง: ดูงวดที่ 1: INT ≈ เกือบทั้งหมด · PRN น้อย → ต้นทางค่อยๆ ลด
+      </div>
+    </div>
+    <div class="card">
+      <h3>🏦 T6-08: เงินฝากออมทรัพย์ ฝากประจำ และแบบบันได</h3>
+      <h4>หลักการ: คิดดอกเบี้ยรายวัน (Daily Interest Rate = 1/365 วัน)</h4>
+      <h4>เงินฝากออมทรัพย์ (4 วิธีคำนวณดอกเบี้ย)</h4>
+      <table>
+        <tr><th>วิธี</th><th>ลักษณะ</th></tr>
+        <tr><td>Minimum Account Balance</td><td>คำนวณจากยอดต่ำสุดในแต่ละเดือน · ได้น้อยที่สุด · (รวมที่: 6 เดือน)</td></tr>
+        <tr><td>FIFO (First-in First-out)</td><td>ถอนเงินที่ฝากก่อน Ex: ฝากประจำ 12 เดือน → ฝากก่อน ทยอยฝาก · ดอกเบี้ยน้อยกว่า เส้นที่ 3</td></tr>
+        <tr><td>LIFO (Last-in First-out)</td><td>ถอนใหม่ก่อน → เสียดอกเบี้ย สูงกว่า FIFO</td></tr>
+        <tr><td>Daily Interest (★ ใช้จริง)</td><td>คำนวณดอกเบี้ย วันต่อวัน → จากยอดคงเหลือแต่ละวัน · ใช้ในหน้าจอในปัจจุบัน</td></tr>
+      </table>
+      <h4>ตัวอย่าง: ฝาก 10,000 บาท ณ 1 ม.ค. ดอกเบี้ย 2% ต่อปี ถอน 30 มิ.ย.</h4>
+      <div class="formula-card">
+        ดอกเบี้ย = 10,000 × 2% / 365 × 180 = 10,000 × 2%/365 × 180<br>
+        = 10,000 × 2 × 180 / 365 × (1/100) = <b>10,098.63 บาท</b>
+      </div>
+      <h4>เงินฝากประจำ (Daily Interest)</h4>
+      <div class="formula-card">
+        คิดดอกเบี้ยรายวัน ตามอัตราผ่อนปรนฝากประจำ 3/6/12 เดือน<br>
+        ไม่เข้าฐาน ใน FV ในรอบเดือน ถ้าถอนก่อนกำหนด → เสียค่าปรับ<br>
+        ตัวอย่าง: ฝากประจำ 3 เดือน คิดดอกเบี้ย 2.55% ต่อปี (After Tax = 3% × 0.85 = 2.55%)<br>
+        ดอกเบี้ย = 10,000 × 2.55%/365 × 90 = <b>10,062.87 บาท</b>
+      </div>
+      <h4>เงินฝากแบบบันได (Step-up)</h4>
+      <div class="formula-card">
+        คิดดอกเบี้ยรายวัน ตามอัตราที่เพิ่มขึ้น Step-up<br>
+        คิดเต็มเดือน ใช้ 1 ปี = 365 วัน<br>
+        ระหว่างเดือน ไม่มีดอกเบี้ยทบต้น<br>
+        i<sub>EFF</sub> = คิดค่าดอกเบี้ยสะสมต่อปี (อิงจากสูตรประมาณ)
+      </div>
+    </div>
+  </div>
+
+  <div id="t6-images" class="tab-panel">
+    <div class="img-gallery">
+      <div class="img-card" onclick="openLB('สรุปCFP/T6_01_TVM_CompoundInterest_เครื่องคิดเลข.jpg','T6-01: TVM Compound Interest & เครื่องคิดเลข')">
+        <img src="สรุปCFP/T6_01_TVM_CompoundInterest_เครื่องคิดเลข.jpg" alt="T6-01" loading="lazy">
+        <div class="img-label">T6-01: TVM Compound Interest &amp; เครื่องคิดเลข</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T6_02_TVM_เงินรวด_AnnuityDue_2Phase.jpg','T6-02: TVM เงินรวด Annuity Due 2 Phase')">
+        <img src="สรุปCFP/T6_02_TVM_เงินรวด_AnnuityDue_2Phase.jpg" alt="T6-02" loading="lazy">
+        <div class="img-label">T6-02: TVM เงินรวด, Annuity Due, 2 Phase</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T6_03_TVM_โจทย์Annuity_PMT_34.jpg','T6-03: TVM โจทย์ Annuity PMT 3/4')">
+        <img src="สรุปCFP/T6_03_TVM_โจทย์Annuity_PMT_34.jpg" alt="T6-03" loading="lazy">
+        <div class="img-label">T6-03: TVM โจทย์ Annuity PMT (3/4)</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T6_04_TVM_โจทย์_Q3.5_3.7.jpg','T6-04: TVM โจทย์ Q3.5-3.7')">
+        <img src="สรุปCFP/T6_04_TVM_โจทย์_Q3.5_3.7.jpg" alt="T6-04" loading="lazy">
+        <div class="img-label">T6-04: TVM โจทย์ Q3.5–3.7</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T6_05_TVM_โจทย์_Phase_3.1_3.2.jpg','T6-05: TVM โจทย์ Phase 3.1-3.2')">
+        <img src="สรุปCFP/T6_05_TVM_โจทย์_Phase_3.1_3.2.jpg" alt="T6-05" loading="lazy">
+        <div class="img-label">T6-05: TVM โจทย์ Phase 3.1–3.2</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T6_06_TVM_โจทย์_Q3.3_3.4.jpg','T6-06: TVM โจทย์ Q3.3-3.4')">
+        <img src="สรุปCFP/T6_06_TVM_โจทย์_Q3.3_3.4.jpg" alt="T6-06" loading="lazy">
+        <div class="img-label">T6-06: TVM โจทย์ Q3.3–3.4</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T6_07_TVM_SimpleInterest_ตัวอย่าง.jpg','T6-07: TVM Simple Interest ตัวอย่าง')">
+        <img src="สรุปCFP/T6_07_TVM_SimpleInterest_ตัวอย่าง.jpg" alt="T6-07" loading="lazy">
+        <div class="img-label">T6-07: TVM Simple Interest ตัวอย่าง</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/T6_08_TVM_เงินฝาก_ออมทรัพย์_ประจำ_บันได.jpg','T6-08: TVM เงินฝาก ออมทรัพย์ ประจำ บันได')">
+        <img src="สรุปCFP/T6_08_TVM_เงินฝาก_ออมทรัพย์_ประจำ_บันได.jpg" alt="T6-08" loading="lazy">
+        <div class="img-label">T6-08: TVM เงินฝาก ออมทรัพย์ ประจำ บันได</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CF ─── -->
+<div id="page-cf" class="page">
+  <div class="page-header">
+    <div class="topic-badge" style="background:var(--cfb);color:var(--cf)">CF</div>
+    <div>
+      <h2 style="color:var(--cf)">การบริหารสภาพคล่อง</h2>
+      <div class="subtitle">Cash Management · Credit Management · เช่า vs ซื้อ · Liquid Assets</div>
+    </div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab(this,'cf','notes')">📝 Notes</button>
+    <button class="tab-btn" onclick="switchTab(this,'cf','images')">🖼️ รูปสรุป (3)</button>
+  </div>
+
+  <div id="cf-notes" class="tab-panel active">
+    <div class="card">
+      <h3>💵 CF-01: การบริหารสภาพคล่อง — ภาพรวม</h3>
+      <h4>1. วัตถุประสงค์ในการถือเงินสด (3 อย่าง)</h4>
+      <table>
+        <tr><th>วัตถุประสงค์</th><th>รายละเอียด</th><th>ตัวอย่าง</th></tr>
+        <tr><td>Convenience Motive (Pocket Money)</td><td>เพื่อใช้จ่ายทั่วไปในชีวิตประจำวัน</td><td>ค่าอาหาร ค่าเดินทาง 1–2 สัปดาห์</td></tr>
+        <tr><td>Contingency Motive (Emergency)</td><td>เพื่อฉุกเฉิน ไม่มากเกิน ค่าเสียโอกาส</td><td>ป่วย ตกงาน รถเสีย 3–6 เดือน</td></tr>
+        <tr><td>Store of Value</td><td>ซื้อสินค้ามูลค่าสูง เช่น ตู้เย็น เครื่องใช้ไฟฟ้า</td><td>ประกันคุ้มครอง ปกส.ดำ</td></tr>
+      </table>
+      <h4>2. ค่าเสียงจากการถือเงินสดมากเกินไป</h4>
+      <ul class="note-list">
+        <li>Spending Risk: มีเงิน ใช้จ่าย เก็บเงิน ไม่ออม</li>
+        <li>Inflation Risk: เงินสดคงค่า อำนาจซื้อลดลง</li>
+      </ul>
+      <h4>3. ตัวเลือกในการบริหารสภาพคล่อง</h4>
+      <ul class="note-list">
+        <li>♥ = Crowdsf: ไม่ต้องง่าย ต้องทดลอง ถ้าดี · ทำเหลือพคล่อง ดัน นิ่ง ที่แหล่งอ่างถุงเงินสด</li>
+        <li>เปลี่ยนสภาพคล่อง ดัน นิ่ง ที่แหล่งอ่างเงินสด</li>
+        <li>เส่นที่ ผลตอบแทนสำหรับดัน</li>
+        <li>โดย เปลี่ยนเงินเหลือสด ได้ เงยมุก ที่ เปลี่ยนแปลงมากกว่า</li>
+      </ul>
+      <h4>4. Cost of Credit (สรุปตาราง)</h4>
+      <table>
+        <tr><th>วิธี</th><th>Simple Interest Method</th><th>Discount Method</th><th>Add-on (Flat Rate)</th></tr>
+        <tr><td>ดอกเบี้ยจ่าย</td><td>ตามเงินต้นคงค้าง</td><td>หักล่วงหน้า ณ ต้น</td><td>คิดจากเงินต้นเดิมทั้งหมด</td></tr>
+        <tr><td>เงินที่รับ</td><td>เท่ากับวงเงิน</td><td>น้อยกว่าวงเงิน</td><td>เท่ากับวงเงิน</td></tr>
+        <tr><td>True Rate</td><td>= Stated Rate</td><td>&gt; Stated Rate</td><td>≈ 2× Stated Rate</td></tr>
+        <tr><td>ตัวอย่าง</td><td>กู้ 100K @ 10% = ดอกเบี้ย 10K</td><td>รับ 85K ดอก 15K True=17.65%</td><td>ผ่อน Add-on 2.5%×5ปี = ค่างวด 12K</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>🏦 CF-02: เงินฝาก &amp; สถาบันการเงิน</h3>
+      <h4>เช่า vs ซื้อ (3C)</h4>
+      <table>
+        <tr><th>ปัจจัย</th><th>เช่า</th><th>ซื้อ</th></tr>
+        <tr><td>Cost</td><td>ต่ำตอนแรก แต่ไม่ได้เป็นเจ้าของ</td><td>สูงตอนแรก แต่ได้ทรัพย์สิน</td></tr>
+        <tr><td>Control</td><td>ยืดหยุ่น ย้ายได้</td><td>ควบคุมได้ ดัดแปลงได้</td></tr>
+        <tr><td>Credit</td><td>ไม่สร้าง Credit ระยะยาว</td><td>สร้างประวัติสินเชื่อ</td></tr>
+      </table>
+      <h4>ปัจจัยเลือกสถาบันการเงิน (3 Factor)</h4>
+      <table>
+        <tr><th>ปัจจัย</th><th>รายละเอียด</th></tr>
+        <tr><td>Fee</td><td>ค่าธรรมเนียม Min Balance, ค่าธุรกรรม</td></tr>
+        <tr><td>Convenience</td><td>สาขา ATM · ตำแหน่ง · บริการออนไลน์</td></tr>
+        <tr><td>Compatibility</td><td>ตรงกับความต้องการ · บริการ · ความน่าเชื่อถือ</td></tr>
+      </table>
+      <h4>ประเภทสถาบันการเงิน</h4>
+      <table>
+        <tr><th>ประเภท</th><th>ตัวอย่าง</th></tr>
+        <tr><td>1. ธนาคารพาณิชย์ (Commercial Bank)</td><td>กสิกร กรุงเทพ SCB ไทยพาณิชย์</td></tr>
+        <tr><td>2. สถาบันการเงินที่ไม่ใช่ธนาคาร (Non-bank)</td><td>บริษัทเงินทุน (Finance Company) · บริษัทประกัน · บลจ. · กองทุน</td></tr>
+        <tr><td>3. สถาบันการเงินเฉพาะกิจ (Specialized)</td><td>ออมสิน ธอส. ธ.ก.ส. SME Bank</td></tr>
+        <tr><td>4. สหกรณ์ออมทรัพย์ (Personal Loan)</td><td>สหกรณ์ครู สหกรณ์ตำรวจ</td></tr>
+      </table>
+      <h4>After-tax Return สูตร</h4>
+      <div class="formula-card">
+        After-tax Return = Nominal Rate × (1 − อัตราภาษี)<br>
+        ตัวอย่าง: ฝากประจำ 3% · ภาษี 15% → After-tax = 3% × (1−0.15) = <b>2.55%</b>
+      </div>
+    </div>
+    <div class="card">
+      <h3>📊 CF-03: Liquid Assets เปรียบเทียบ</h3>
+      <h4>ตารางสินทรัพย์สภาพคล่อง (Liquid Assets)</h4>
+      <table>
+        <tr><th>เครื่องมือ</th><th>สภาพคล่อง</th><th>ผลตอบแทน</th><th>ค่าเสีย</th><th>ภาษี</th></tr>
+        <tr><td>เงินสด / กระเป๋า (Pocket Money)</td><td>T+0 (มีเลย)</td><td>ไม่มี</td><td>ต่ำ</td><td>—</td></tr>
+        <tr><td>บัญชีออมทรัพย์ (มีตู้ ATM)</td><td>T+0 (มีเลย)</td><td>ต่ำ (1–2%)</td><td>ต่ำมาก</td><td>15%</td></tr>
+        <tr><td>กองทุนตลาดเงิน (Money Market)</td><td>T+0 (มีเลย)</td><td>ปานกลาง (+)</td><td>ต่ำ</td><td>15%</td></tr>
+        <tr><td>เงินฝากประจำ (CD)</td><td>T+1 (ถอนล่วงหน้า)</td><td>สูงกว่าออมทรัพย์ (++)</td><td>เสียค่าปรับถ้าถอนก่อน</td><td>15%</td></tr>
+        <tr><td>Treasury Bills (T-Bills)</td><td>ต้องรอขาย (ค่อนข้างสูง)</td><td>สม่ำเสมอ (+)</td><td>ต่ำ</td><td>ยกเว้น</td></tr>
+        <tr><td>พันธบัตร / หุ้นกู้</td><td>ขาย → T+2 ขึ้นไป</td><td>สูง (++)</td><td>Market risk</td><td>15%</td></tr>
+      </table>
+      <h4>อัตราผลตอบแทนหลังภาษี</h4>
+      <table>
+        <tr><th>เครื่องมือ</th><th>Before Tax</th><th>After Tax (ภาษี 15%)</th></tr>
+        <tr><td>ออมทรัพย์ 2%</td><td>2%</td><td>2% × 0.85 = 1.7%</td></tr>
+        <tr><td>ฝากประจำ 3%</td><td>3%</td><td>3% × 0.85 = 2.55%</td></tr>
+        <tr><td>พันธบัตร 4%</td><td>4%</td><td>4% × 0.85 = 3.4%</td></tr>
+      </table>
+      <p style="color:var(--muted);font-size:.82rem">⭐ 2 แบบ: 1. เส้นที่ผลตอบแทน → ดอกเบี้ย ไม่ได้รับ / ไม่ได้หักล่วงหน้า / ไม่ negotiable<br>พันธบัตรรัฐบาล → ขายได้ในตลาดรอง, T-Bills = ซื้อต่ำกว่าหน้า ได้ส่วนต่างเมื่อครบกำหนด</p>
+    </div>
+  </div>
+
+  <div id="cf-images" class="tab-panel">
+    <div class="img-gallery">
+      <div class="img-card" onclick="openLB('สรุปCFP/CF_01_การบริหารสภาพคล่อง_Cash_Credit_Overview.jpg','CF-01: การบริหารสภาพคล่อง Cash & Credit Overview')">
+        <img src="สรุปCFP/CF_01_การบริหารสภาพคล่อง_Cash_Credit_Overview.jpg" alt="CF-01" loading="lazy">
+        <div class="img-label">CF-01: Cash &amp; Credit Management Overview</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/CF_02_การบริหารสภาพคล่อง_เงินฝาก_สถาบันการเงิน.jpg','CF-02: เงินฝาก & สถาบันการเงิน')">
+        <img src="สรุปCFP/CF_02_การบริหารสภาพคล่อง_เงินฝาก_สถาบันการเงิน.jpg" alt="CF-02" loading="lazy">
+        <div class="img-label">CF-02: เงินฝาก &amp; สถาบันการเงิน</div>
+      </div>
+      <div class="img-card" onclick="openLB('สรุปCFP/CF_03_การบริหารสภาพคล่อง_LiquidAssets.jpg','CF-03: Liquid Assets')">
+        <img src="สรุปCFP/CF_03_การบริหารสภาพคล่อง_LiquidAssets.jpg" alt="CF-03" loading="lazy">
+        <div class="img-label">CF-03: Liquid Assets</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ─── Navigation ───
+function showPage(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+  else {
+    const nav = document.querySelector(`.nav-item[data-topic="${id}"]`);
+    if (nav) nav.classList.add('active');
+  }
+}
+
+// ─── Tabs ───
+function switchTab(btn, topic, panel) {
+  const page = document.getElementById('page-' + topic);
+  page.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  page.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(topic + '-' + panel).classList.add('active');
+}
+
+// ─── Lightbox ───
+function openLB(src, caption) {
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lb-caption').textContent = caption;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLB() { document.getElementById('lightbox').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLB(); });
+
+// ─── Search ───
+function doSearch(q) {
+  q = q.trim().toLowerCase();
+  if (!q) { clearHighlights(); return; }
+  clearHighlights();
+  // find relevant pages
+  let found = [];
+  document.querySelectorAll('.page').forEach(page => {
+    const text = page.innerText.toLowerCase();
+    if (text.includes(q)) found.push(page.id.replace('page-', ''));
+  });
+  if (found.length > 0) {
+    showPage(found[0], null);
+    highlightText(q);
+  }
+}
+function highlightText(q) {
+  const active = document.querySelector('.page.active');
+  if (!active) return;
+  const walker = document.createTreeWalker(active, NodeFilter.SHOW_TEXT);
+  let node;
+  while (node = walker.nextNode()) {
+    if (node.parentElement.tagName === 'SCRIPT') continue;
+    const idx = node.textContent.toLowerCase().indexOf(q);
+    if (idx > -1) {
+      const span = document.createElement('span');
+      span.innerHTML = node.textContent.replace(new RegExp(q, 'gi'), m => `<mark>${m}</mark>`);
+      node.parentElement.replaceChild(span, node);
+    }
+  }
+}
+function clearHighlights() {
+  document.querySelectorAll('mark').forEach(m => {
+    m.outerHTML = m.textContent;
+  });
+}
+</script>
+</body>
+</html>
