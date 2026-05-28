@@ -399,6 +399,7 @@ True Rate &gt; อัตราที่ระบุ</div></div>
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab(this,'t1','notes')">📝 Notes</button>
     <button class="tab-btn" onclick="switchTab(this,'t1','images')">🖼️ รูปสรุป (8)</button>
+    <button class="tab-btn" onclick="switchTab(this,'t1','keywords')">🔑 Keywords</button>
   </div>
 
   <div id="t1-notes" class="tab-panel active">
@@ -662,6 +663,50 @@ True Rate &gt; อัตราที่ระบุ</div></div>
 13. Disclaimer
 14. ใบมอบอำนาจ</div>
       <p style="color:var(--muted);font-size:.82rem">⭐ จำลำดับ: <b>"ข้อตกลง → จดหมาย → ปะหน้า → บทนำ → Disclosures → สรุป → เป้าหมาย → สถานะ → แนะนำ → Action → ประเมิน → Disclaimer → มอบอำนาจ"</b></p>
+    </div>
+  </div>
+
+  <div id="t1-keywords" class="tab-panel">
+    <div class="card">
+      <h3>🗂️ งบการเงินส่วนบุคคล — จำ 3 งบ</h3>
+      <table>
+        <tr><th>งบ</th><th>ความหมาย (keyword)</th><th>เปรียบเหมือน</th></tr>
+        <tr><td><b style="color:var(--t1)">งบประมาณส่วนบุคคล</b></td><td>วางแผนรายรับ-รายจ่าย <b>ล่วงหน้า</b> (อนาคต)</td><td>แผนที่ทางการเงิน</td></tr>
+        <tr><td><b style="color:var(--t4)">งบดุลส่วนบุคคล</b></td><td>ภาพถ่ายทรัพย์สิน-หนี้สิน <b>ณ วันใดวันหนึ่ง</b></td><td>สแนปช็อต Net Worth</td></tr>
+        <tr><td><b style="color:var(--t3)">งบกระแสเงินสดส่วนบุคคล</b></td><td>บันทึกรับ-จ่ายจริง <b>ย้อนหลัง</b></td><td>Bank Statement</td></tr>
+      </table>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:8px">⭐ Trick: งบ<b>ประมาณ</b> = "ประมาณ" = คาดการณ์ = อนาคต | งบ<b>ดุล</b> = Net Worth (ทรัพย์สิน − หนี้สิน) | งบ<b>กระแสเงินสด</b> = จริงๆ ย้อนหลัง</p>
+    </div>
+
+    <div class="card">
+      <h3>🏦 บัญชีเงินฝาก — ออมทรัพย์ vs กระแสรายวัน</h3>
+      <table>
+        <tr><th></th><th>บัญชีออมทรัพย์</th><th>บัญชีกระแสรายวัน</th></tr>
+        <tr><td><b>เหมาะกับ</b></td><td>บุคคลทั่วไป / รับเงินเดือน</td><td>ธุรกิจ / ต้องสั่งจ่ายเช็ค</td></tr>
+        <tr><td><b>ดอกเบี้ย</b></td><td>มีดอกเบี้ย (ต่ำ)</td><td>ต่ำมากหรือ <b>ไม่มีเลย</b></td></tr>
+        <tr><td><b>สภาพคล่อง</b></td><td>ถอนได้สะดวก</td><td>เช็ค / โอน สภาพคล่องสูง</td></tr>
+      </table>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:8px">⭐ กระแสรายวัน = <b>ธุรกิจ</b> เน้นเช็ค ดอกเบี้ยต่ำ/ไม่มี | ออมทรัพย์ = <b>บุคคล</b> ได้ดอกเบี้ย</p>
+    </div>
+
+    <div class="card">
+      <h3>💳 สินเชื่อ — OD vs บัตรเครดิต vs Balloon vs Amortizing</h3>
+      <h4>OD กับ บัตรเครดิต</h4>
+      <table>
+        <tr><th></th><th>OD (วงเงินเบิกเกินบัญชี)</th><th>บัตรเครดิต</th></tr>
+        <tr><td><b>ประเภท</b></td><td colspan="2" style="text-align:center;color:var(--t1)">✅ ทั้งคู่เป็น <b>Revolving Credit</b> เหมือนกัน</td></tr>
+        <tr><td><b>ดอกเบี้ย</b></td><td>คิดรายวัน บนยอดที่ใช้จริง</td><td>มีรอบบิล / Grace Period</td></tr>
+        <tr><td><b>การชำระ</b></td><td>ไม่มีรอบบิล ไม่มีขั้นต่ำ</td><td>มีขั้นต่ำ / มี Grace Period</td></tr>
+      </table>
+      <h4>Balloon vs Amortizing Loan</h4>
+      <table>
+        <tr><th></th><th>Balloon Loan</th><th>Amortizing Loan</th></tr>
+        <tr><td><b>งวดปกติ</b></td><td>ต่ำกว่า (ดอกเบี้ยเป็นหลัก)</td><td>เท่ากันทุกงวด</td></tr>
+        <tr><td><b>งวดสุดท้าย</b></td><td><b style="color:var(--t6)">ชำระก้อนใหญ่ (Balloon Payment)</b></td><td>เหมือนงวดอื่น ปกติ</td></tr>
+        <tr><td><b>สัดส่วนในงวด</b></td><td>ดอกเบี้ยสูง ต้นน้อย</td><td>ดอกลดลง ต้นเพิ่มขึ้นทุกงวด</td></tr>
+        <tr><td><b>เหมาะกับ</b></td><td>คาดว่ามีเงินก้อนในอนาคต</td><td>รายได้สม่ำเสมอ ต้องการแน่นอน</td></tr>
+      </table>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:8px">⭐ Balloon = "บอลลูนลอยอยู่ปลายสุด" = เงินก้อนใหญ่งวดสุดท้าย | Amortizing = "ดอกลด ต้นเพิ่ม" งวดเท่ากันตลอด</p>
     </div>
   </div>
 
@@ -1397,6 +1442,7 @@ Net Worth (ความมั่งคั่งสุทธิ) = สินท�
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab(this,'t6','notes')">📝 Notes</button>
     <button class="tab-btn" onclick="switchTab(this,'t6','images')">🖼️ รูปสรุป (8)</button>
+    <button class="tab-btn" onclick="switchTab(this,'t6','keywords')">🔑 Keywords</button>
   </div>
 
   <div id="t6-notes" class="tab-panel active">
@@ -1690,6 +1736,119 @@ Net Worth (ความมั่งคั่งสุทธิ) = สินท�
         ระหว่างเดือน ไม่มีดอกเบี้ยทบต้น<br>
         i<sub>EFF</sub> = คิดค่าดอกเบี้ยสะสมต่อปี (อิงจากสูตรประมาณ)
       </div>
+    </div>
+  </div>
+
+  <div id="t6-keywords" class="tab-panel">
+    <div class="card">
+      <h3>⚡ EAR (Effective Annual Rate) — ผิดซ้ำ 2 ข้อ ต้องจำ!</h3>
+      <div class="formula-grid">
+        <div class="formula-card">
+          <div class="label">สูตร EAR</div>
+          <div class="formula">EAR = (1 + r_nom / m)^m − 1
+r_nom = อัตราที่ระบุ (Nominal)
+m = จำนวนครั้งทบต้นต่อปี</div>
+        </div>
+        <div class="formula-card">
+          <div class="label">ตัวอย่างที่ออกบ่อย</div>
+          <div class="formula">18%/ปี ทบเดือน (m=12):
+→ (1.015)^12 − 1 = 19.56%
+
+12%/ปี ทบไตรมาส (m=4):
+→ (1.03)^4 − 1 = 12.55%
+
+2%/เดือน (nom=24%, m=12):
+→ (1.02)^12 − 1 = 26.82%</div>
+        </div>
+      </div>
+      <table style="margin-top:12px">
+        <tr><th>Nominal Rate</th><th>ทบต้น</th><th>EAR</th></tr>
+        <tr><td>18% / ปี</td><td>รายเดือน (m=12)</td><td><b style="color:var(--t6)">19.56%</b></td></tr>
+        <tr><td>12% / ปี</td><td>รายไตรมาส (m=4)</td><td><b style="color:var(--t6)">12.55%</b></td></tr>
+        <tr><td>12% / ปี</td><td>รายครึ่งปี (m=2)</td><td><b style="color:var(--t6)">12.36%</b></td></tr>
+        <tr><td>6% / ปี</td><td>รายเดือน (m=12)</td><td><b style="color:var(--t6)">6.17%</b></td></tr>
+        <tr><td>1.5% / เดือน</td><td>รายเดือน (nom=18%)</td><td><b style="color:var(--t6)">19.56%</b></td></tr>
+      </table>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:8px">⭐ BA II Plus: [2ND][ICONV] → NOM → C/Y → CPT EFF | ทบบ่อย → EAR สูงขึ้น | Nominal ≠ EAR เสมอเมื่อ m > 1</p>
+    </div>
+
+    <div class="card">
+      <h3>📐 Annuity-due vs Ordinary Annuity</h3>
+      <table>
+        <tr><th></th><th>Ordinary Annuity</th><th>Annuity-due</th></tr>
+        <tr><td><b>จ่ายเงินงวด</b></td><td>ปลายงวด (END)</td><td>ต้นงวด (BEGIN)</td></tr>
+        <tr><td><b>BA II Plus</b></td><td>Default (END mode)</td><td>[2ND][BGN][2ND][SET]</td></tr>
+        <tr><td><b>PV เปรียบกัน</b></td><td>ต่ำกว่า</td><td><b>สูงกว่า × (1+r)</b></td></tr>
+      </table>
+      <div class="formula-grid" style="margin-top:12px">
+        <div class="formula-card">
+          <div class="label">ความสัมพันธ์ PV</div>
+          <div class="formula">PV_due = PV_ordinary × (1 + r)
+FV_due = FV_ordinary × (1 + r)</div>
+        </div>
+        <div class="formula-card">
+          <div class="label">Trap ที่ออกบ่อย</div>
+          <div class="formula">Due 50,000 vs Ordinary 52,000 @4%/10ปี
+→ ได้ PV เท่ากัน! (ต้องกดเครื่องตรวจ)
+50,000 × PVIFA × 1.04 = 52,000 × PVIFA</div>
+        </div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:8px">⭐ อย่าลืมปิด BGN mode หลังใช้: [2ND][BGN][2ND][SET] อีกครั้ง → จอต้องไม่มีคำว่า "BGN"</p>
+    </div>
+
+    <div class="card">
+      <h3>♾️ Perpetuity และการเปรียบทางเลือก</h3>
+      <div class="formula-grid">
+        <div class="formula-card">
+          <div class="label">Perpetuity (เงินงวดตลอดกาล)</div>
+          <div class="formula">PV = C / r
+เช่น: 40,000 / 0.05 = 800,000
+เช่น: 60,000 / 0.04 = 1,500,000</div>
+        </div>
+        <div class="formula-card">
+          <div class="label">เปรียบทางเลือก (เลือก PV ต่ำสุด)</div>
+          <div class="formula">คำนวณ PV ทุกทางเลือก
+→ ทางเลือกที่ PV ต่ำสุด = ถูกที่สุด
+PV ผ่อน > ราคาสด = จ่ายสดคุ้มกว่า</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📈 NPV และ IRR</h3>
+      <table>
+        <tr><th>ตัวชี้วัด</th><th>สูตร / ความหมาย</th><th>กฎการตัดสินใจ</th></tr>
+        <tr><td><b>NPV</b></td><td>PV inflows − เงินลงทุน (C₀)</td><td>NPV > 0 → <b style="color:var(--t1)">ลงทุน</b> | NPV < 0 → <b style="color:var(--t6)">ไม่ลงทุน</b></td></tr>
+        <tr><td><b>IRR</b></td><td>อัตราที่ทำให้ NPV = 0</td><td>IRR > Discount Rate → <b style="color:var(--t1)">ลงทุน</b></td></tr>
+      </table>
+      <div class="formula-grid" style="margin-top:12px">
+        <div class="formula-card">
+          <div class="label">BA II Plus — NPV</div>
+          <div class="formula">[CF] → CF0=-ลงทุน
+C01=กระแสเงินสด, F01=จำนวนงวด
+[NPV] → I=อัตราส่วนลด → [CPT]</div>
+        </div>
+        <div class="formula-card">
+          <div class="label">BA II Plus — IRR</div>
+          <div class="formula">[CF] → CF0=-ลงทุน
+C01=รายได้, F01=จำนวนงวด
+[IRR] → [CPT] → ได้ % ต่อปี</div>
+        </div>
+      </div>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:8px">⭐ IRR สูงกว่า ≠ ดีกว่าเสมอ ต้องดู NPV + ขนาดโครงการประกอบด้วย | เครื่องแสดง PV ติดลบ → ใช้ค่าสัมบูรณ์ลบกับ C₀</p>
+    </div>
+
+    <div class="card">
+      <h3>🖩 BA II Plus — ปุ่มที่ต้องจำ</h3>
+      <table>
+        <tr><th>งาน</th><th>ขั้นตอนกด</th><th>หมายเหตุ</th></tr>
+        <tr><td><b>EAR</b></td><td>[2ND][ICONV] → NOM → C/Y → CPT EFF</td><td>C/Y = จำนวนครั้งทบต้น/ปี</td></tr>
+        <tr><td><b>NPV</b></td><td>[CF] → CF0,C01,F01 → [NPV] → I → CPT</td><td>CF0 ใส่ติดลบ</td></tr>
+        <tr><td><b>IRR</b></td><td>[CF] → CF0,C01,F01 → [IRR] → CPT</td><td>ได้ % ต่อปีออกมาเลย</td></tr>
+        <tr><td><b>Annuity-due</b></td><td>[2ND][BGN][2ND][SET] ก่อน กด TVM ปกติ</td><td>ปิดหลังใช้ทุกครั้ง!</td></tr>
+        <tr><td><b>ล้างค่า TVM</b></td><td>[2ND][CLR TVM]</td><td>ทำก่อนทุกโจทย์ใหม่</td></tr>
+        <tr><td><b>FV สะสม</b></td><td>N, I/Y, PV=-ต้นทุน, PMT=0 → CPT FV</td><td>PV ต้องติดลบ</td></tr>
+      </table>
     </div>
   </div>
 
