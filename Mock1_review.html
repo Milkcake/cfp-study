@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mock 1 — เฉลยพร้อมคำอธิบาย</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F4EF; --sidebar-bg: #ECEAE2; --card: #FFFFFF; --card2: #F0EDE6;
+  --border: #D8D2C6; --text: #2C2820; --muted: #7A7265; --accent: #3A7D6E;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); font-family: 'Segoe UI', Sarabun, sans-serif; color: var(--text); line-height: 1.65; }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 32px 20px 60px; }
+
+/* Back link */
+.back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); text-decoration: none; font-size: 0.85rem; font-weight: 600; margin-bottom: 24px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); }
+.back-link:hover { background: var(--sidebar-bg); }
+
+/* Summary header */
+.summary-header { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px 28px; margin-bottom: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.summary-header h1 { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+.summary-header p { color: var(--muted); font-size: 0.9rem; }
+.score-pills { display: flex; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+.pill { padding: 5px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; }
+.pill-wrong { background: #FDEEEE; color: #C0392B; border: 1px solid #f5c6c6; }
+.pill-right { background: #EEF7F4; color: #1A7860; border: 1px solid #b6e0d5; }
+.pill-total { background: var(--card2); color: var(--muted); border: 1px solid var(--border); }
+
+/* Question card */
+.q-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; margin-bottom: 18px; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
+.q-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.q-num { font-size: 0.78rem; font-weight: 700; color: var(--accent); background: rgba(58,125,110,0.10); padding: 3px 10px; border-radius: 20px; }
+.q-tag { font-size: 0.72rem; color: var(--muted); background: var(--card2); padding: 2px 8px; border-radius: 12px; border: 1px solid var(--border); }
+.correct-badge { font-size: 0.72rem; font-weight: 700; color: #1A7860; background: #EEF7F4; padding: 2px 10px; border-radius: 12px; border: 1px solid #b6e0d5; margin-left: auto; }
+.q-text { font-size: 0.93rem; font-weight: 600; color: var(--text); margin-bottom: 14px; line-height: 1.6; }
+.q-sub { font-size: 0.83rem; color: var(--muted); margin-bottom: 12px; line-height: 1.55; }
+.q-sub ul { margin-left: 18px; margin-top: 4px; }
+
+/* Answer pills */
+.answer-wrong { background: #FDEEEE; border-left: 4px solid #C0392B; color: #C0392B; border-radius: 0 8px 8px 0; padding: 9px 14px; margin-bottom: 8px; font-size: 0.86rem; font-weight: 600; }
+.answer-right { background: #EEF7F4; border-left: 4px solid #1A8A6A; color: #1A7860; border-radius: 0 8px 8px 0; padding: 9px 14px; margin-bottom: 14px; font-size: 0.86rem; font-weight: 600; }
+.answer-label { font-size: 0.75rem; font-weight: 400; opacity: 0.75; display: block; margin-bottom: 2px; }
+
+/* Explanation box */
+.explain-box { background: var(--card2); border-radius: 8px; padding: 14px 16px; font-size: 0.86rem; line-height: 1.7; margin-top: 4px; }
+.explain-box .explain-title { font-weight: 700; color: var(--accent); margin-bottom: 8px; font-size: 0.88rem; }
+.explain-box ul { margin-left: 18px; }
+.explain-box li { margin-bottom: 4px; }
+.explain-box table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.82rem; }
+.explain-box th, .explain-box td { border: 1px solid var(--border); padding: 5px 10px; text-align: left; }
+.explain-box th { background: var(--sidebar-bg); font-weight: 600; }
+
+/* BA II Plus box */
+.babox { background: #2C3E30; color: #A8D5B5; font-family: 'Courier New', monospace; border-radius: 8px; padding: 12px 16px; font-size: 0.82rem; margin-top: 10px; line-height: 1.8; }
+.babox .ba-title { color: #7EC8A0; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.5px; margin-bottom: 6px; font-family: 'Segoe UI', sans-serif; }
+.babox ol { margin-left: 18px; }
+.babox li { margin-bottom: 2px; }
+code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<a href="index.html" class="back-link">← กลับหน้าหลัก</a>
+
+<div class="summary-header">
+  <h1>Mock 1 — เฉลยพร้อมคำอธิบาย</h1>
+  <p>ชุดวิชาที่ 1 ชุดที่ 1 · ใช้สำหรับทบทวนส่วนตัวเท่านั้น · ตอบถูก = ✅ · ตอบผิด = ❌</p>
+  <div class="score-pills">
+    <span class="pill pill-wrong">❌ ตอบผิด 34 ข้อ</span>
+    <span class="pill pill-right">✅ ตอบถูก 4 ข้อ</span>
+    <span class="pill pill-total">รวม 38 ข้อ (ที่มีข้อมูล)</span>
+  </div>
+</div>
+
+<!-- ข้อ 1 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 1</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ข้อใดต่อไปนี้ไม่ถือเป็นเงินได้พึงประเมินตามระบบการเสียภาษีอากรในประเทศไทย</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>นายเดวิด ชาวอังกฤษ มีกำไรจากการขายหุ้นจดทะเบียนในตลาดหลักทรัพย์แห่งประเทศไทย</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>นายไก่ อาศัยอยู่ในประเทศไทย แต่เปิดร้านอาหารไทยอยู่ในประเทศพม่า</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (นายเดวิด):</strong> กำไรจากขายหุ้น SET แม้จะได้รับ <strong>ยกเว้นภาษี</strong> ตามพระราชกฤษฎีกา แต่ยังคงจัดเป็น "เงินได้พึงประเมิน" ตามมาตรา 40(4) ซึ่งได้รับยกเว้น ≠ ไม่เป็นเงินได้พึงประเมิน</li>
+      <li><strong>ที่ถูก (นายไก่):</strong> เงินได้จากแหล่งต่างประเทศ (ร้านอาหารในพม่า) ที่ <strong>ไม่ได้นำเข้าประเทศไทยในปีเดียวกัน</strong> ไม่ถือเป็นเงินได้พึงประเมินในไทย (มาตรา 41 วรรค 2)</li>
+      <li><strong>นางก้อย:</strong> บำนาญราชการที่ได้รับทุกเดือน = เงินได้จากแหล่งในประเทศไทย → เป็นเงินได้พึงประเมิน ไม่ว่าจะอยู่ที่ไหน</li>
+      <li><strong>ด.ช.เอก:</strong> รางวัลสลากออมสิน = เงินได้จากแหล่งในประเทศไทย → เป็นเงินได้พึงประเมิน</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 2 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 2</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">จงคำนวณหาความมั่งคั่งสุทธิ ณ สิ้นปี 25x2 ของผู้รับคำปรึกษา</div>
+  <div class="q-sub">
+    <ul>
+      <li>ความมั่งคั่งสุทธิ ณ สิ้นปี 25x1 = 100,000 บาท</li>
+      <li>เงินเดือนปี 25x2 = 180,000 บาท</li>
+      <li>ชำระหนี้ค่าเช่าบ้านค้างปี 25x1 = 10,000 บาท</li>
+      <li>ค่าใช้จ่ายดำรงชีวิตปี 25x2 = 80,000 บาท</li>
+      <li>ซื้อ IPAD 20,000 บาท ผ่านบัตรเครดิต</li>
+    </ul>
+  </div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>190,000 บาท</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>200,000 บาท</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li>เริ่มต้น: 100,000 + เงินเดือน: +180,000 − ค่าใช้จ่าย: −80,000</li>
+      <li><strong>ชำระหนี้ค่าเช่าบ้านค้างปี 25x1:</strong> หนี้นี้มีอยู่แล้วตั้งแต่ปี 25x1 → เงินสดลด 10,000 แต่หนี้สินก็ลด 10,000 → <strong>net worth ไม่เปลี่ยน</strong></li>
+      <li><strong>ซื้อ IPAD ผ่านบัตรเครดิต:</strong> สินทรัพย์ +20,000 หนี้สิน +20,000 → <strong>net worth ไม่เปลี่ยน</strong></li>
+      <li>∴ Net Worth ปี 25x2 = 100,000 + 180,000 − 80,000 = <strong>200,000 บาท</strong></li>
+      <li><strong>ที่ผิด (190,000):</strong> คำนวณหักค่าเช่าบ้าน 10,000 ซ้ำอีกครั้ง ทั้งที่การชำระหนี้เก่าไม่กระทบ net worth</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 3 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 3</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">การรักษาลูกค้าของนักวางแผนการเงิน ต้องดำเนินการอย่างไรให้สอดคล้องกับคู่มือการปฏิบัติงานสำหรับนักวางแผนการเงิน</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ติดตามสอบถามลูกค้าเกี่ยวกับการให้บริการ ความต้องการของลูกค้า และมีการติดต่อกับลูกค้าเป็นระยะ</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>จัดให้มีระบบในการทบทวนหรือให้ความเห็นชอบรายงานแผนการเงินก่อนที่นักวางแผนการเงินจะนำเสนอต่อลูกค้า</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด:</strong> การติดตามสอบถามลูกค้า เป็นแนวปฏิบัติที่ดีทั่วไป แต่ <strong>ไม่ใช่สิ่งที่คู่มือการปฏิบัติงาน CFP กำหนดไว้โดยเฉพาะ</strong> สำหรับการ "รักษาลูกค้า"</li>
+      <li><strong>ที่ถูก:</strong> คู่มือปฏิบัติงาน CFP กำหนดให้ต้องมี <strong>internal review process</strong> — จัดระบบทบทวน/อนุมัติรายงานแผนการเงิน <strong>ก่อน</strong> นำเสนอลูกค้า เพื่อควบคุมคุณภาพและความถูกต้อง</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 4 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 4</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">วิฑูรเป็น CFP รับเป็นที่ปรึกษาให้คุณกันต์ ถ้ากันต์ต้องการลงทุนในสัญญาซื้อขายล่วงหน้า แต่วิฑูรไม่มีความรู้ในด้านนี้ วิฑูรควรดำเนินการอย่างไร</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ส่งต่อให้ CFP ที่เป็นผู้เชี่ยวชาญ (ข้อ 3 อย่างเดียว)</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ข้อ 2 และข้อ 3 (ปรึกษาผู้เชี่ยวชาญ และส่งต่อ)</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (ข้อ 3 อย่างเดียว):</strong> การส่งต่อเพียงอย่างเดียวอาจไม่เพียงพอ เพราะ CFP ยังมีหน้าที่ดูแลลูกค้าโดยรวม</li>
+      <li><strong>ที่ถูก (ข้อ 2 + 3):</strong> จรรยาบรรณ CFP กำหนดว่า เมื่อพบเรื่องนอกความเชี่ยวชาญ ต้อง <strong>ทั้งปรึกษาผู้เชี่ยวชาญ และส่งต่อ</strong> ให้ CFP หรือผู้เชี่ยวชาญที่มีความรู้ด้านนั้น</li>
+      <li><strong>ยุติ:</strong> ไม่ถูกต้อง เพราะ CFP ไม่ควรละทิ้งลูกค้าโดยไม่มีทางออก</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 8 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 8</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">เจษฎาพร อายุ 32 ปี ฝากเงิน 100,000 บาท ในบัญชีเงินฝากประจำ 3 เดือน อัตราดอกเบี้ย 2.65% ต่อปี ภาษี 15% — จะมีเงิน 1,000,000 บาทเมื่ออายุเท่าใด</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>เมื่อเจษฎาพรมีอายุครบ 102.51 ปี</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>เมื่อเจษฎาพรมีอายุครบ 134.51 ปี</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย (TVM — Time to reach goal)</div>
+    <ul>
+      <li>ฝากประจำ 3 เดือน → ทบต้นทุก 3 เดือน (quarterly)</li>
+      <li>ดอกเบี้ยต่อไตรมาส = 2.65% ÷ 4 = 0.6625%</li>
+      <li>หักภาษี 15% → ดอกเบี้ยสุทธิต่อไตรมาส = 0.6625% × 0.85 = <strong>0.563125%</strong></li>
+      <li>n = ln(10)/ln(1.00563125) ≈ <strong>410 ไตรมาส = 102.51 ปี</strong></li>
+      <li>อายุที่จะมีเงิน 1 ล้าน = 32 + 102.51 = <strong>134.51 ปี</strong> ✓</li>
+      <li><strong>ที่ผิด (102.51 ปี):</strong> ได้จำนวนปีที่ใช้ถูกต้อง แต่ <strong>ลืมบวกอายุปัจจุบัน 32 ปี</strong></li>
+    </ul>
+  </div>
+  <div class="babox">
+    <div class="ba-title">🧮 BA II Plus</div>
+    <ol>
+      <li><code>[2ND][CLR TVM]</code></li>
+      <li><code>100000</code> <code>[+/-]</code> <code>[PV]</code> → -100,000</li>
+      <li><code>1000000</code> <code>[FV]</code></li>
+      <li><code>0</code> <code>[PMT]</code></li>
+      <li><code>0.563125</code> <code>[I/Y]</code> ← (2.65% × 0.85 ÷ 4)</li>
+      <li><code>[CPT][N]</code> → <strong>410 งวด ÷ 4 = 102.51 ปี + 32 = 134.51</strong></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ข้อ 9 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 9</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">แผนปฏิบัติการในการดำเนินการตามแผนการเงินมีรายละเอียดเรื่องเป็นไปตามข้อใดดังต่อไปนี้</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ปัญหาและโอกาส สมมติฐานในการวิเคราะห์</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ผู้รับผิดชอบ เวลา และวิธีการดำเนินการ</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>"แผนปฏิบัติการ" (Action Plan)</strong> ในแผนการเงินต้องระบุ: ใครทำ (ผู้รับผิดชอบ), เมื่อไหร่ (เวลา), ทำอย่างไร (วิธีการ)</li>
+      <li><strong>ที่ผิด:</strong> ปัญหา/โอกาส/สมมติฐาน → อยู่ในขั้นตอน <strong>วิเคราะห์สถานการณ์</strong> (Step 3) ไม่ใช่แผนปฏิบัติการ</li>
+      <li>ความเสี่ยง/ต้นทุน → อยู่ในส่วนวิเคราะห์</li>
+      <li>ทบทวน/ปรับปรุง → อยู่ในขั้นตอน <strong>ติดตามและทบทวนแผน</strong> (Step 6)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 10 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 10</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ข้อใดต่อไปนี้ไม่ใช่ข้อมูลเชิงคุณภาพ (qualitative data) ที่ระบุรายละเอียดทั่วไปเกี่ยวกับการดำเนินชีวิตของผู้รับคำปรึกษา</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ทุกข้อดังกล่าวข้างต้นเป็นข้อมูลเชิงคุณภาพ (qualitative data)</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>สถานะการลงทุนในปัจจุบัน (current investment portfolios)</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>Qualitative data</strong> = ข้อมูลที่อธิบายลักษณะ/คุณสมบัติ ไม่ใช่ตัวเลข เช่น ไลฟ์สไตล์, เป้าหมายชีวิต, ทัศนคติต่อความเสี่ยง</li>
+      <li><strong>Quantitative data</strong> = ข้อมูลตัวเลข เช่น มูลค่าพอร์ต, รายได้, สินทรัพย์</li>
+      <li><strong>ที่ถูก:</strong> สถานะการลงทุนปัจจุบัน (portfolio) = <strong>ข้อมูลเชิงปริมาณ</strong> (ราคา, จำนวนหน่วย, มูลค่า) → <strong>ไม่ใช่</strong> qualitative</li>
+      <li><strong>ที่ผิด:</strong> เลือก "ทุกข้อเป็น qualitative" ซึ่งผิด เพราะ portfolio เป็น quantitative</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 12 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 12</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">นายปลิ้ม ซื้อที่อยู่อาศัย 3 แห่ง — บ้านที่ 1: กู้คนเดียวจากนายจ้าง ดอกเบี้ย 30,000 บาท / บ้านที่ 2: กู้ร่วมกับพี่ชาย ดอกเบี้ย 100,000 บาท / ห้องชุดที่ 3: กู้ร่วมกับเพื่อน ดอกเบี้ย 20,000 บาท — นายปลิ้มมีสิทธิลดหย่อนดอกเบี้ยได้เท่าใด</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>100,000 บาท</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>90,000 บาท</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li>ลดหย่อนได้ตามจ่ายจริงสูงสุด 100,000 บาท <strong>เฉพาะส่วนของตนเอง</strong></li>
+      <li>บ้านที่ 1 (กู้คนเดียว): 30,000 → หักได้ <strong>30,000</strong></li>
+      <li>บ้านที่ 2 (กู้ร่วม 2 คน): 100,000 ÷ 2 = <strong>50,000</strong></li>
+      <li>ห้องชุดที่ 3 (กู้ร่วม 2 คน): 20,000 ÷ 2 = <strong>10,000</strong></li>
+      <li>รวม = 30,000 + 50,000 + 10,000 = <strong>90,000 บาท</strong> (ยังไม่เกินเพดาน 100,000)</li>
+      <li><strong>ที่ผิด (100,000):</strong> นับดอกเบี้ยบ้านที่สองทั้ง 100,000 โดยไม่หาร 2</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 14 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 14</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ข้อใดต่อไปนี้เป็นสาเหตุสำคัญที่จะต้องมีการตรวจสอบแผนทางการเงินอย่างสม่ำเสมอ</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ข้อ ก และ ข เป็นสาเหตุสำคัญ (การเปลี่ยนแปลงสถานภาพนักวางแผน / การเปลี่ยนแปลงรัฐธรรมนูญ)</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ความบกพร่องหรือความผิดพลาดในบางประเด็นที่นักวางแผนอาจจะละเลยหรือตกหล่นไปโดยไม่ได้ตั้งใจในการวางแผนครั้งแรก</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด:</strong> ข้อ ก (สถานภาพของ<strong>นักวางแผน</strong>เปลี่ยน) และ ข้อ ข (รัฐธรรมนูญเปลี่ยน) ไม่ใช่สาเหตุหลักที่ต้องทบทวนแผน<strong>ลูกค้า</strong> โดยตรง</li>
+      <li><strong>ที่ถูก:</strong> ความบกพร่อง/ผิดพลาดที่อาจเกิดขึ้นในแผนแรก คือเหตุผลที่ต้องมี <strong>periodic review</strong> เพื่อแก้ไขสิ่งที่ตกหล่น</li>
+      <li>สาเหตุหลักที่ต้องทบทวนแผน: การเปลี่ยนแปลงของ<strong>ลูกค้า</strong> (สถานะ, เป้าหมาย, รายได้) และความผิดพลาดในแผนเดิม</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 15 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 15</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">จากอัตราส่วนทางการเงิน: สภาพคล่อง 22.20x / สภาพคล่องพื้นฐาน 18.25x / สินทรัพย์สภาพคล่อง/NW 30.40% / หนี้สิน/สินทรัพย์ 11.01% / ชำระหนี้ประจำงวด 23.86% / การออม 15.19% / การลงทุน 12.34% — ในฐานะนักวางแผน ข้อใดวิเคราะห์ไม่ได้ (ยกเว้น)</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ผู้รับคำปรึกษามีวินัยในการออม</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ผู้รับคำปรึกษามีศักยภาพในการต่อยอดความมั่งคั่งสูง (= ข้อที่วิเคราะห์ไม่ได้)</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li>สภาพคล่อง 22.20x → สูงมาก → ไม่มีปัญหาสภาพคล่อง ✓ วิเคราะห์ได้</li>
+      <li>หนี้สิน/สินทรัพย์ 11.01% → ต่ำ → ปัญหาหนี้น้อย ✓ วิเคราะห์ได้</li>
+      <li>การออม 15.19% → ดี → "มีวินัยในการออม" ✓ วิเคราะห์ได้ → <strong>เลือกข้อนี้ผิด</strong></li>
+      <li><strong>"มีศักยภาพในการต่อยอดความมั่งคั่งสูง"</strong> → อัตราส่วนการลงทุนเพียง 12.34% + สภาพคล่องสูงมากแสดงถึงการถือเงินสดมากเกินไป (inefficient) → <strong>ยังไม่สามารถสรุปได้ว่าศักยภาพสูง</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 16 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 16</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ข้อใดต่อไปนี้กล่าวได้ถูกต้องเกี่ยวกับการวางแผนการเงิน</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ทุกข้อดังกล่าวข้างต้นกล่าวได้ถูกต้องเกี่ยวกับการวางแผนการเงิน</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>การวางแผนทางการเงินเกี่ยวข้องกับการจัดหาและใช้ทรัพยากร "เงิน" ของบุคคล รางวัลของการจัดการที่เหมาะสมคือการยกระดับมาตรฐานการดำรงชีวิตและความมั่นคง</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ข้อ 1 (ผิด):</strong> Personal financial planning ครอบคลุมมากกว่าแค่ประกัน+การลงทุน+เกษียณ ยังรวมถึงภาษี, มรดก, การจัดการหนี้ ฯลฯ</li>
+      <li><strong>ข้อ 3 (ผิด):</strong> "ตอนเริ่มทำงานยังไม่ต้องวางแผนเกษียณ" ผิดหลัก CFP — ควรวางแผนเกษียณตั้งแต่เนิ่นๆ ยิ่งเริ่มเร็ว ยิ่งดี</li>
+      <li><strong>ข้อ 2 (ถูก):</strong> นิยามที่ถูกต้องของการวางแผนการเงิน = จัดสรรทรัพยากรเงินเพื่อยกระดับชีวิต</li>
+      <li><strong>ที่ผิด:</strong> เลือก "ทุกข้อถูก" แต่มีอย่างน้อยสองข้อผิด</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 18 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 18</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">แกนของเวลา (Time Line) แสดง: -500,000 ที่ t=0, อัตรา 1% ต่องวด, FV ที่ t=8 (สิ้นงวด) — ข้อใดสอดคล้องกับ Time Line นี้</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>เอ: ลงทุน 500,000 วันนี้ แล้วลงทุนเพิ่มต่อเนื่องทุกๆ งวด เป็นเวลา 8 ปี ดอกเบี้ย 1% ต่อปี สิ้นปีที่ 8 มี FV เท่าใด</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>เอฟ: วางแผนในอีก 1 ปีจะนำ 500,000 ฝากประจำ 3 เดือน ดอกเบี้ย 4% ต่อปี เป็นเวลา 2 ปี แล้วนำเงินซื้อรถ</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (เอ):</strong> "ลงทุนเพิ่มต่อเนื่องทุกๆ งวด" = <strong>annuity</strong> ไม่ใช่ lump sum → ไม่ตรงกับ timeline</li>
+      <li><strong>ที่ถูก (เอฟ):</strong> ฝากประจำ 3 เดือน ดอกเบี้ย 4%/ปี → 4%÷4 = <strong>1% ต่อไตรมาส</strong> ✓ เป็นเวลา 2 ปี = <strong>8 ไตรมาส</strong> ✓ เงิน 500,000 ออกไป (-) แล้วได้ FV สิ้นงวดที่ 8 ✓</li>
+      <li>โท: 1% ต่อเดือน × 8 ปี = 96 งวด ≠ 8 งวด</li>
+      <li>พี: 8 เดือน ≠ 8 งวดปี, และ 12% ≠ 1%</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 19 — ตอบถูก -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 19</span><span class="q-tag">MOCK 1</span><span class="correct-badge">✅ ตอบถูก</span></div>
+  <div class="q-text">ทฤษฎีต้องการวางแผนเพื่อเป็นเจ้าของธุรกิจ รายได้สุทธิหลังหักภาษีปีนี้ 2,000,000 บาท เพิ่ม 15%/ปี เป็นเวลา 3 ปี ออม 50% ของรายได้ทุกปี ลงทุนกองทุนดัชนีผลตอบแทน 25%/ปี ลงทุนสิ้นปีทุกปี — อีก 3 ปีข้างหน้าจะมีเงินลงทุนเท่าใด</div>
+  <div class="answer-right"><span class="answer-label">✅ ตอบถูก:</span>4,970,875 บาท</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย (Growing Savings + FV)</div>
+    <table>
+      <tr><th>ปี</th><th>รายได้</th><th>ออม 50%</th></tr>
+      <tr><td>1</td><td>2,000,000 × 1.15 = 2,300,000</td><td>1,150,000</td></tr>
+      <tr><td>2</td><td>2,300,000 × 1.15 = 2,645,000</td><td>1,322,500</td></tr>
+      <tr><td>3</td><td>2,645,000 × 1.15 = 3,041,750</td><td>1,520,875</td></tr>
+    </table>
+    <ul style="margin-top:8px;">
+      <li>ปีที่ 1: 1,150,000 × (1.25)² = 1,796,875</li>
+      <li>ปีที่ 2: 1,322,500 × (1.25)¹ = 1,653,125</li>
+      <li>ปีที่ 3: 1,520,875 × (1.25)⁰ = 1,520,875</li>
+      <li>รวม = <strong>4,970,875 บาท</strong> ✓</li>
+    </ul>
+  </div>
+  <div class="babox">
+    <div class="ba-title">🧮 BA II Plus (ทำ 3 ครั้ง แล้วบวกกัน)</div>
+    <ul>
+      <li>CF ปีที่ 1: <code>[CLR TVM]</code> <code>2[N]</code> <code>25[I/Y]</code> <code>1150000[+/-][PV]</code> <code>0[PMT]</code> <code>[CPT][FV]</code> → 1,796,875</li>
+      <li>CF ปีที่ 2: <code>1[N]</code> <code>25[I/Y]</code> <code>1322500[+/-][PV]</code> <code>[CPT][FV]</code> → 1,653,125</li>
+      <li>CF ปีที่ 3: 1,520,875 (ไม่ต้อง discount)</li>
+      <li>รวม: 1,796,875 + 1,653,125 + 1,520,875 = <strong>4,970,875</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 20 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 20</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">สินเชื่อชนิดใดที่มีการจ่ายคืนเงินต้นและดอกเบี้ยเป็นงวดๆ โดยงวดแรกๆ จ่ายน้อย แล้วค่อยๆ ทยอยเพิ่มจำนวนเงินที่จ่ายคืนในแต่ละงวด ตลอดอายุการกู้ยืม</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>Amortizing Loan</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>Balloon Repayment Loan</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>Bullet Repayment:</strong> จ่ายดอกเบี้ยตลอดอายุ แล้วจ่ายเงินต้น<strong>ทั้งหมด</strong>งวดสุดท้ายงวดเดียว</li>
+      <li><strong>Balloon Repayment:</strong> จ่ายน้อยในงวดแรกๆ แล้ว<strong>ทยอยเพิ่มขึ้น</strong> จนถึงงวดสุดท้ายที่เป็นก้อนใหญ่ = ตรงกับโจทย์ ✓</li>
+      <li><strong>Amortizing Loan:</strong> จ่าย<strong>เท่ากันทุกงวด</strong> (equal payment) ยอดรวมเท่าเดิมทุกงวด → ไม่ใช่ "จ่ายน้อยแล้วเพิ่มขึ้น"</li>
+      <li><strong>ที่ผิด (Amortizing):</strong> สับสนกับโครงสร้างที่ส่วนเงินต้นเพิ่มขึ้นทุกงวด แต่ยอดชำระ<strong>รวม</strong>ยังเท่าเดิม</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 23 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 23</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ข้อใดต่อไปนี้กล่าวไม่ถูกต้องเกี่ยวกับสาเหตุและผลเสียที่บุคคลละเลยเรื่องการวางแผนทางการเงิน</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ทุกข้อดังกล่าวข้างต้นกล่าวได้ถูกต้อง</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ผู้ที่มีฐานะทางการเงินระดับปานกลางมักคิดว่าการวางแผนการเงินเสียเวลา ในทางตรงกันข้ามผู้ที่มีฐานะมั่นคง มักเห็นความจำเป็นในการวางแผน (= ข้อที่กล่าวไม่ถูกต้อง)</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (เลือก "ทุกข้อถูก"):</strong> ข้อแรกกล่าวว่า "คนมีฐานะมั่นคงมักเห็นความจำเป็นในการวางแผน" ซึ่งไม่ถูกต้อง</li>
+      <li><strong>ความจริง:</strong> ทั้งคนรวยและคนปานกลางต่างก็ละเลยการวางแผน ด้วยเหตุผลต่างกัน คนมีฐานะมั่นคงมักไม่วางแผนเพราะ "รู้สึกปลอดภัยแล้ว"</li>
+      <li><strong>ที่ถูก (ข้อแรก = ข้อที่ไม่ถูกต้อง):</strong> การระบุว่า "คนรวยมักวางแผน คนปานกลางไม่วางแผน" เป็น generalization ที่ผิด</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 25 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 25</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">วัฏจักรชีวิต (life cycle) ระยะใดที่อยู่ในวัยก่อนเกษียณจนถึงวัยเกษียณ ซึ่งผู้รับคำปรึกษามีความมั่นใจในฐานะการเงินและสามารถใช้จ่ายตอบสนองความต้องการของตัวเองได้อย่างเต็มที่</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ระยะมั่นคง (conservation/protection)</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ระยะการอุทิศ (distribution/gifting)</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <table>
+      <tr><th>ระยะ</th><th>ช่วงอายุ</th><th>ลักษณะ</th></tr>
+      <tr><td>สะสม (Accumulation)</td><td>วัยทำงานตอนต้น</td><td>เริ่มสะสมสินทรัพย์</td></tr>
+      <tr><td>มั่นคง (Conservation)</td><td>วัยกลางคน</td><td>รักษา/ปกป้องสินทรัพย์ที่มี</td></tr>
+      <tr><td><strong>อุทิศ (Distribution)</strong></td><td><strong>ก่อนเกษียณ–เกษียณ</strong></td><td><strong>ใช้จ่ายเต็มที่ แจกจ่ายให้ทายาท</strong></td></tr>
+    </table>
+    <ul style="margin-top:8px;">
+      <li><strong>ที่ผิด (Conservation):</strong> ระยะมั่นคงเน้น<strong>ปกป้องรักษา</strong>สินทรัพย์ ไม่ใช่ใช้จ่ายเต็มที่</li>
+      <li><strong>ที่ถูก (Distribution):</strong> "ก่อนเกษียณถึงเกษียณ + มีความมั่นคงแล้ว + ใช้จ่ายตอบสนองตนเองได้เต็มที่" = Distribution/Gifting ✓</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 28 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 28</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ข้อใดต่อไปนี้กล่าวได้ถูกต้องเกี่ยวกับแนวคิดมูลค่าเงินตามเวลา (Time Value of Money)</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>TVM ถูกนำไปประยุกต์ใช้ในการวางแผนการเงินสำหรับบุคคลเป็นการเฉพาะเจาะจงเพื่อตัดสินใจทางเลือกการลงทุนต่างๆ เท่านั้น</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ทุกข้อข้างต้นกล่าวได้ถูกต้องเกี่ยวกับแนวคิด TVM</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (ข้อแรก):</strong> TVM ไม่ได้ใช้แค่การตัดสินใจลงทุน<strong>เท่านั้น</strong> แต่ใช้ในการวางแผนการเงินด้านต่างๆ ทั้ง retirement, loan, savings goal, education ฯลฯ คำว่า "เฉพาะเจาะจง...เท่านั้น" ทำให้ข้อนี้ผิด</li>
+      <li><strong>ที่ถูก (ทุกข้อ):</strong> ข้อ 2 (เลือกทบต้นบ่อยกว่าได้ FV สูงกว่า) และข้อ 3 (Time Line อธิบาย) ถูกต้อง → เฉลยคือทุกข้อถูก</li>
+      <li><strong>Key concept:</strong> TVM ใช้ประยุกต์กว้างขวาง ไม่จำกัดเฉพาะการลงทุน</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 29 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 29</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ข้อใดกล่าวได้ถูกต้องเกี่ยวกับงบกระแสเงินสดส่วนบุคคล (Personal Statement of Cash Flow)</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ปัจจัยสำคัญที่ส่งผลต่อกระแสเงินสดรับ ได้แก่ วงจรชีวิตของบุคคลและประเภทของงาน</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ถูกทุกข้อ</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด:</strong> เลือกข้อ 2 เพราะดูถูก แต่ <strong>ข้ออื่นก็ถูกด้วย</strong> → ควรเลือก "ถูกทุกข้อ"</li>
+      <li>ข้อ 1 ถูก: งบกระแสเงินสดวิเคราะห์พฤติกรรมและพยากรณ์อนาคต</li>
+      <li>ข้อ 2 ถูก: Life cycle + ประเภทงาน ส่งผลต่อรายได้ (cash inflow)</li>
+      <li>ข้อ 3 ถูก: Fixed cash outflow = ประจำ + คาดการณ์ได้แน่นอน</li>
+      <li><strong>หลักจำ:</strong> เมื่อหลายข้อดูถูก ต้องพิจารณา "ถูกทุกข้อ" ก่อนเสมอ</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 32 — ตอบถูก -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 32</span><span class="q-tag">MOCK 1</span><span class="correct-badge">✅ ตอบถูก</span></div>
+  <div class="q-text">ปกรณ์ต้องการกันเงินจากปัจจุบันเพื่อเป็นทุนการศึกษาปริญญาโทในอีก 3 ปี โดยฝากประจำแบบพิเศษ อัตราดอกเบี้ยขั้นบันได 3%, 3.75%, 4.5% ในปีที่ 1, 2, 3 ทบต้นทุกปี ภาษีหัก ณ ที่จ่าย 15% ต้องการ 500,000 บาทในอีก 3 ปี — วันนี้ต้องฝากเท่าใด</div>
+  <div class="answer-right"><span class="answer-label">✅ ตอบถูก:</span>455,098 บาท</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย (PV with stepped rates after tax)</div>
+    <ul>
+      <li>อัตราสุทธิหลังภาษี: ปี 1 = 3%×0.85 = <strong>2.55%</strong>, ปี 2 = 3.75%×0.85 = <strong>3.1875%</strong>, ปี 3 = 4.5%×0.85 = <strong>3.825%</strong></li>
+      <li>PV = 500,000 ÷ (1.0255 × 1.031875 × 1.03825) = 500,000 ÷ 1.09873 = <strong>455,098 บาท</strong> ✓</li>
+      <li>447,742/447,719: คำนวณผิดเพราะไม่หักภาษีดอกเบี้ย</li>
+    </ul>
+  </div>
+  <div class="babox">
+    <div class="ba-title">🧮 BA II Plus (ถอยหลัง 3 ขั้น, N=1 ทุกครั้ง)</div>
+    <ul>
+      <li>ขั้น 1 ปีที่ 3→2: <code>[CLR TVM]</code> <code>1[N]</code> <code>3.825[I/Y]</code> <code>500000[FV]</code> <code>0[PMT]</code> <code>[CPT][PV]</code> → ~481,576</li>
+      <li>ขั้น 2 ปีที่ 2→1: <code>1[N]</code> <code>3.1875[I/Y]</code> ใส่ผลลัพธ์ขั้น 1 <code>[+/-][PV]</code> <code>[CPT][PV]</code> → ~466,700</li>
+      <li>ขั้น 3 ปีที่ 1→0: <code>1[N]</code> <code>2.55[I/Y]</code> ใส่ผลลัพธ์ขั้น 2 <code>[+/-][PV]</code> <code>[CPT][PV]</code> → <strong>~455,098</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 34 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 34</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">จากข้อมูลทรัพย์สิน: เช็คยังไม่ขึ้นเงิน 85,000 / เงินฝากออมทรัพย์ 120,000 / บ้านราคาตลาด 9,800,000 (ติดจำนอง 5,000,000) / เฟอร์นิเจอร์ 1,200,000 / รถยนต์ 330,000 (ค้างลิสซิ่ง 300,000) / กองทุนรวมตลาดเงิน 1,800,000 / กองทุนสำรองเลี้ยงชีพ 3,855,000 — คำนวณมูลค่าสินทรัพย์รวม</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>10,260,000 บาท</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>17,190,000 บาท</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <table>
+      <tr><th>รายการ</th><th>มูลค่า (บาท)</th></tr>
+      <tr><td>เช็คยังไม่ขึ้นเงิน</td><td>85,000</td></tr>
+      <tr><td>เงินฝากออมทรัพย์</td><td>120,000</td></tr>
+      <tr><td>บ้านพักอาศัย (ตลาด)</td><td>9,800,000</td></tr>
+      <tr><td>เฟอร์นิเจอร์/เครื่องใช้ (ตลาด)</td><td>1,200,000</td></tr>
+      <tr><td>รถยนต์ (ตลาด)</td><td>330,000</td></tr>
+      <tr><td>กองทุนรวมตลาดเงิน</td><td>1,800,000</td></tr>
+      <tr><td>กองทุนสำรองเลี้ยงชีพ</td><td>3,855,000</td></tr>
+      <tr><td><strong>รวม</strong></td><td><strong>17,190,000</strong></td></tr>
+    </table>
+    <ul style="margin-top:8px;">
+      <li><strong>ที่ผิด (10,260,000):</strong> สับสนระหว่าง "สินทรัพย์รวม" กับ "สินทรัพย์สุทธิ" — อาจหักหนี้จำนอง+ลิสซิ่ง หรือลืมรวมกองทุนสำรองฯ</li>
+      <li><strong>หลักจำ:</strong> สินทรัพย์รวม = ทุกอย่างที่เป็นทรัพย์ ใช้ราคาตลาด ไม่หักหนี้</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 35 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 35</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">การกระทำใดไม่ถือเป็นส่วนหนึ่งของการวางแผนภาษีเงินได้บุคคลธรรมดา</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>การฝากเงินประจำแบบผูกพัน 2 ปี</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>การซื้อประกันชีวิตให้กับบุตร</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>RMF:</strong> ลดหย่อนภาษีได้ → เป็นการวางแผนภาษี ✓</li>
+      <li><strong>ซื้อขายหุ้น SET:</strong> กำไรจากหุ้น SET ได้รับยกเว้นภาษี → เป็นการวางแผนภาษี ✓</li>
+      <li><strong>ฝากประจำผูกพัน 2 ปี:</strong> ดอกเบี้ยได้รับ<strong>ยกเว้นภาษี</strong> → เป็นการวางแผนภาษี ✓ — <strong>เลือกผิด</strong></li>
+      <li><strong>ซื้อประกันชีวิตให้บุตร:</strong> เบี้ยประกันชีวิต<strong>ของบุตร</strong>ไม่สามารถนำมาลดหย่อนภาษีของผู้ปกครองได้ (ลดหย่อนได้เฉพาะประกันของตนเอง/คู่สมรส) → <strong>ไม่ใช่</strong>การวางแผนภาษี ✓</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 36 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 36</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ธนาคารพาณิชย์สีขาวมีบริษัทประกันภัยในเครือ ร่วมมือกันกำหนดเบี้ยประกันบ้านต่ำกว่าปกติเพื่อจูงใจผู้กู้ทำประกัน — ความสัมพันธ์ระหว่างสถาบันการเงินและบริษัทประกันภัยในเครือคืออะไร</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ลูกหนี้ (debtor) / เจ้าหนี้ (creditor)</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ผู้ว่าจ้าง (principal) / ตัวแทน (agent)</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li>คำถามถามถึงความสัมพันธ์ระหว่าง<strong>ธนาคาร</strong>กับ<strong>บริษัทประกันในเครือ</strong> (ไม่ใช่ธนาคารกับผู้กู้)</li>
+      <li>ธนาคาร = <strong>ผู้ว่าจ้าง (principal)</strong> ที่ต้องการให้ลูกค้าทำประกัน</li>
+      <li>บริษัทประกันในเครือ = <strong>ตัวแทน (agent)</strong> ที่รับมอบหมายจัดทำประกันให้</li>
+      <li><strong>ที่ผิด (debtor/creditor):</strong> เป็นความสัมพันธ์ระหว่างผู้กู้กับธนาคาร ไม่ใช่ระหว่างธนาคารกับบริษัทประกัน</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 38 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 38</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ข้อใดต่อไปนี้กล่าวได้ถูกต้องเกี่ยวกับแผนการเงิน</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>การวางแผนภาษีคือการวางแผนการชำระภาษีให้น้อยที่สุดอย่างถูกกฎหมาย ซึ่งทำให้มีรายรับสุทธิหลังหักภาษีมากขึ้นเพื่อจับจ่ายและลงทุน</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ทรัพย์สินมีค่า เช่น ทองคำ เพชร วัตถุโบราณ ไม่จัดเป็นการลงทุน เนื่องจากไม่มีการจัดหาโดยหวังผลตอบแทนทางการเงินเป็นสำคัญ</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (ข้อ 4 — การวางแผนภาษี):</strong> แม้นิยามดูถูก แต่ใน CFP M1 การวางแผนภาษีต้อง<strong>ไม่ใช่แค่ minimize</strong> แต่ต้องครอบคลุมการจัดการเงินได้ทั้งระบบ — "น้อยที่สุด" อาจเข้าใจผิดเป็น tax evasion</li>
+      <li><strong>ที่ถูก (ข้อ 2):</strong> ใน CFP นิยาม "การลงทุน" ต้องมีการจัดหาโดย<strong>หวังผลตอบแทนทางการเงิน</strong>เป็นสำคัญ ทองคำ/เพชร/โบราณวัตถุซื้อเพื่อเป็นเจ้าของหรือใช้ → จัดเป็น collectibles ไม่ใช่ investment</li>
+      <li><strong>ข้อ 3 ผิด:</strong> บริษัทประกันรับเฉพาะ <strong>Pure Risk</strong> ไม่รับ Speculative Risk</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 45 — ตอบถูก -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 45</span><span class="q-tag">MOCK 1</span><span class="correct-badge">✅ ตอบถูก</span></div>
+  <div class="q-text">มาริโอ้นำเงิน 3,000,000 บาทฝากประจำพิเศษ อัตราดอกเบี้ยขั้นบันได 3%, 3.75%, 4.5% ในปีที่ 1, 2, 3 ทบต้นทุกปี ภาษีหัก ณ ที่จ่าย 15% — สิ้นปีที่ 3 จะมีเงินเท่าใด</div>
+  <div class="answer-right"><span class="answer-label">✅ ตอบถูก:</span>3,295,990 บาท</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย (FV with stepped rates after tax)</div>
+    <ul>
+      <li>อัตราสุทธิ: ปี 1 = 3%×0.85 = <strong>2.55%</strong>, ปี 2 = 3.75%×0.85 = <strong>3.1875%</strong>, ปี 3 = 4.5%×0.85 = <strong>3.825%</strong></li>
+      <li>FV = 3,000,000 × 1.0255 × 1.031875 × 1.03825 = 3,000,000 × 1.09866 = <strong>3,295,990 บาท</strong> ✓</li>
+      <li>3,350,139/3,350,314: ไม่ได้หักภาษีดอกเบี้ย — ใช้อัตรา nominal โดยตรง</li>
+      <li><strong>สังเกต:</strong> ข้อ 32 และ 45 ใช้โจทย์โครงสร้างเดียวกัน ต่างกันที่ทิศทาง (PV vs FV)</li>
+    </ul>
+  </div>
+  <div class="babox">
+    <div class="ba-title">🧮 BA II Plus (เดินหน้า 3 ขั้น, N=1 ทุกครั้ง)</div>
+    <ul>
+      <li>ขั้น 1: <code>[CLR TVM]</code> <code>1[N]</code> <code>2.55[I/Y]</code> <code>3000000[+/-][PV]</code> <code>0[PMT]</code> <code>[CPT][FV]</code> → ~3,076,500</li>
+      <li>ขั้น 2: <code>1[N]</code> <code>3.1875[I/Y]</code> ใส่ผลลัพธ์ขั้น 1 <code>[+/-][PV]</code> <code>[CPT][FV]</code> → ~3,174,591</li>
+      <li>ขั้น 3: <code>1[N]</code> <code>3.825[I/Y]</code> ใส่ผลลัพธ์ขั้น 2 <code>[+/-][PV]</code> <code>[CPT][FV]</code> → <strong>~3,295,990</strong></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 46 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 46</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">โจทย์ประมาณการงบ 3 ปี (25x4–25x6) — คำถามเกี่ยวกับการวิเคราะห์งบประมาณ</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ทุกข้อกล่าวได้ถูกต้อง</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ประมาณการค่าใช้จ่ายคงที่ปี 25x5 เท่ากับ 503,279 บาท</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (ทุกข้อ):</strong> ไม่ใช่ทุกข้อถูก เพราะมีบางข้อผิด</li>
+      <li><strong>ที่ถูก:</strong> ค่าใช้จ่ายคงที่ปี 25x5 = 503,279 บาท (เท่ากับปี 25x4 เพราะ "คงที่" ไม่เปลี่ยนแปลง)</li>
+      <li><strong>หลักจำ:</strong> ค่าใช้จ่าย<strong>คงที่</strong> = เท่าเดิมทุกปี ไม่เปลี่ยนตามรายได้</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 47 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 47</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">หากนักวางแผนการเงินย้ายบริษัท โดยแจ้งลูกค้า<strong>บางราย</strong> ถือว่าไม่ปฏิบัติตามจรรยาบรรณในด้านใด</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ความเป็นมืออาชีพ (professionalism)</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ความเป็นธรรม (fairness)</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (professionalism):</strong> Professionalism = ความประพฤติตามมาตรฐานวิชาชีพโดยรวม ไม่ได้เฉพาะเรื่องปฏิบัติกับลูกค้าไม่เท่าเทียม</li>
+      <li><strong>ที่ถูก (fairness):</strong> แจ้งลูกค้า<strong>เพียงบางราย</strong> = ปฏิบัติต่อลูกค้า<strong>ไม่เท่าเทียม</strong> ละเมิด "ความเป็นธรรม" ต่อทุกคน CFP ต้องแจ้งลูกค้า<strong>ทุกราย</strong>เมื่อย้ายบริษัท</li>
+      <li><strong>จำหลักการ:</strong> Fairness = ปฏิบัติต่อลูกค้าทุกคนอย่างเท่าเทียม ไม่เลือกปฏิบัติ</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 48 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 48</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ข้อใดต่อไปนี้กล่าวได้ถูกต้องเกี่ยวกับความสำคัญของการวางแผนการเงิน</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>Comprehensive Financial Planning ดีกว่า Special Needs Planning เพราะครอบคลุมกิจกรรมทางการเงินทั้งหมดของบุคคล</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>การวางแผนการเงินทวีความสำคัญขึ้น เนื่องจากปัจจัยต่างๆ เช่น โครงสร้างประชากรเปลี่ยน, ยกเลิกคุ้มครองเงินฝากเต็มจำนวน, ตราสารการเงินซับซ้อน, ขยายขอบเขตธุรกิจสถาบันการเงิน, ภาวะเศรษฐกิจแปรปรวน</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (ข้อ 1):</strong> Comprehensive ≠ ดีกว่า Special Needs เสมอไป ทั้งสองรูปแบบมีคุณค่าต่างกัน Special Needs เหมาะกับกรณีเฉพาะ</li>
+      <li><strong>ที่ถูก (ข้อ 2):</strong> ปัจจัยที่ทำให้การวางแผนการเงินสำคัญขึ้น = ถูกต้องตาม CFP M1</li>
+      <li><strong>ข้อ 3 ผิดอย่างชัดเจน:</strong> จุดประสงค์หลักคือ<strong>ประโยชน์ลูกค้า</strong> ไม่ใช่ขายสินค้า</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 51 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 51</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">หากพบว่านางวัณดี CFP ของธนาคารพาณิชย์ ทำผิดโดยอ้อโลงลูกค้า ในฐานะ CFP ควรทำอย่างไร (I=แจ้งสมาคมฯ, II=แจ้งหน่วยงานกำกับ, III=ส่งเอกสารให้ผู้บังคับบัญชา)</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>I เท่านั้น</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>I และ II เท่านั้น</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ถูก (I + II):</strong> CFP ที่พบการกระทำผิดต้องรายงาน<strong>ทั้งสมาคมวิชาชีพ (I) และหน่วยงานกำกับดูแล (II)</strong> เพราะเป็นหน้าที่ตามจรรยาบรรณ</li>
+      <li><strong>III ผิด:</strong> ส่งเอกสารให้ผู้บังคับบัญชา = ช่องทางภายในองค์กร ไม่ใช่ช่องทางตามวิชาชีพ CFP</li>
+      <li><strong>ที่ผิด (I เท่านั้น):</strong> ต้องแจ้งทั้งสองหน่วยงาน ไม่ใช่แค่สมาคม</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 59 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 59</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">บุตรคนใดต่อไปนี้ ไม่มีสิทธินำมาหักลดหย่อนในการคำนวณภาษีเงินได้บุคคลธรรมดา</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>บุตรอายุ 28 ปี แต่ถูกศาลสั่งให้เป็นคนเสมือนไร้ความสามารถ</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ไม่มีข้อใดถูกต้อง (ทั้งสามข้อล้วนมีสิทธิหักลดหย่อนได้)</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>บุตรอายุ 28 เสมือนไร้ความสามารถ:</strong> บุตรที่ศาลสั่งให้เป็นคนเสมือนไร้ความสามารถ → <strong>ลดหย่อนได้โดยไม่จำกัดอายุ</strong> ✓</li>
+      <li><strong>บุตรเกิด 20 ธ.ค. ตาย 21 ธ.ค.:</strong> บุตรที่เกิดและเสียชีวิตในปีภาษีเดียวกัน → <strong>ลดหย่อนได้เต็มปี</strong> ✓</li>
+      <li><strong>บุตรบุญธรรมอาศัยกับพ่อแม่จริง:</strong> บุตรบุญธรรม → <strong>ลดหย่อนได้</strong> (ผู้รับบุตรบุญธรรมใช้สิทธิ์) ✓</li>
+      <li><strong>ที่ผิด:</strong> คิดว่าบุตรอายุ 28 ปีเกินเกณฑ์ (ปกติ ≤ 20 ปี) แต่ลืมว่าข้อยกเว้น "ไร้ความสามารถ" = ลดหย่อนได้ไม่จำกัดอายุ</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 70 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 70</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">การแก้ไขปัญหาทางการเงินในข้อใดต่อไปนี้ สามารถบรรลุเป้าหมายได้ด้วยการจัดทำงบประมาณ</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>เสฏฐวุฒิต้องการทราบถึงแหล่งที่มาของกระแสเงินสดรับและกระแสเงินสดจ่ายในปัจจุบันและในอนาคตอีก 1 ปีข้างหน้า</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ธนาติต้องการทราบถึงสถานะทางการเงินในปัจจุบัน และในอนาคตอีก 1 ปีข้างหน้า</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (เสฏฐวุฒิ):</strong> "ทราบแหล่งที่มาของกระแสเงินสด" = <strong>งบกระแสเงินสด</strong> ไม่ใช่งบประมาณ</li>
+      <li><strong>ที่ถูก (ธนาติ):</strong> "ทราบสถานะทางการเงินในปัจจุบันและอนาคต" = <strong>งบประมาณ</strong> ✓ ใช้วางแผนรายรับ-รายจ่าย</li>
+      <li>ชยปกัส: เรื่องป้องกันความเสี่ยงฉุกเฉิน = ประกัน/กองทุนฉุกเฉิน</li>
+      <li>ก้าวกล้า: เป้าหมายระยะยาว = ต้องใช้ TVM/savings plan</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 72 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 72</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">นายมงคลขอคำแนะนำเรื่องสวัสดิการพนักงานที่ไม่ต้องนำมารวมเป็นรายได้คำนวณภาษีเงินได้บุคคลธรรมดา</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ประกันชีวิตหมู่ให้กับพนักงานทุกคน</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>จัดอบรมสัมมนาเพิ่มทักษะการทำงาน</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ถูก (อบรมสัมมนา):</strong> ค่าใช้จ่ายในการฝึกอบรม/พัฒนาทักษะ = ค่าใช้จ่ายของบริษัท <strong>ไม่ถือเป็นรายได้พนักงาน</strong> → ไม่ต้องนำมารวมคำนวณภาษี ✓</li>
+      <li><strong>ที่ผิด (ประกันชีวิตหมู่):</strong> เบี้ยประกันชีวิตหมู่ที่บริษัทจ่ายให้พนักงาน = <strong>ถือเป็นรายได้ของพนักงาน</strong> → ต้องนำมารวมคำนวณภาษี</li>
+      <li>ค่าน้ำมัน/เงินช่วยเล่าเรียนบุตร: ถือเป็นรายได้พนักงาน ต้องรวมคำนวณภาษี</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 73 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 73</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ข้อใดต่อไปนี้กล่าวได้ถูกต้องเกี่ยวกับสินเชื่อระยะยาว</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>สินเชื่อจำนอง (mortgage loan) ที่มีการกำหนดอัตราดอกเบี้ยคงที่ตลอดอายุ จะมีการแบ่งชำระเงินต้นและดอกเบี้ยในแต่ละงวดเท่ากัน</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ผู้กู้ยืมสินเชื่ออัตราผันแปรจะจ่ายดอกเบี้ยในอัตราที่ต่ำกว่าสินเชื่ออัตราคงที่</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li><strong>ที่ผิด (ข้อ 3):</strong> Mortgage fixed rate = <strong>ยอดชำระรวมเท่ากันทุกงวด</strong> (equal total payment) แต่<strong>สัดส่วน</strong>ของเงินต้น:ดอกเบี้ยไม่เท่ากัน งวดแรกดอกเบี้ยสูง เงินต้นต่ำ → ค่อยๆ เปลี่ยนสัดส่วน</li>
+      <li><strong>ที่ถูก (ข้อ 2):</strong> Variable rate loan เริ่มต้นที่อัตราดอกเบี้ยต่ำกว่า fixed เพราะผู้กู้รับความเสี่ยงอัตราดอกเบี้ยแทนธนาคาร</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 75 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 75</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">บริษัทไทยจ้างบริษัทเอบีซี (เยอรมัน) เป็นที่ปรึกษา บริษัทเอบีซีส่ง Mr.S มาทำงาน 2 ปี รับเงินเดือนจากบริษัทเยอรมัน นำเงินบางส่วนมาใช้ในไทย — Mr.S ต้องเสียภาษีไทยหรือไม่</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ไม่ต้องเสีย เนื่องจากเป็นเงินได้ซึ่งเกิดนอกประเทศไทย</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ต้องเสีย เนื่องจากเป็นเงินได้จากหน้าที่งานที่ทำในประเทศไทย</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย (มาตรา 41 วรรค 1)</div>
+    <ul>
+      <li>Mr.S ทำงานในไทย 2 ปี → <strong>เกิน 180 วัน</strong> → มีถิ่นพำนักในไทย</li>
+      <li>รายได้จาก<strong>แหล่งในไทย</strong> = งานที่ทำในไทย → <strong>ต้องเสียภาษีไทย</strong> ตามมาตรา 41 วรรค 1</li>
+      <li>"แหล่งที่มาของเงินได้" = พิจารณาจาก<strong>ที่ทำงาน</strong> ไม่ใช่ที่มาของเงินเดือน</li>
+      <li><strong>ที่ผิด:</strong> สับสนระหว่าง "แหล่งที่มาของเงิน" (จากเยอรมัน) กับ "แหล่งที่มาของเงินได้" (งานในไทย)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 76 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 76</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">ดอกเบี้ยจากการชำระค่าสินค้าก่อนกำหนดตามสัญญาซื้อขายสินค้าถือเป็นเงินได้ประเภทใด</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>เงินได้ที่เป็นค่าปรับ ตามมาตรา 40(8)</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>เงินได้ที่มีลักษณะทำนองเดียวกับดอกเบี้ย ตามมาตรา 40(4)</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li>ดอกเบี้ยจากการชำระค่าสินค้า<strong>ก่อนกำหนด</strong> = มีลักษณะเป็นผลตอบแทนทางการเงินคล้ายดอกเบี้ย → จัดเป็น <strong>มาตรา 40(4)</strong> ✓</li>
+      <li><strong>ที่ผิด (ค่าปรับ 40(8)):</strong> "ค่าปรับ" คือโทษจากการผิดสัญญา ไม่ใช่รางวัลจากการชำระก่อนกำหนด — ตรงข้ามกัน!</li>
+      <li>มาตรา 40(3) = ค่าแห่งกู๊ดวิลล์, ค่าลิขสิทธิ์, ผลประโยชน์จากนิติกรรม</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 78 — ตอบถูก -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 78</span><span class="q-tag">MOCK 1</span><span class="correct-badge">✅ ตอบถูก</span></div>
+  <div class="q-text">ภูมิต้องการเงินสำหรับศัลยกรรม 3 ครั้ง: 30,000 บาท (1 ปี), 20,000 บาท (2 ปี), 70,000 บาท (3 ปี) ลงทุนกองทุนตราสารทุน ผลตอบแทนสุทธิ 30%/ปี — วันนี้ต้องลงทุนเท่าใด</div>
+  <div class="answer-right"><span class="answer-label">✅ ตอบถูก:</span>66,773 บาท</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย (PV of uneven cash flows)</div>
+    <ul>
+      <li>PV = 30,000/(1.3)¹ + 20,000/(1.3)² + 70,000/(1.3)³</li>
+      <li>= 23,077 + 11,834 + 31,862 = <strong>66,773 บาท</strong> ✓</li>
+      <li>86,805: ไม่ discount ครั้งแรก / 146,700: รวมตรงๆ โดยไม่ discount</li>
+    </ul>
+  </div>
+  <div class="babox">
+    <div class="ba-title">🧮 BA II Plus (CF Worksheet)</div>
+    <ol>
+      <li><code>[CF]</code> → CFo = 0 <code>[ENTER][↓]</code></li>
+      <li><code>30000[ENTER][↓][↓]</code> ← C01=30,000, F01=1</li>
+      <li><code>20000[ENTER][↓][↓]</code> ← C02=20,000, F02=1</li>
+      <li><code>70000[ENTER][↓][↓]</code> ← C03=70,000, F03=1</li>
+      <li><code>[NPV]</code> → I=? <code>30[ENTER][↓]</code></li>
+      <li><code>[CPT]</code> → <strong>NPV = 66,773</strong> ✓</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ข้อ 80 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 80</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">เงินได้ข้อใดต่อไปนี้ ไม่ได้รับยกเว้นภาษีเงินได้บุคคลธรรมดา</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>กำไรจากการขายหน่วยลงทุนในกองทุนรวม RMF ในขณะที่ผู้ถือหน่วยอายุ 54 ปี แต่ลงทุนมาแล้ว 6 ปี</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ลาออกจากงานโดยสมัครใจ บริษัทนายจ้างให้เงินมาจำนวนหนึ่ง</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li>เงินปันผลสหกรณ์: ยกเว้นภาษี ✓</li>
+      <li>เครื่องแบบพนักงาน 2 ชุด/ปี: ยกเว้นภาษี ✓</li>
+      <li><strong>ที่ถูก (ลาออกสมัครใจ):</strong> เงินที่ได้จากการลาออก<strong>สมัครใจ</strong> ≠ เงินชดเชยตามกฎหมายแรงงาน → <strong>ไม่ได้รับยกเว้นภาษี</strong></li>
+      <li><strong>ที่ผิด (กำไร RMF):</strong> กำไรจากการขาย<strong>หน่วยลงทุน</strong> = Capital Gain จากกองทุนรวม → <strong>ยกเว้นภาษีเสมอ</strong> ไม่ว่าจะขายตามเงื่อนไขหรือไม่ (สิ่งที่ต้องคืนถ้าขายผิดเงื่อนไขคือ "ภาษีที่เคยลดหย่อนไว้" ไม่ใช่ภาษีกำไรขายหน่วย)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 81 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 81</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">หลังจากจัดทำงบดุลส่วนบุคคลให้ผู้รับคำปรึกษา แล้วลูกค้าต้องการรู้ว่าจะต้องชำระหนี้ที่จะครบกำหนดในอีกไม่กี่เดือน จะแนะนำให้ตรวจสอบจากรายการใดในงบดุล</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ต้องพิจารณาทุกข้อประกอบกัน</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>หนี้สินหมุนเวียน</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย</div>
+    <ul>
+      <li>หนี้ "ครบกำหนดในไม่กี่เดือน" = หนี้ระยะสั้น = <strong>หนี้สินหมุนเวียน (Current Liabilities)</strong> = หนี้ที่ครบกำหนดภายใน 1 ปี ✓</li>
+      <li><strong>ที่ผิด:</strong> ไม่จำเป็นต้องดูทุกอย่าง — หนี้ระยะสั้นอยู่ในหมวดหนี้สินหมุนเวียนชัดเจน</li>
+      <li>สินทรัพย์หมุนเวียน = ใช้ชำระหนี้ ไม่ใช่รายการหนี้</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ข้อ 83 -->
+<div class="q-card">
+  <div class="q-header"><span class="q-num">ข้อ 83</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-text">หุ้นบุริมสิทธิ์ราคาตลาด 150 บาท มูลค่าพาร์ 100 บาท ปันผล 10%/ปี ผู้รับคำปรึกษาต้องการผลตอบแทน 15% — ควรแนะนำอย่างไร</div>
+  <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ควรหลีกเลี่ยงการลงทุน เพราะมูลค่าแท้จริงสูงกว่าราคาตลาด</div>
+  <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ควรหลีกเลี่ยงการลงทุน เพราะมูลค่าแท้จริงต่ำกว่าราคาตลาด</div>
+  <div class="explain-box">
+    <div class="explain-title">💡 อธิบาย (Preferred Stock Valuation)</div>
+    <ul>
+      <li>มูลค่าแท้จริง (Intrinsic Value) = เงินปันผลต่อปี ÷ อัตราผลตอบแทนที่ต้องการ</li>
+      <li>= (100 × 10%) ÷ 15% = 10 ÷ 0.15 = <strong>66.67 บาท</strong></li>
+      <li>ราคาตลาด 150 บาท > มูลค่าแท้จริง 66.67 บาท → <strong>ราคาแพงเกินจริง (overvalued)</strong></li>
+      <li><strong>ควรหลีกเลี่ยง</strong> เพราะจ่ายแพงเกินมูลค่าจริง ✓</li>
+      <li><strong>ที่ผิด:</strong> เลือก "มูลค่าแท้จริงสูงกว่าตลาด" ซึ่งตรงข้ามกับความเป็นจริง — คำนวณถูก (ควรหลีกเลี่ยง) แต่ระบุเหตุผลผิด (มูลค่าแท้จริง<strong>ต่ำ</strong>กว่าตลาด ไม่ใช่สูงกว่า)</li>
+    </ul>
+  </div>
+  <div class="babox">
+    <div class="ba-title">🧮 BA II Plus</div>
+    <ul>
+      <li>วิธีง่าย: <code>10</code> <code>[÷]</code> <code>0.15</code> <code>[=]</code> → <strong>66.67 บาท</strong></li>
+      <li>ปันผล ÷ r = 10 ÷ 0.15 = 66.67</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- end page-wrap -->
+</body>
+</html>

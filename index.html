@@ -178,8 +178,12 @@
   .topic-card {
     border-radius: 14px; padding: 20px; cursor: pointer; border: 1px solid var(--border);
     transition: transform .15s, box-shadow .15s; background: var(--card);
-    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    box-shadow: 0 1px 4px rgba(0,0,0,.06); text-decoration: none; display: block; color: var(--text);
   }
+  a.nav-item { color: var(--muted); text-decoration: none; }
+  a.nav-item:hover { color: var(--text); }
+  .mockc { border-color: #E07B39; border-top: 3px solid #E07B39; }
+  .mockc .tc-label { color: #E07B39; }
   .topic-card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(0,0,0,.10); }
   .topic-card .tc-label { font-size: .72rem; font-weight: 700; letter-spacing: .5px; margin-bottom: 8px; }
   .topic-card .tc-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
@@ -253,6 +257,13 @@
       <span class="nav-dot"></span> CF — บริหารสภาพคล่อง <span class="nav-count">3</span>
     </div>
   </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Mock Exams</div>
+    <a class="nav-item" href="Mock1_review.html" style="text-decoration:none;">
+      <span class="nav-dot" style="background:#E07B39"></span> Mock 1 — คลังข้อสอบ <span class="nav-count">38</span>
+    </a>
+  </div>
 </nav>
 
 <!-- ══════ LIGHTBOX ══════ -->
@@ -316,6 +327,17 @@
       <div class="tc-label">CF</div>
       <div class="tc-title">บริหารสภาพคล่อง</div>
       <div class="tc-count">Cash Mgmt, Credit Mgmt, Liquid Assets · 3 รูปสรุป</div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px; padding-top:22px; border-top:1px solid var(--border);">
+    <div style="font-size:.78rem;font-weight:700;letter-spacing:.8px;color:var(--muted);text-transform:uppercase;margin-bottom:14px;">Mock Exams</div>
+    <div class="topic-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+      <a class="topic-card mockc" href="Mock1_review.html">
+        <div class="tc-label">MOCK 1</div>
+        <div class="tc-title">📋 คลังข้อสอบ Mock 1</div>
+        <div class="tc-count">38 ข้อ · ตอบผิดทั้งหมด พร้อมเฉลย + BA II Plus · กดดูรูปโจทย์ได้เลย</div>
+      </a>
     </div>
   </div>
 </div>
