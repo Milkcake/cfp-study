@@ -58,6 +58,16 @@ body { background: var(--bg); font-family: 'Segoe UI', Sarabun, sans-serif; colo
 .babox ol { margin-left: 18px; }
 .babox li { margin-bottom: 2px; }
 code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; }
+
+/* Topic badges */
+.topic-t1 { background: rgba(26,138,106,.12); color: #1A8A6A; border: 1px solid rgba(26,138,106,.25); }
+.topic-t2 { background: rgba(184,64,112,.12); color: #B84070; border: 1px solid rgba(184,64,112,.25); }
+.topic-t3 { background: rgba(138,96,24,.12);  color: #8A6018; border: 1px solid rgba(138,96,24,.25); }
+.topic-t4 { background: rgba(30,110,160,.12); color: #1E6EA0; border: 1px solid rgba(30,110,160,.25); }
+.topic-t5 { background: rgba(94,62,176,.12);  color: #5E3EB0; border: 1px solid rgba(94,62,176,.25); }
+.topic-t6 { background: rgba(176,56,40,.12);  color: #B03828; border: 1px solid rgba(176,56,40,.25); }
+.topic-cf { background: rgba(26,120,96,.12);  color: #1A7860; border: 1px solid rgba(26,120,96,.25); }
+.topic-badge { font-size: 0.72rem; font-weight: 700; padding: 2px 9px; border-radius: 12px; }
 </style>
 </head>
 <body>
@@ -77,7 +87,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 1 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 1</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 1</span><span class="q-tag topic-badge topic-t5">T5 · ภาษีเงินได้</span></div>
   <div class="q-text">ข้อใดต่อไปนี้ไม่ถือเป็นเงินได้พึงประเมินตามระบบการเสียภาษีอากรในประเทศไทย</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>นายเดวิด ชาวอังกฤษ มีกำไรจากการขายหุ้นจดทะเบียนในตลาดหลักทรัพย์แห่งประเทศไทย</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>นายไก่ อาศัยอยู่ในประเทศไทย แต่เปิดร้านอาหารไทยอยู่ในประเทศพม่า</div>
@@ -94,7 +104,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 2 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 2</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 2</span><span class="q-tag topic-badge topic-t4">T4 · วิเคราะห์&สภาพคล่อง</span></div>
   <div class="q-text">จงคำนวณหาความมั่งคั่งสุทธิ ณ สิ้นปี 25x2 ของผู้รับคำปรึกษา</div>
   <div class="q-sub">
     <ul>
@@ -121,7 +131,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 3 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 3</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 3</span><span class="q-tag topic-badge topic-t1">T1 · ความรู้เบื้องต้น</span></div>
   <div class="q-text">การรักษาลูกค้าของนักวางแผนการเงิน ต้องดำเนินการอย่างไรให้สอดคล้องกับคู่มือการปฏิบัติงานสำหรับนักวางแผนการเงิน</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ติดตามสอบถามลูกค้าเกี่ยวกับการให้บริการ ความต้องการของลูกค้า และมีการติดต่อกับลูกค้าเป็นระยะ</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>จัดให้มีระบบในการทบทวนหรือให้ความเห็นชอบรายงานแผนการเงินก่อนที่นักวางแผนการเงินจะนำเสนอต่อลูกค้า</div>
@@ -136,7 +146,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 4 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 4</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 4</span><span class="q-tag topic-badge topic-t2">T2 · จรรยาบรรณ</span></div>
   <div class="q-text">วิฑูรเป็น CFP รับเป็นที่ปรึกษาให้คุณกันต์ ถ้ากันต์ต้องการลงทุนในสัญญาซื้อขายล่วงหน้า แต่วิฑูรไม่มีความรู้ในด้านนี้ วิฑูรควรดำเนินการอย่างไร</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ส่งต่อให้ CFP ที่เป็นผู้เชี่ยวชาญ (ข้อ 3 อย่างเดียว)</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ข้อ 2 และข้อ 3 (ปรึกษาผู้เชี่ยวชาญ และส่งต่อ)</div>
@@ -152,7 +162,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 8 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 8</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 8</span><span class="q-tag topic-badge topic-t6">T6 · TVM</span></div>
   <div class="q-text">เจษฎาพร อายุ 32 ปี ฝากเงิน 100,000 บาท ในบัญชีเงินฝากประจำ 3 เดือน อัตราดอกเบี้ย 2.65% ต่อปี ภาษี 15% — จะมีเงิน 1,000,000 บาทเมื่ออายุเท่าใด</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>เมื่อเจษฎาพรมีอายุครบ 102.51 ปี</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>เมื่อเจษฎาพรมีอายุครบ 134.51 ปี</div>
@@ -182,7 +192,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 9 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 9</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 9</span><span class="q-tag topic-badge topic-t1">T1 · ความรู้เบื้องต้น</span></div>
   <div class="q-text">แผนปฏิบัติการในการดำเนินการตามแผนการเงินมีรายละเอียดเรื่องเป็นไปตามข้อใดดังต่อไปนี้</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ปัญหาและโอกาส สมมติฐานในการวิเคราะห์</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ผู้รับผิดชอบ เวลา และวิธีการดำเนินการ</div>
@@ -199,7 +209,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 10 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 10</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 10</span><span class="q-tag topic-badge topic-t3">T3 · รวบรวมข้อมูล</span></div>
   <div class="q-text">ข้อใดต่อไปนี้ไม่ใช่ข้อมูลเชิงคุณภาพ (qualitative data) ที่ระบุรายละเอียดทั่วไปเกี่ยวกับการดำเนินชีวิตของผู้รับคำปรึกษา</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ทุกข้อดังกล่าวข้างต้นเป็นข้อมูลเชิงคุณภาพ (qualitative data)</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>สถานะการลงทุนในปัจจุบัน (current investment portfolios)</div>
@@ -216,7 +226,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 12 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 12</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 12</span><span class="q-tag topic-badge topic-t5">T5 · ภาษีเงินได้</span></div>
   <div class="q-text">นายปลิ้ม ซื้อที่อยู่อาศัย 3 แห่ง — บ้านที่ 1: กู้คนเดียวจากนายจ้าง ดอกเบี้ย 30,000 บาท / บ้านที่ 2: กู้ร่วมกับพี่ชาย ดอกเบี้ย 100,000 บาท / ห้องชุดที่ 3: กู้ร่วมกับเพื่อน ดอกเบี้ย 20,000 บาท — นายปลิ้มมีสิทธิลดหย่อนดอกเบี้ยได้เท่าใด</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>100,000 บาท</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>90,000 บาท</div>
@@ -235,7 +245,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 14 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 14</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 14</span><span class="q-tag topic-badge topic-t1">T1 · ความรู้เบื้องต้น</span></div>
   <div class="q-text">ข้อใดต่อไปนี้เป็นสาเหตุสำคัญที่จะต้องมีการตรวจสอบแผนทางการเงินอย่างสม่ำเสมอ</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ข้อ ก และ ข เป็นสาเหตุสำคัญ (การเปลี่ยนแปลงสถานภาพนักวางแผน / การเปลี่ยนแปลงรัฐธรรมนูญ)</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ความบกพร่องหรือความผิดพลาดในบางประเด็นที่นักวางแผนอาจจะละเลยหรือตกหล่นไปโดยไม่ได้ตั้งใจในการวางแผนครั้งแรก</div>
@@ -251,7 +261,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 15 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 15</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 15</span><span class="q-tag topic-badge topic-t4">T4 · วิเคราะห์&สภาพคล่อง</span></div>
   <div class="q-text">จากอัตราส่วนทางการเงิน: สภาพคล่อง 22.20x / สภาพคล่องพื้นฐาน 18.25x / สินทรัพย์สภาพคล่อง/NW 30.40% / หนี้สิน/สินทรัพย์ 11.01% / ชำระหนี้ประจำงวด 23.86% / การออม 15.19% / การลงทุน 12.34% — ในฐานะนักวางแผน ข้อใดวิเคราะห์ไม่ได้ (ยกเว้น)</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ผู้รับคำปรึกษามีวินัยในการออม</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ผู้รับคำปรึกษามีศักยภาพในการต่อยอดความมั่งคั่งสูง (= ข้อที่วิเคราะห์ไม่ได้)</div>
@@ -268,7 +278,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 16 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 16</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 16</span><span class="q-tag topic-badge topic-t1">T1 · ความรู้เบื้องต้น</span></div>
   <div class="q-text">ข้อใดต่อไปนี้กล่าวได้ถูกต้องเกี่ยวกับการวางแผนการเงิน</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ทุกข้อดังกล่าวข้างต้นกล่าวได้ถูกต้องเกี่ยวกับการวางแผนการเงิน</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>การวางแผนทางการเงินเกี่ยวข้องกับการจัดหาและใช้ทรัพยากร "เงิน" ของบุคคล รางวัลของการจัดการที่เหมาะสมคือการยกระดับมาตรฐานการดำรงชีวิตและความมั่นคง</div>
@@ -285,7 +295,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 18 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 18</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 18</span><span class="q-tag topic-badge topic-t6">T6 · TVM</span></div>
   <div class="q-text">แกนของเวลา (Time Line) แสดง: -500,000 ที่ t=0, อัตรา 1% ต่องวด, FV ที่ t=8 (สิ้นงวด) — ข้อใดสอดคล้องกับ Time Line นี้</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>เอ: ลงทุน 500,000 วันนี้ แล้วลงทุนเพิ่มต่อเนื่องทุกๆ งวด เป็นเวลา 8 ปี ดอกเบี้ย 1% ต่อปี สิ้นปีที่ 8 มี FV เท่าใด</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>เอฟ: วางแผนในอีก 1 ปีจะนำ 500,000 ฝากประจำ 3 เดือน ดอกเบี้ย 4% ต่อปี เป็นเวลา 2 ปี แล้วนำเงินซื้อรถ</div>
@@ -302,7 +312,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 19 — ตอบถูก -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 19</span><span class="q-tag">MOCK 1</span><span class="correct-badge">✅ ตอบถูก</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 19</span><span class="q-tag topic-badge topic-t6">T6 · TVM</span><span class="correct-badge">✅ ตอบถูก</span></div>
   <div class="q-text">ทฤษฎีต้องการวางแผนเพื่อเป็นเจ้าของธุรกิจ รายได้สุทธิหลังหักภาษีปีนี้ 2,000,000 บาท เพิ่ม 15%/ปี เป็นเวลา 3 ปี ออม 50% ของรายได้ทุกปี ลงทุนกองทุนดัชนีผลตอบแทน 25%/ปี ลงทุนสิ้นปีทุกปี — อีก 3 ปีข้างหน้าจะมีเงินลงทุนเท่าใด</div>
   <div class="answer-right"><span class="answer-label">✅ ตอบถูก:</span>4,970,875 บาท</div>
   <div class="explain-box">
@@ -333,7 +343,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 20 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 20</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 20</span><span class="q-tag topic-badge topic-cf">CF · บริหารสภาพคล่อง</span></div>
   <div class="q-text">สินเชื่อชนิดใดที่มีการจ่ายคืนเงินต้นและดอกเบี้ยเป็นงวดๆ โดยงวดแรกๆ จ่ายน้อย แล้วค่อยๆ ทยอยเพิ่มจำนวนเงินที่จ่ายคืนในแต่ละงวด ตลอดอายุการกู้ยืม</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>Amortizing Loan</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>Balloon Repayment Loan</div>
@@ -350,7 +360,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 23 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 23</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 23</span><span class="q-tag topic-badge topic-t1">T1 · ความรู้เบื้องต้น</span></div>
   <div class="q-text">ข้อใดต่อไปนี้กล่าวไม่ถูกต้องเกี่ยวกับสาเหตุและผลเสียที่บุคคลละเลยเรื่องการวางแผนทางการเงิน</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ทุกข้อดังกล่าวข้างต้นกล่าวได้ถูกต้อง</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ผู้ที่มีฐานะทางการเงินระดับปานกลางมักคิดว่าการวางแผนการเงินเสียเวลา ในทางตรงกันข้ามผู้ที่มีฐานะมั่นคง มักเห็นความจำเป็นในการวางแผน (= ข้อที่กล่าวไม่ถูกต้อง)</div>
@@ -366,7 +376,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 25 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 25</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 25</span><span class="q-tag topic-badge topic-t1">T1 · ความรู้เบื้องต้น</span></div>
   <div class="q-text">วัฏจักรชีวิต (life cycle) ระยะใดที่อยู่ในวัยก่อนเกษียณจนถึงวัยเกษียณ ซึ่งผู้รับคำปรึกษามีความมั่นใจในฐานะการเงินและสามารถใช้จ่ายตอบสนองความต้องการของตัวเองได้อย่างเต็มที่</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ระยะมั่นคง (conservation/protection)</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ระยะการอุทิศ (distribution/gifting)</div>
@@ -387,7 +397,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 28 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 28</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 28</span><span class="q-tag topic-badge topic-t6">T6 · TVM</span></div>
   <div class="q-text">ข้อใดต่อไปนี้กล่าวได้ถูกต้องเกี่ยวกับแนวคิดมูลค่าเงินตามเวลา (Time Value of Money)</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>TVM ถูกนำไปประยุกต์ใช้ในการวางแผนการเงินสำหรับบุคคลเป็นการเฉพาะเจาะจงเพื่อตัดสินใจทางเลือกการลงทุนต่างๆ เท่านั้น</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ทุกข้อข้างต้นกล่าวได้ถูกต้องเกี่ยวกับแนวคิด TVM</div>
@@ -403,7 +413,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 29 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 29</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 29</span><span class="q-tag topic-badge topic-t3">T3 · รวบรวมข้อมูล</span></div>
   <div class="q-text">ข้อใดกล่าวได้ถูกต้องเกี่ยวกับงบกระแสเงินสดส่วนบุคคล (Personal Statement of Cash Flow)</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ปัจจัยสำคัญที่ส่งผลต่อกระแสเงินสดรับ ได้แก่ วงจรชีวิตของบุคคลและประเภทของงาน</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ถูกทุกข้อ</div>
@@ -421,7 +431,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 32 — ตอบถูก -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 32</span><span class="q-tag">MOCK 1</span><span class="correct-badge">✅ ตอบถูก</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 32</span><span class="q-tag topic-badge topic-t6">T6 · TVM</span><span class="correct-badge">✅ ตอบถูก</span></div>
   <div class="q-text">ปกรณ์ต้องการกันเงินจากปัจจุบันเพื่อเป็นทุนการศึกษาปริญญาโทในอีก 3 ปี โดยฝากประจำแบบพิเศษ อัตราดอกเบี้ยขั้นบันได 3%, 3.75%, 4.5% ในปีที่ 1, 2, 3 ทบต้นทุกปี ภาษีหัก ณ ที่จ่าย 15% ต้องการ 500,000 บาทในอีก 3 ปี — วันนี้ต้องฝากเท่าใด</div>
   <div class="answer-right"><span class="answer-label">✅ ตอบถูก:</span>455,098 บาท</div>
   <div class="explain-box">
@@ -444,7 +454,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 34 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 34</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 34</span><span class="q-tag topic-badge topic-t4">T4 · วิเคราะห์&สภาพคล่อง</span></div>
   <div class="q-text">จากข้อมูลทรัพย์สิน: เช็คยังไม่ขึ้นเงิน 85,000 / เงินฝากออมทรัพย์ 120,000 / บ้านราคาตลาด 9,800,000 (ติดจำนอง 5,000,000) / เฟอร์นิเจอร์ 1,200,000 / รถยนต์ 330,000 (ค้างลิสซิ่ง 300,000) / กองทุนรวมตลาดเงิน 1,800,000 / กองทุนสำรองเลี้ยงชีพ 3,855,000 — คำนวณมูลค่าสินทรัพย์รวม</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>10,260,000 บาท</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>17,190,000 บาท</div>
@@ -470,7 +480,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 35 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 35</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 35</span><span class="q-tag topic-badge topic-t5">T5 · ภาษีเงินได้</span></div>
   <div class="q-text">การกระทำใดไม่ถือเป็นส่วนหนึ่งของการวางแผนภาษีเงินได้บุคคลธรรมดา</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>การฝากเงินประจำแบบผูกพัน 2 ปี</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>การซื้อประกันชีวิตให้กับบุตร</div>
@@ -487,7 +497,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 36 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 36</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 36</span><span class="q-tag topic-badge topic-t1">T1 · ความรู้เบื้องต้น</span></div>
   <div class="q-text">ธนาคารพาณิชย์สีขาวมีบริษัทประกันภัยในเครือ ร่วมมือกันกำหนดเบี้ยประกันบ้านต่ำกว่าปกติเพื่อจูงใจผู้กู้ทำประกัน — ความสัมพันธ์ระหว่างสถาบันการเงินและบริษัทประกันภัยในเครือคืออะไร</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ลูกหนี้ (debtor) / เจ้าหนี้ (creditor)</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ผู้ว่าจ้าง (principal) / ตัวแทน (agent)</div>
@@ -504,7 +514,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 38 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 38</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 38</span><span class="q-tag topic-badge topic-t1">T1 · ความรู้เบื้องต้น</span></div>
   <div class="q-text">ข้อใดต่อไปนี้กล่าวได้ถูกต้องเกี่ยวกับแผนการเงิน</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>การวางแผนภาษีคือการวางแผนการชำระภาษีให้น้อยที่สุดอย่างถูกกฎหมาย ซึ่งทำให้มีรายรับสุทธิหลังหักภาษีมากขึ้นเพื่อจับจ่ายและลงทุน</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ทรัพย์สินมีค่า เช่น ทองคำ เพชร วัตถุโบราณ ไม่จัดเป็นการลงทุน เนื่องจากไม่มีการจัดหาโดยหวังผลตอบแทนทางการเงินเป็นสำคัญ</div>
@@ -520,7 +530,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 45 — ตอบถูก -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 45</span><span class="q-tag">MOCK 1</span><span class="correct-badge">✅ ตอบถูก</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 45</span><span class="q-tag topic-badge topic-t6">T6 · TVM</span><span class="correct-badge">✅ ตอบถูก</span></div>
   <div class="q-text">มาริโอ้นำเงิน 3,000,000 บาทฝากประจำพิเศษ อัตราดอกเบี้ยขั้นบันได 3%, 3.75%, 4.5% ในปีที่ 1, 2, 3 ทบต้นทุกปี ภาษีหัก ณ ที่จ่าย 15% — สิ้นปีที่ 3 จะมีเงินเท่าใด</div>
   <div class="answer-right"><span class="answer-label">✅ ตอบถูก:</span>3,295,990 บาท</div>
   <div class="explain-box">
@@ -544,7 +554,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 46 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 46</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 46</span><span class="q-tag topic-badge topic-cf">CF · บริหารสภาพคล่อง</span></div>
   <div class="q-text">โจทย์ประมาณการงบ 3 ปี (25x4–25x6) — คำถามเกี่ยวกับการวิเคราะห์งบประมาณ</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ทุกข้อกล่าวได้ถูกต้อง</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ประมาณการค่าใช้จ่ายคงที่ปี 25x5 เท่ากับ 503,279 บาท</div>
@@ -560,7 +570,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 47 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 47</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 47</span><span class="q-tag topic-badge topic-t2">T2 · จรรยาบรรณ</span></div>
   <div class="q-text">หากนักวางแผนการเงินย้ายบริษัท โดยแจ้งลูกค้า<strong>บางราย</strong> ถือว่าไม่ปฏิบัติตามจรรยาบรรณในด้านใด</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ความเป็นมืออาชีพ (professionalism)</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ความเป็นธรรม (fairness)</div>
@@ -576,7 +586,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 48 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 48</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 48</span><span class="q-tag topic-badge topic-t1">T1 · ความรู้เบื้องต้น</span></div>
   <div class="q-text">ข้อใดต่อไปนี้กล่าวได้ถูกต้องเกี่ยวกับความสำคัญของการวางแผนการเงิน</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>Comprehensive Financial Planning ดีกว่า Special Needs Planning เพราะครอบคลุมกิจกรรมทางการเงินทั้งหมดของบุคคล</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>การวางแผนการเงินทวีความสำคัญขึ้น เนื่องจากปัจจัยต่างๆ เช่น โครงสร้างประชากรเปลี่ยน, ยกเลิกคุ้มครองเงินฝากเต็มจำนวน, ตราสารการเงินซับซ้อน, ขยายขอบเขตธุรกิจสถาบันการเงิน, ภาวะเศรษฐกิจแปรปรวน</div>
@@ -592,7 +602,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 51 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 51</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 51</span><span class="q-tag topic-badge topic-t2">T2 · จรรยาบรรณ</span></div>
   <div class="q-text">หากพบว่านางวัณดี CFP ของธนาคารพาณิชย์ ทำผิดโดยอ้อโลงลูกค้า ในฐานะ CFP ควรทำอย่างไร (I=แจ้งสมาคมฯ, II=แจ้งหน่วยงานกำกับ, III=ส่งเอกสารให้ผู้บังคับบัญชา)</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>I เท่านั้น</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>I และ II เท่านั้น</div>
@@ -608,7 +618,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 59 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 59</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 59</span><span class="q-tag topic-badge topic-t5">T5 · ภาษีเงินได้</span></div>
   <div class="q-text">บุตรคนใดต่อไปนี้ ไม่มีสิทธินำมาหักลดหย่อนในการคำนวณภาษีเงินได้บุคคลธรรมดา</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>บุตรอายุ 28 ปี แต่ถูกศาลสั่งให้เป็นคนเสมือนไร้ความสามารถ</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ไม่มีข้อใดถูกต้อง (ทั้งสามข้อล้วนมีสิทธิหักลดหย่อนได้)</div>
@@ -625,7 +635,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 70 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 70</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 70</span><span class="q-tag topic-badge topic-cf">CF · บริหารสภาพคล่อง</span></div>
   <div class="q-text">การแก้ไขปัญหาทางการเงินในข้อใดต่อไปนี้ สามารถบรรลุเป้าหมายได้ด้วยการจัดทำงบประมาณ</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>เสฏฐวุฒิต้องการทราบถึงแหล่งที่มาของกระแสเงินสดรับและกระแสเงินสดจ่ายในปัจจุบันและในอนาคตอีก 1 ปีข้างหน้า</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ธนาติต้องการทราบถึงสถานะทางการเงินในปัจจุบัน และในอนาคตอีก 1 ปีข้างหน้า</div>
@@ -642,7 +652,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 72 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 72</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 72</span><span class="q-tag topic-badge topic-t5">T5 · ภาษีเงินได้</span></div>
   <div class="q-text">นายมงคลขอคำแนะนำเรื่องสวัสดิการพนักงานที่ไม่ต้องนำมารวมเป็นรายได้คำนวณภาษีเงินได้บุคคลธรรมดา</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ประกันชีวิตหมู่ให้กับพนักงานทุกคน</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>จัดอบรมสัมมนาเพิ่มทักษะการทำงาน</div>
@@ -658,7 +668,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 73 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 73</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 73</span><span class="q-tag topic-badge topic-cf">CF · บริหารสภาพคล่อง</span></div>
   <div class="q-text">ข้อใดต่อไปนี้กล่าวได้ถูกต้องเกี่ยวกับสินเชื่อระยะยาว</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>สินเชื่อจำนอง (mortgage loan) ที่มีการกำหนดอัตราดอกเบี้ยคงที่ตลอดอายุ จะมีการแบ่งชำระเงินต้นและดอกเบี้ยในแต่ละงวดเท่ากัน</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ผู้กู้ยืมสินเชื่ออัตราผันแปรจะจ่ายดอกเบี้ยในอัตราที่ต่ำกว่าสินเชื่ออัตราคงที่</div>
@@ -673,7 +683,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 75 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 75</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 75</span><span class="q-tag topic-badge topic-t5">T5 · ภาษีเงินได้</span></div>
   <div class="q-text">บริษัทไทยจ้างบริษัทเอบีซี (เยอรมัน) เป็นที่ปรึกษา บริษัทเอบีซีส่ง Mr.S มาทำงาน 2 ปี รับเงินเดือนจากบริษัทเยอรมัน นำเงินบางส่วนมาใช้ในไทย — Mr.S ต้องเสียภาษีไทยหรือไม่</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ไม่ต้องเสีย เนื่องจากเป็นเงินได้ซึ่งเกิดนอกประเทศไทย</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ต้องเสีย เนื่องจากเป็นเงินได้จากหน้าที่งานที่ทำในประเทศไทย</div>
@@ -690,7 +700,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 76 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 76</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 76</span><span class="q-tag topic-badge topic-t5">T5 · ภาษีเงินได้</span></div>
   <div class="q-text">ดอกเบี้ยจากการชำระค่าสินค้าก่อนกำหนดตามสัญญาซื้อขายสินค้าถือเป็นเงินได้ประเภทใด</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>เงินได้ที่เป็นค่าปรับ ตามมาตรา 40(8)</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>เงินได้ที่มีลักษณะทำนองเดียวกับดอกเบี้ย ตามมาตรา 40(4)</div>
@@ -706,7 +716,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 78 — ตอบถูก -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 78</span><span class="q-tag">MOCK 1</span><span class="correct-badge">✅ ตอบถูก</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 78</span><span class="q-tag topic-badge topic-t6">T6 · TVM</span><span class="correct-badge">✅ ตอบถูก</span></div>
   <div class="q-text">ภูมิต้องการเงินสำหรับศัลยกรรม 3 ครั้ง: 30,000 บาท (1 ปี), 20,000 บาท (2 ปี), 70,000 บาท (3 ปี) ลงทุนกองทุนตราสารทุน ผลตอบแทนสุทธิ 30%/ปี — วันนี้ต้องลงทุนเท่าใด</div>
   <div class="answer-right"><span class="answer-label">✅ ตอบถูก:</span>66,773 บาท</div>
   <div class="explain-box">
@@ -732,7 +742,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 80 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 80</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 80</span><span class="q-tag topic-badge topic-t5">T5 · ภาษีเงินได้</span></div>
   <div class="q-text">เงินได้ข้อใดต่อไปนี้ ไม่ได้รับยกเว้นภาษีเงินได้บุคคลธรรมดา</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>กำไรจากการขายหน่วยลงทุนในกองทุนรวม RMF ในขณะที่ผู้ถือหน่วยอายุ 54 ปี แต่ลงทุนมาแล้ว 6 ปี</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ลาออกจากงานโดยสมัครใจ บริษัทนายจ้างให้เงินมาจำนวนหนึ่ง</div>
@@ -749,7 +759,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 81 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 81</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 81</span><span class="q-tag topic-badge topic-t4">T4 · วิเคราะห์&สภาพคล่อง</span></div>
   <div class="q-text">หลังจากจัดทำงบดุลส่วนบุคคลให้ผู้รับคำปรึกษา แล้วลูกค้าต้องการรู้ว่าจะต้องชำระหนี้ที่จะครบกำหนดในอีกไม่กี่เดือน จะแนะนำให้ตรวจสอบจากรายการใดในงบดุล</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ต้องพิจารณาทุกข้อประกอบกัน</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>หนี้สินหมุนเวียน</div>
@@ -765,7 +775,7 @@ code { background: rgba(168,213,181,0.2); padding: 1px 4px; border-radius: 3px; 
 
 <!-- ข้อ 83 -->
 <div class="q-card">
-  <div class="q-header"><span class="q-num">ข้อ 83</span><span class="q-tag">MOCK 1</span></div>
+  <div class="q-header"><span class="q-num">ข้อ 83</span><span class="q-tag topic-badge topic-t6">T6 · TVM</span></div>
   <div class="q-text">หุ้นบุริมสิทธิ์ราคาตลาด 150 บาท มูลค่าพาร์ 100 บาท ปันผล 10%/ปี ผู้รับคำปรึกษาต้องการผลตอบแทน 15% — ควรแนะนำอย่างไร</div>
   <div class="answer-wrong"><span class="answer-label">❌ ตอบ:</span>ควรหลีกเลี่ยงการลงทุน เพราะมูลค่าแท้จริงสูงกว่าราคาตลาด</div>
   <div class="answer-right"><span class="answer-label">✅ เฉลย:</span>ควรหลีกเลี่ยงการลงทุน เพราะมูลค่าแท้จริงต่ำกว่าราคาตลาด</div>
